@@ -17,7 +17,6 @@
 //	This program was developped in the following labs:
 //	from 2012: IUT de Beziers/ LIRMM, Beziers, France
 
-#include <SDL/SDL.h>
 #include <sstream>
 #include <fstream>
 #include "joystick.h"
