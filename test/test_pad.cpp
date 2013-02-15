@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 
 
 		for ( int i=0; i<nb_axis; i++) 
-			printf ("%.2f\t", js.joystick_st->axis[i] ) ;
+			printf ("%d\t", js.joystick_st->axis[i] ) ;
 		printf("---");
 		for ( int i=0; i<nb_bouton; i++) 
 			printf ("%d\t", js.joystick_st->button[i] ) ;		

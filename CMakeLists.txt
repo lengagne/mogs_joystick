@@ -37,19 +37,15 @@ file(	GLOB_RECURSE
 	MoGS_Joystick_SOURCES
 	src/* )
 
-
 FILE ( GLOB_RECURSE
         header_files_MoGS_Joystick
 	include/*.h
 	)
 
-message(" header_files_MoGS_Joystick = " ${header_files_MoGS_Joystick})
-
 ADD_LIBRARY(MoGS_Joystick SHARED 
     ${MoGS_Joystick_SOURCES}
   
 )
-
 
 target_link_libraries(MoGS_Joystick
       -lpthread
