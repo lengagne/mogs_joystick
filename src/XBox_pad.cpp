@@ -71,7 +71,7 @@ double XBox_pad::get_side_velocity()
 /// get the rotate velocity (positive if one the right, negative if on the left
 double XBox_pad::get_rotate_velocity()
 {
-	double tmp = - ((double) Joystick.joystick_st->axis[3])/ SHRT_MAX;
+	double tmp = ((double) Joystick.joystick_st->axis[3])/ SHRT_MAX;
 	if (tmp < 0.2&& tmp > -0.2)	tmp = 0.0;
 	return ( tmp );
 }
