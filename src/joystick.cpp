@@ -18,6 +18,7 @@
 //	from 2012: IUT de Beziers/ LIRMM, Beziers, France
 
 #include "joystick.h"
+#include <unistd.h>
 
 cJoystick::cJoystick() {
 	active = false;
