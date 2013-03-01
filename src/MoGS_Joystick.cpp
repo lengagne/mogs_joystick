@@ -60,25 +60,25 @@ bool MoGS_Joystick::get_pause()
 	return (Joystick->get_pause());
 }
 
-/// get the forward velocity (positive if forward, negative if backward
+/// get the forward velocity (positive if forward, negative if backward)
 double MoGS_Joystick::get_forward_velocity()
 {
 	return ( Joystick->get_forward_velocity());
 }
 
-/// get the side velocity (positive if one the right, negative if on the left
+/// get the side velocity (positive if one the right, negative if on the left)
 double MoGS_Joystick::get_side_velocity()
 {
 	return (Joystick->get_side_velocity());
 }
 
-/// get the rotate velocity (positive if one the right, negative if on the left
+/// get the rotate velocity (positive if one the right, negative if on the left)
 double MoGS_Joystick::get_rotate_velocity()
 {
 	return Joystick->get_rotate_velocity();
 }
 
-/// get the up velocity (positive if one the right, negative if on the left
+/// get the up velocity (positive if up, negative if down)
 double MoGS_Joystick::get_up_velocity()
 {
 	return Joystick->get_up_velocity();  

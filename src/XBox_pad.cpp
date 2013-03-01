@@ -52,7 +52,7 @@ bool XBox_pad::get_pause()
 	return ( Joystick.joystick_st->button[7]);
 }
 
-/// get the forward velocity (positive if forward, negative if backward
+/// get the forward velocity (positive if forward, negative if backward)
 double XBox_pad::get_forward_velocity()
 {
 	double tmp = - ((double) Joystick.joystick_st->axis[1])/ SHRT_MAX;
@@ -60,7 +60,7 @@ double XBox_pad::get_forward_velocity()
 	return ( tmp );
 }
 
-/// get the side velocity (positive if one the right, negative if on the left
+/// get the side velocity (positive if one the right, negative if on the left)
 double XBox_pad::get_side_velocity()
 {
 	double tmp = ((double) Joystick.joystick_st->axis[0])/ SHRT_MAX;
@@ -68,7 +68,7 @@ double XBox_pad::get_side_velocity()
 	return ( tmp );
 }
 
-/// get the rotate velocity (positive if one the right, negative if on the left
+/// get the rotate velocity (positive if one the right, negative if on the left)
 double XBox_pad::get_rotate_velocity()
 {
 	double tmp = ((double) Joystick.joystick_st->axis[3])/ SHRT_MAX;
@@ -76,7 +76,7 @@ double XBox_pad::get_rotate_velocity()
 	return ( tmp );
 }
 
-/// get the up velocity (positive if one the right, negative if on the left
+/// get the up velocity (positive if up, negative if down)
 double XBox_pad::get_up_velocity()
 {
 	double tmp = - ((double) Joystick.joystick_st->axis[4])/ SHRT_MAX;

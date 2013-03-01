@@ -36,16 +36,16 @@ class Generic_Joystick {
 	/// use to pause the process
 	virtual bool get_pause();
 	
-	/// get the forward velocity (positive if forward, negative if backward
+	/// get the forward velocity (positive if forward, negative if backward)
 	virtual double get_forward_velocity();
 	
-	/// get the side velocity (positive if one the right, negative if on the left
+	/// get the side velocity (positive if one the right, negative if on the left)
 	virtual double get_side_velocity();
 	
-	/// get the rotate velocity (positive if one the right, negative if on the left
+	/// get the rotate velocity (positive if one the right, negative if on the left)
 	virtual double get_rotate_velocity();
 	
-	/// get the up velocity (positive if one the right, negative if on the left
+	/// get the up velocity (positive if up, negative if down)
 	virtual double get_up_velocity();
 	
 	char* get_name()

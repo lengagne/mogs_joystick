@@ -50,46 +50,36 @@ bool GreenAsian_Sanwa_pad::get_pause()
 	return ( Joystick.joystick_st->button[11]);
 }
 
-/// get the forward velocity (positive if forward, negative if backward
+/// get the forward velocity (positive if forward, negative if backward)
 double GreenAsian_Sanwa_pad::get_forward_velocity()
 {
 	return ( ((double) -Joystick.joystick_st->axis[1]) / ( SHRT_MAX));
 }
 
-/// get the side velocity (positive if one the right, negative if on the left
+/// get the side velocity (positive if one the right, negative if on the left)
 double GreenAsian_Sanwa_pad::get_side_velocity()
 {
 	return ( ((double)Joystick.joystick_st->axis[0]) / ( SHRT_MAX) );
 }
 
-/// get the rotate velocity (positive if one the right, negative if on the left
+/// get the rotate velocity (positive if one the right, negative if on the left)
 double GreenAsian_Sanwa_pad::get_rotate_velocity()
 {
-	if  (((Joystick.joystick_st->button[1]) || (Joystick.joystick_st->button[2]) ) && (Joystick.joystick_st->button[7]) )
-		rotate_velocity += 1e-7;
-	if (rotate_velocity>1)	rotate_velocity = 1.0;
-	  
-	
-	if (Joystick.joystick_st->button[1])
-		return rotate_velocity;
 	if (Joystick.joystick_st->button[2])
-		return -rotate_velocity;
+		return 1.0;
+	if (Joystick.joystick_st->button[1])
+		return -1.0;
 	
-	rotate_velocity = 0;
 	return 0;
 }
 
-/// get the up velocity (positive if one the right, negative if on the left
+/// get the up velocity (positive if up, negative if down)
 double GreenAsian_Sanwa_pad::get_up_velocity()
 {
-	if  (((Joystick.joystick_st->button[4]) || (Joystick.joystick_st->button[5]) ) && (Joystick.joystick_st->button[6]) )
-		up_velocity += 1e-7;
-	if (up_velocity>1)	up_velocity = 1.0;	
 	if (Joystick.joystick_st->button[4])
-		return up_velocity;
+		return 1.0;
 	if (Joystick.joystick_st->button[5])
-		return -up_velocity;  
+		return -1.0;
 	
-	up_velocity = 0;
 	return 0;
 }

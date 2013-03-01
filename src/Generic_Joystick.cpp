@@ -50,19 +50,19 @@ bool Generic_Joystick::get_pause()
 	return ( Joystick.joystick_st->button[3]);
 }
 
-/// get the forward velocity (positive if forward, negative if backward
+/// get the forward velocity (positive if forward, negative if backward)
 double Generic_Joystick::get_forward_velocity()
 {
 	return ( ((double) -Joystick.joystick_st->axis[1]) / ( SHRT_MAX));
 }
 
-/// get the side velocity (positive if one the right, negative if on the left
+/// get the side velocity (positive if one the right, negative if on the left)
 double Generic_Joystick::get_side_velocity()
 {
 	return ( ((double)Joystick.joystick_st->axis[0]) / ( SHRT_MAX) );
 }
 
-/// get the rotate velocity (positive if one the right, negative if on the left
+/// get the rotate velocity (positive if one the right, negative if on the left)
 double Generic_Joystick::get_rotate_velocity()
 {
 	if (Joystick.joystick_st->button[1])
@@ -72,7 +72,7 @@ double Generic_Joystick::get_rotate_velocity()
 	return 0;
 }
 
-/// get the up velocity (positive if one the right, negative if on the left
+/// get the up velocity (positive if up, negative if down)
 double Generic_Joystick::get_up_velocity()
 {
 	if (Joystick.joystick_st->button[4])

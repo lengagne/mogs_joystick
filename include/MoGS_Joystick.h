@@ -34,16 +34,16 @@ class MoGS_Joystick {
 	/// use to pause the process
 	bool get_pause();
 	
-	/// get the forward velocity (positive if forward, negative if backward
+	/// get the forward velocity (positive if forward, negative if backward)
 	double get_forward_velocity();
 	
-	/// get the side velocity (positive if one the right, negative if on the left
+	/// get the side velocity (positive if one the right, negative if on the left)
 	double get_side_velocity();
 	
-	/// get the rotate velocity (positive if one the right, negative if on the left
+	/// get the rotate velocity (positive if one the right, negative if on the left)
 	double get_rotate_velocity();
 	
-	/// get the up velocity (positive if one the right, negative if on the left
+	/// get the up velocity (positive if up, negative if down)
 	double get_up_velocity();
 	
   protected:
