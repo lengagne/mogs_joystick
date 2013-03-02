@@ -39,6 +39,11 @@ cJoystick::cJoystick() {
 		joystick_st->button.reserve(buttons);
 		active = true;
 		pthread_create(&thread, 0, &cJoystick::loop, this);
+	}else
+	{
+		std::cerr<<"Error in "<<__FILE__<<" at line "<< __LINE__<<"."<<std::endl;	
+		std::cerr<<"There is no Joystick found."<<std::endl;
+		exit(0);
 	}
 }
 
