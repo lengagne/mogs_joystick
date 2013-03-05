@@ -69,12 +69,25 @@ ADD_EXECUTABLE(test_MoGS_pad
 target_link_libraries(test_MoGS_pad      
       MoGS_Joystick)
 
+# Perform the proper linking
+SET (CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
-configure_file(MoGS_Joystick.pc.in MoGS_Joystick.pc @ONLY)
-
-# install the pkgconfig files
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/MoGS_Joystick.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/lib/pkgconfig)
 # install the include files
-install(FILES ${header_files_MoGS_Joystick} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/include/MoGS/MoGS_Joystick)
+SET(INSTALL_INCLUDE_DIRS ${CMAKE_INSTALL_INCLUDEDIR}/include/MoGS/MoGS_Joystick)
+SET(INSTALL_LIB_DIRS ${CMAKE_INSTALL_LIBDIR}/lib )
+set ( INSTALL_LIB_PATH lib )
+
+
+# install the include files
+install(FILES ${header_files_MoGS_Joystick} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 # install the library files
-install( TARGETS "MoGS_Joystick" LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/lib  COMPONENT main)
+install( TARGETS "MoGS_Joystick" LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}  COMPONENT main)
+
+### Configure file
+configure_file(MoGS_JoystickConfig.cmake.in "${PROJECT_BINARY_DIR}/MoGS_JoystickConfig.cmake" @ONLY)
+
+
+
+install ( FILES "${PROJECT_BINARY_DIR}/MoGS_JoystickConfig.cmake"
+      DESTINATION "${INSTALL_LIB_PATH}/MoGS_Joystick" COMPONENT dev ) 
+
