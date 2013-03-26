@@ -79,7 +79,7 @@ set ( INSTALL_LIB_PATH lib )
 
 
 # install the include files
-install(FILES ${header_files_MoGS_Joystick} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(FILES ${header_files_MoGS_Joystick} DESTINATION ${INSTALL_INCLUDE_DIRS})
 # install the library files
 install( TARGETS "MoGS_Joystick" LIBRARY DESTINATION ${INSTALL_LIB_DIRS}  COMPONENT main)
 
