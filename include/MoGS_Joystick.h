@@ -1,4 +1,4 @@
-//     	MoGS_Joystick.h
+//      MoGS_Joystick.h
 //      Copyright (C) 2012 lengagne (lengagne@gmail.com)
 // 
 //      This program is free software: you can redistribute it and/or modify
@@ -14,42 +14,43 @@
 //      You should have received a copy of the GNU General Public License
 //      along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//	This program was developped in the following labs:
-//	from 2012: IUT de Beziers/ LIRMM, Beziers, France
+//      This program was developped in the following labs:
+//      from 2012: IUT de Beziers/ LIRMM, Beziers, France
 
 #ifndef __MOGS_JOYSTICK_H__
 #define __MOGS_JOYSTICK_H__
 
 #include "Generic_Joystick.h"
 
-class MoGS_Joystick {
-  public:
-	MoGS_Joystick();
-	
-	~MoGS_Joystick();
+class MoGS_Joystick
+{
+      public:
+	MoGS_Joystick ();
+
+	~MoGS_Joystick ();
 
 	/// use to stop the process
-	bool get_stop();
-	
+	bool get_stop ();
+
 	/// use to pause the process
-	bool get_pause();
-	
+	bool get_pause ();
+
 	/// get the forward velocity (positive if forward, negative if backward)
-	double get_forward_velocity();
-	
+	double get_forward_velocity ();
+
 	/// get the side velocity (positive if one the right, negative if on the left)
-	double get_side_velocity();
-	
+	double get_side_velocity ();
+
 	/// get the rotate velocity (positive if one the right, negative if on the left)
-	double get_rotate_velocity();
-	
+	double get_rotate_velocity ();
+
 	/// get the up velocity (positive if up, negative if down)
-	double get_up_velocity();
-	
-  protected:
-  private:
-    
-	Generic_Joystick *Joystick;
+	double get_up_velocity ();
+
+      protected:
+      private:
+
+	  Generic_Joystick * Joystick;
 };
 
 #endif

@@ -1,4 +1,4 @@
-//     	Generic_Joystick.h
+//      Generic_Joystick.h
 //      Copyright (C) 2012 lengagne (lengagne@gmail.com)
 // 
 //      This program is free software: you can redistribute it and/or modify
@@ -14,8 +14,8 @@
 //      You should have received a copy of the GNU General Public License
 //      along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//	This program was developped in the following labs:
-//	from 2012: IUT de Beziers/ LIRMM, Beziers, France
+//      This program was developped in the following labs:
+//      from 2012: IUT de Beziers/ LIRMM, Beziers, France
 
 
 #ifndef __GENERIC_JOYSTICK_H__
@@ -24,37 +24,38 @@
 #include <string.h>
 #include "joystick.h"
 
-class Generic_Joystick {
-  public:
-	Generic_Joystick();
-	
-	~Generic_Joystick();
-	
+class Generic_Joystick
+{
+      public:
+	Generic_Joystick ();
+
+	~Generic_Joystick ();
+
 	/// use to stop the process
-	virtual bool get_stop();
-	
+	virtual bool get_stop ();
+
 	/// use to pause the process
-	virtual bool get_pause();
-	
+	virtual bool get_pause ();
+
 	/// get the forward velocity (positive if forward, negative if backward)
-	virtual double get_forward_velocity();
-	
+	virtual double get_forward_velocity ();
+
 	/// get the side velocity (positive if one the right, negative if on the left)
-	virtual double get_side_velocity();
-	
+	virtual double get_side_velocity ();
+
 	/// get the rotate velocity (positive if one the right, negative if on the left)
-	virtual double get_rotate_velocity();
-	
+	virtual double get_rotate_velocity ();
+
 	/// get the up velocity (positive if up, negative if down)
-	virtual double get_up_velocity();
-	
-	char* get_name()
+	virtual double get_up_velocity ();
+
+	char *get_name ()
 	{
 		return Joystick.name;
 	}
-	
-  protected:
-	cJoystick Joystick;
+
+      protected:
+	  cJoystick Joystick;
 };
 
 #endif

@@ -1,4 +1,4 @@
-//     	joystick.h
+//      joystick.h
 //      Copyright (C) 2012 lengagne (lengagne@gmail.com)
 // 
 //      This program is free software: you can redistribute it and/or modify
@@ -14,8 +14,8 @@
 //      You should have received a copy of the GNU General Public License
 //      along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//	This program was developped in the following labs:
-//	from 2012: IUT de Beziers/ LIRMM, Beziers, France
+//      This program was developped in the following labs:
+//      from 2012: IUT de Beziers/ LIRMM, Beziers, France
 
 #ifndef JOYSTICK_H
 #define JOYSTICK_H
@@ -30,13 +30,15 @@
 #define JOYSTICK_DEV "/dev/input/js0"
 
 
-struct joystick_state {
-	std::vector<signed short> button;
-	std::vector<signed short> axis;
+struct joystick_state
+{
+	std::vector < signed short >button;
+	  std::vector < signed short >axis;
 };
 
-class cJoystick {
-  public:
+class cJoystick
+{
+      public:
 	pthread_t thread;
 	bool active;
 	int joystick_fd;
@@ -47,13 +49,13 @@ class cJoystick {
 	__u8 buttons;
 	char name[256];
 
-  protected:
-  public:
-	cJoystick();
-	~cJoystick();
-	static void* loop(void* obj);
-	void readEv();
-        bool buttonPressed(int n);
+      protected:
+      public:
+	  cJoystick ();
+	 ~cJoystick ();
+	static void *loop (void *obj);
+	void readEv ();
+	bool buttonPressed (int n);
 };
 
 #endif

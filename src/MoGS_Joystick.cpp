@@ -1,4 +1,4 @@
-//     	MoGS_Joystick.cpp
+//      MoGS_Joystick.cpp
 //      Copyright (C) 2012 lengagne (lengagne@gmail.com)
 // 
 //      This program is free software: you can redistribute it and/or modify
@@ -14,8 +14,8 @@
 //      You should have received a copy of the GNU General Public License
 //      along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//	This program was developped in the following labs:
-//	from 2012: IUT de Beziers/ LIRMM, Beziers, France
+//      This program was developped in the following labs:
+//      from 2012: IUT de Beziers/ LIRMM, Beziers, France
 
 #include "MoGS_Joystick.h"
 #include "GreenAsian_Sanwa_pad.h"
@@ -24,62 +24,72 @@
 #include <stdlib.h>
 #include <iostream>
 
-MoGS_Joystick::MoGS_Joystick() 
+MoGS_Joystick::MoGS_Joystick ()
 {
-      Joystick = new Generic_Joystick();
-      std::string name = Joystick->get_name();
-      
-      if (name.compare("GreenAsia Sanwa Supply 12 button game pad") == 0)
-      {
-	      delete Joystick;
-	      Joystick =  new GreenAsian_Sanwa_pad();
-      }else if (name.compare("Microsoft X-Box 360 pad") == 0)
-      {
-	      delete Joystick;
-	      Joystick =  new XBox_pad();	
-      }else
-      {
-	      std::cout<<"This pad is not known, so we use the generic configuration pad"<<std::endl;
-      }
+	Joystick = new Generic_Joystick ();
+	std::string name = Joystick->get_name ();
+
+	if (name.compare ("GreenAsia Sanwa Supply 12 button game pad") == 0)
+	  {
+		  delete Joystick;
+		  Joystick = new GreenAsian_Sanwa_pad ();
+	  }
+	else if (name.compare ("Microsoft X-Box 360 pad") == 0)
+	  {
+		  delete Joystick;
+		  Joystick = new XBox_pad ();
+	  }
+	else
+	  {
+		  std::cout <<
+			  "This pad is not known, so we use the generic configuration pad"
+			  << std::endl;
+	  }
 }
 
-MoGS_Joystick::~MoGS_Joystick() 
+MoGS_Joystick::~MoGS_Joystick ()
 {
 	delete Joystick;
 }
 
 /// use to stop the process
-bool MoGS_Joystick::get_stop()
+bool
+MoGS_Joystick::get_stop ()
 {
-	return (Joystick->get_stop());
+	return (Joystick->get_stop ());
 }
 
 /// use to pause the process
-bool MoGS_Joystick::get_pause()
+bool
+MoGS_Joystick::get_pause ()
 {
-	return (Joystick->get_pause());
+	return (Joystick->get_pause ());
 }
 
 /// get the forward velocity (positive if forward, negative if backward)
-double MoGS_Joystick::get_forward_velocity()
+double
+MoGS_Joystick::get_forward_velocity ()
 {
-	return ( Joystick->get_forward_velocity());
+	return (Joystick->get_forward_velocity ());
 }
 
 /// get the side velocity (positive if one the right, negative if on the left)
-double MoGS_Joystick::get_side_velocity()
+double
+MoGS_Joystick::get_side_velocity ()
 {
-	return (Joystick->get_side_velocity());
+	return (Joystick->get_side_velocity ());
 }
 
 /// get the rotate velocity (positive if one the right, negative if on the left)
-double MoGS_Joystick::get_rotate_velocity()
+double
+MoGS_Joystick::get_rotate_velocity ()
 {
-	return Joystick->get_rotate_velocity();
+	return Joystick->get_rotate_velocity ();
 }
 
 /// get the up velocity (positive if up, negative if down)
-double MoGS_Joystick::get_up_velocity()
+double
+MoGS_Joystick::get_up_velocity ()
 {
-	return Joystick->get_up_velocity();  
+	return Joystick->get_up_velocity ();
 }

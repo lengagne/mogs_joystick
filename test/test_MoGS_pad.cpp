@@ -1,4 +1,4 @@
-//     	test_MoGS_pad.cpp
+//      test_MoGS_pad.cpp
 //      Copyright (C) 2012 lengagne (lengagne@gmail.com)
 // 
 //      This program is free software: you can redistribute it and/or modify
@@ -14,8 +14,8 @@
 //      You should have received a copy of the GNU General Public License
 //      along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//	This program was developped in the following labs:
-//	from 2012: IUT de Beziers/ LIRMM, Beziers, France
+//      This program was developped in the following labs:
+//      from 2012: IUT de Beziers/ LIRMM, Beziers, France
 
 #include <sstream>
 #include <fstream>
@@ -24,20 +24,23 @@
 #include "MoGS_Joystick.h"
 
 
-int main(int argc, char *argv[]) {
+int
+main (int argc, char *argv[])
+{
 
 	MoGS_Joystick test;
 	printf ("Use of the MoFS_pad\n");
-	
-	while(test.get_stop()) {
-		printf ("Forward: %.2f\t", test.get_forward_velocity()) ;
-		printf ("Side : %.2f\t", test.get_side_velocity()) ;
-		printf ("Rotate %.2f\t", test.get_rotate_velocity()) ;
-		printf ("Up %.2f\t", test.get_up_velocity()) ;
-		printf ("Pause %d\t", test.get_pause()) ;
-		printf("\r");
-	}
-	printf("\nYou pushed on the stop button\n");
+
+	while (test.get_stop ())
+	  {
+		  printf ("Forward: %.2f\t", test.get_forward_velocity ());
+		  printf ("Side : %.2f\t", test.get_side_velocity ());
+		  printf ("Rotate %.2f\t", test.get_rotate_velocity ());
+		  printf ("Up %.2f\t", test.get_up_velocity ());
+		  printf ("Pause %d\t", test.get_pause ());
+		  printf ("\r");
+	  }
+	printf ("\nYou pushed on the stop button\n");
 
 	return 0;
 }
