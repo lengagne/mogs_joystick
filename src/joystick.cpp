@@ -44,8 +44,7 @@ cJoystick::cJoystick ()
 	  }
 	else
 	  {
-		  std::cerr << "Error in " << __FILE__ << " at line " <<
-			  __LINE__ << "." << std::endl;
+		  std::cerr << "Error in " << __FILE__ << " at line " << __LINE__ << "." << std::endl;
 		  std::cerr << "There is no Joystick found." << std::endl;
 		  exit (0);
 	  }
@@ -64,11 +63,12 @@ cJoystick::~cJoystick ()
 	joystick_fd = 0;
 }
 
-void *
-cJoystick::loop (void *obj)
+void *cJoystick::loop (void *obj)
 {
 	while (reinterpret_cast < cJoystick * >(obj)->active)
 		reinterpret_cast < cJoystick * >(obj)->readEv ();
+	
+	return obj;
 }
 
 void
