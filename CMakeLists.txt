@@ -25,6 +25,8 @@ else (MoGS_GLOBAL_COMPILED)
   set(PROJECT_CONTACT lengagne@gmail.com)
 endif (MoGS_GLOBAL_COMPILED)
 
+add_definitions(${MoGS_Joystick_FLAGS})
+
 INCLUDE_DIRECTORIES ( 
 	${CMAKE_CURRENT_BINARY_DIR}/src
 	include
