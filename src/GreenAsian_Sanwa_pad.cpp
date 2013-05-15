@@ -46,7 +46,7 @@ GreenAsian_Sanwa_pad::~GreenAsian_Sanwa_pad ()
 bool
 GreenAsian_Sanwa_pad::get_stop ()
 {
-	return (!Joystick.joystick_st->button[10]);
+	return (Joystick.joystick_st->button[10]);
 }
 
 /// use to pause the process

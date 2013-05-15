@@ -47,7 +47,7 @@ XBox_pad::~XBox_pad ()
 bool
 XBox_pad::get_stop ()
 {
-	return (!Joystick.joystick_st->button[6]);
+	return (Joystick.joystick_st->button[6]);
 }
 
 /// use to stop the process

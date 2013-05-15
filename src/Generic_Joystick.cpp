@@ -45,7 +45,7 @@ Generic_Joystick::~Generic_Joystick ()
 bool
 Generic_Joystick::get_stop ()
 {
-	return (!Joystick.joystick_st->button[0]);
+	return (Joystick.joystick_st->button[0]);
 }
 
 /// use to pause the process
