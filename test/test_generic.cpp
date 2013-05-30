@@ -29,7 +29,7 @@ main (int argc, char *argv[])
 	Generic_Joystick test;
 	printf ("Generic pad name : %s\n", test.get_name ());
 
-	while (test.get_stop ())
+	while (!test.get_stop ())
 	  {
 		  printf ("Forward: %.2f\t", test.get_forward_velocity ());
 		  printf ("Side : %.2f\t", test.get_side_velocity ());

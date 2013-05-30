@@ -31,7 +31,7 @@ main (int argc, char *argv[])
 	MoGS_Joystick test;
 	printf ("Use of the MoFS_pad\n");
 
-	while (test.get_stop ())
+	while (!test.get_stop ())
 	  {
 		  printf ("Forward: %.2f\t", test.get_forward_velocity ());
 		  printf ("Side : %.2f\t", test.get_side_velocity ());
