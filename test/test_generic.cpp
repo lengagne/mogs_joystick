@@ -27,7 +27,7 @@ main (int argc, char *argv[])
 {
 
 	Generic_Joystick test;
-	printf ("Generic pad name : %s\n", test.get_name ());
+	printf ("Generic pad name : %s\n", (test.get_name ()).c_str() );
 
 	while (!test.get_stop ())
 	  {
