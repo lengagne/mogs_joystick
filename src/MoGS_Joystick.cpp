@@ -27,24 +27,22 @@
 MoGS_Joystick::MoGS_Joystick ()
 {
 	Joystick = new Generic_Joystick ();
-	std::string name = Joystick->get_name ();
+	std::string name = Joystick->get_name();
 
 	if (name.compare ("GreenAsia Sanwa Supply 12 button game pad") == 0)
-	  {
-		  delete Joystick;
-		  Joystick = new GreenAsian_Sanwa_pad ();
-	  }
+	{
+		delete Joystick;
+		Joystick = new GreenAsian_Sanwa_pad ();
+	}
 	else if (name.compare ("Microsoft X-Box 360 pad") == 0)
-	  {
-		  delete Joystick;
-		  Joystick = new XBox_pad ();
-	  }
+	{
+		delete Joystick;
+		Joystick = new XBox_pad ();
+	}
 	else
-	  {
-		  std::cout <<
-			  "This pad is not known, so we use the generic configuration pad"
-			  << std::endl;
-	  }
+	{
+		std::cout <<"This pad is not known, so we use the generic configuration pad"<< std::endl;
+	}	  
 }
 
 MoGS_Joystick::~MoGS_Joystick ()

@@ -49,9 +49,10 @@ class Generic_Joystick
 	/// get the up velocity (positive if up, negative if down)
 	virtual double get_up_velocity ();
 
-	char *get_name ()
+	std::string get_name ()
 	{
-		return Joystick.name;
+		std::string out = Joystick.name; 
+		return out;
 	}
 
       protected:
