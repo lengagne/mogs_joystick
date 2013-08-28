@@ -19,6 +19,7 @@
 
 #include "MoGS_Joystick.h"
 #include "GreenAsian_Sanwa_pad.h"
+#include "Mega_World_USB_2_Axis_8_Button_Gamepad.h"
 #include "XBox_pad.h"
 #include <string.h>
 #include <stdlib.h>
@@ -28,6 +29,8 @@ MoGS_Joystick::MoGS_Joystick ()
 {
 	Joystick = new Generic_Joystick ();
 	std::string name = Joystick->get_name();
+	
+	std::cout<<"name of the pad = "<< name <<std::endl;
 
 	if (name.compare ("GreenAsia Sanwa Supply 12 button game pad") == 0)
 	{
@@ -38,6 +41,11 @@ MoGS_Joystick::MoGS_Joystick ()
 	{
 		delete Joystick;
 		Joystick = new XBox_pad ();
+	}
+	else if (name.compare ("Mega World USB 2-Axis 8-Button Gamepad") == 0)
+	{
+		delete Joystick;
+		Joystick = new Mega_World_USB_2_Axis_8_Button_Gamepad();
 	}
 	else
 	{
