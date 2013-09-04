@@ -25,7 +25,9 @@ Generic_Joystick::Generic_Joystick ()
 {
 	// set some assumption
 	if ((int) Joystick.axes >= 2 && (int) Joystick.buttons >= 6)
-		std::cout << " You can use this pad as a generic device " <<std::endl;
+	{
+// 		std::cout << " You can use this pad as a generic device " <<std::endl;
+	}
 	else
 	{
 		std::cerr <<" You cannot use this pad, the generic device requires 2 axes and 6 buttons"<< std::endl;

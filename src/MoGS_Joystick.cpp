@@ -29,8 +29,6 @@ MoGS_Joystick::MoGS_Joystick ()
 {
 	Joystick = new Generic_Joystick ();
 	std::string name = Joystick->get_name();
-	
-	std::cout<<"name of the pad = "<< name <<std::endl;
 
 	if (name.compare ("GreenAsia Sanwa Supply 12 button game pad") == 0)
 	{
