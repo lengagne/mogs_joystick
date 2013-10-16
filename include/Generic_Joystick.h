@@ -22,7 +22,7 @@
 #define __GENERIC_JOYSTICK_H__
 
 #include <string.h>
-#include "joystick.h"
+#include "Joystick.h"
 
 class Generic_Joystick
 {

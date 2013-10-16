@@ -17,7 +17,7 @@
 //      This program was developped in the following labs:
 //      from 2012: IUT de Beziers/ LIRMM, Beziers, France
 
-#include "joystick.h"
+#include "Joystick.h"
 #include <unistd.h>
 
 cJoystick::cJoystick ()
@@ -25,7 +25,7 @@ cJoystick::cJoystick ()
 	active = false;
 	joystick_fd = 0;
 	joystick_ev = new js_event ();
-	joystick_st = new joystick_state ();
+	joystick_st = new Joystick_State ();
 	joystick_fd = open (JOYSTICK_DEV, O_RDONLY | O_NONBLOCK);
 	if (joystick_fd > 0)
 	  {

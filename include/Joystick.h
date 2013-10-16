@@ -30,10 +30,10 @@
 #define JOYSTICK_DEV "/dev/input/js0"
 
 
-struct joystick_state
+struct Joystick_State
 {
 	std::vector < signed short >button;
-	  std::vector < signed short >axis;
+	std::vector < signed short >axis;
 };
 
 class cJoystick
@@ -43,7 +43,7 @@ class cJoystick
 	bool active;
 	int joystick_fd;
 	js_event *joystick_ev;
-	joystick_state *joystick_st;
+	Joystick_State *joystick_st;
 	__u32 version;
 	__u8 axes;
 	__u8 buttons;

@@ -19,7 +19,7 @@
 
 #include <sstream>
 #include <fstream>
-#include "joystick.h"
+#include "Joystick.h"
 #include "Generic_Joystick.h"
 
 int
