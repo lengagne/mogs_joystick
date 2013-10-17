@@ -24,8 +24,7 @@
 #include "Generic_Joystick.h"
 
 
-int
-main (int argc, char *argv[])
+int main (int argc, char *argv[])
 {
 
 	cJoystick js;
@@ -37,9 +36,7 @@ main (int argc, char *argv[])
 
 	printf ("Axis Values --- Buttons values\n");
 	while (true)
-	  {
-
-
+	{
 		  for (int i = 0; i < nb_axis; i++)
 			  printf ("%d\t", js.joystick_st->axis[i]);
 		  printf ("---");
@@ -47,7 +44,6 @@ main (int argc, char *argv[])
 			  printf ("%d\t", js.joystick_st->button[i]);
 
 		  printf ("\r");
-
 	  }
 
 	return 0;

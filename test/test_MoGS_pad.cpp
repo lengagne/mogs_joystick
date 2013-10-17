@@ -16,6 +16,7 @@
 //
 //      This program was developped in the following labs:
 //      from 2012: IUT de Beziers/ LIRMM, Beziers, France
+//	from 2013 : Université Blaise Pascal / axis : ISPR / theme MACCS
 
 #include <sstream>
 #include <fstream>
@@ -24,8 +25,7 @@
 #include "MoGS_Joystick.h"
 
 
-int
-main (int argc, char *argv[])
+int main (int argc, char *argv[])
 {
 
 	MoGS_Joystick test;
