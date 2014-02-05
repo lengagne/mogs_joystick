@@ -27,7 +27,7 @@
 class Mega_World_USB_2_Axis_8_Button_Gamepad:public Generic_Joystick
 {
       public:
-	Mega_World_USB_2_Axis_8_Button_Gamepad ();
+	Mega_World_USB_2_Axis_8_Button_Gamepad (char * path);
 
 	~Mega_World_USB_2_Axis_8_Button_Gamepad ();
 

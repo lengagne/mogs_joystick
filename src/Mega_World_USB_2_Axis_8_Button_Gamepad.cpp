@@ -21,10 +21,11 @@
 #include <stdlib.h>
 #include <limits.h>
 
-Mega_World_USB_2_Axis_8_Button_Gamepad::Mega_World_USB_2_Axis_8_Button_Gamepad ()
+Mega_World_USB_2_Axis_8_Button_Gamepad::Mega_World_USB_2_Axis_8_Button_Gamepad (char * path)
 {
+	Joystick = new cJoystick(path);
 	// set some assumption
-	if ((int) Joystick.axes == 2 && (int) Joystick.buttons == 8)
+	if ((int) Joystick->axes == 2 && (int) Joystick->buttons == 8)
 		std::cout << " You are using the Mega World USB 2-Axis 8-Button Gamepad" <<std::endl;
 	else
 	  {
@@ -35,44 +36,44 @@ Mega_World_USB_2_Axis_8_Button_Gamepad::Mega_World_USB_2_Axis_8_Button_Gamepad (
 
 Mega_World_USB_2_Axis_8_Button_Gamepad::~Mega_World_USB_2_Axis_8_Button_Gamepad ()
 {
-
+	if (Joystick)	delete Joystick;
 }
 
 /// use to stop the process
 bool
 Mega_World_USB_2_Axis_8_Button_Gamepad::get_stop ()
 {
-	return (Joystick.joystick_st->button[7]);
+	return (Joystick->joystick_st->button[7]);
 }
 
 /// use to pause the process
 bool
 Mega_World_USB_2_Axis_8_Button_Gamepad::get_pause ()
 {
-	return (Joystick.joystick_st->button[6]);
+	return (Joystick->joystick_st->button[6]);
 }
 
 /// get the forward velocity (positive if forward, negative if backward)
 double
 Mega_World_USB_2_Axis_8_Button_Gamepad::get_forward_velocity ()
 {
-	return (((double) -Joystick.joystick_st->axis[1]) / (SHRT_MAX));
+	return (((double) -Joystick->joystick_st->axis[1]) / (SHRT_MAX));
 }
 
 /// get the side velocity (positive if one the right, negative if on the left)
 double
 Mega_World_USB_2_Axis_8_Button_Gamepad::get_side_velocity ()
 {
-	return (((double) Joystick.joystick_st->axis[0]) / (SHRT_MAX));
+	return (((double) Joystick->joystick_st->axis[0]) / (SHRT_MAX));
 }
 
 /// get the rotate velocity (positive if one the right, negative if on the left)
 double
 Mega_World_USB_2_Axis_8_Button_Gamepad::get_rotate_velocity ()
 {
-	if (Joystick.joystick_st->button[2])
+	if (Joystick->joystick_st->button[2])
 		return 1.0;
-	if (Joystick.joystick_st->button[1])
+	if (Joystick->joystick_st->button[1])
 		return -1.0;
 
 	return 0;
@@ -82,9 +83,9 @@ Mega_World_USB_2_Axis_8_Button_Gamepad::get_rotate_velocity ()
 double
 Mega_World_USB_2_Axis_8_Button_Gamepad::get_up_velocity ()
 {
-	if (Joystick.joystick_st->button[3])
+	if (Joystick->joystick_st->button[3])
 		return 1.0;
-	if (Joystick.joystick_st->button[0])
+	if (Joystick->joystick_st->button[0])
 		return -1.0;
 
 	return 0;

@@ -1,4 +1,4 @@
-//      Generic_Joystick.cpp
+//      Generic_Joystick->cpp
 //      Copyright (C) 2012 lengagne (lengagne@gmail.com)
 // 
 //      This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,30 @@
 
 Generic_Joystick::Generic_Joystick ()
 {
+	Joystick = NULL;
+}
+
+Generic_Joystick::Generic_Joystick (char * path)
+{
+	init(path);
+}
+
+void Generic_Joystick::init (char * path)
+{
+	Joystick = new cJoystick(path);
+
+}
+
+
+Generic_Joystick::~Generic_Joystick ()
+{
+	if (Joystick)	delete Joystick;
+}
+
+void Generic_Joystick::check()
+{
 	// set some assumption
-	if ((int) Joystick.axes >= 2 && (int) Joystick.buttons >= 6)
+	if ((int) Joystick->axes >= 2 && (int) Joystick->buttons >= 6)
 	{
 // 		std::cout << " You can use this pad as a generic device " <<std::endl;
 	}
@@ -32,44 +54,39 @@ Generic_Joystick::Generic_Joystick ()
 	{
 		std::cerr <<" You cannot use this pad, the generic device requires 2 axes and 6 buttons"<< std::endl;
 		exit (0);
-	}
-}
-
-Generic_Joystick::~Generic_Joystick ()
-{
-
+	}	
 }
 
 /// use to stop the process
 bool Generic_Joystick::get_stop ()
 {
-	return (Joystick.joystick_st->button[0]);
+	return (Joystick->joystick_st->button[0]);
 }
 
 /// use to pause the process
 bool Generic_Joystick::get_pause ()
 {
-	return (Joystick.joystick_st->button[3]);
+	return (Joystick->joystick_st->button[3]);
 }
 
 /// get the forward velocity (positive if forward, negative if backward)
 double Generic_Joystick::get_forward_velocity ()
 {
-	return (((double) -Joystick.joystick_st->axis[1]) / (SHRT_MAX));
+	return (((double) -Joystick->joystick_st->axis[1]) / (SHRT_MAX));
 }
 
 /// get the side velocity (positive if one the right, negative if on the left)
 double Generic_Joystick::get_side_velocity ()
 {
-	return (((double) Joystick.joystick_st->axis[0]) / (SHRT_MAX));
+	return (((double) Joystick->joystick_st->axis[0]) / (SHRT_MAX));
 }
 
 /// get the rotate velocity (positive if one the right, negative if on the left)
 double Generic_Joystick::get_rotate_velocity ()
 {
-	if (Joystick.joystick_st->button[1])
+	if (Joystick->joystick_st->button[1])
 		return -1;
-	if (Joystick.joystick_st->button[2])
+	if (Joystick->joystick_st->button[2])
 		return 1;
 	return 0;
 }
@@ -77,9 +94,9 @@ double Generic_Joystick::get_rotate_velocity ()
 /// get the up velocity (positive if up, negative if down)
 double Generic_Joystick::get_up_velocity ()
 {
-	if (Joystick.joystick_st->button[4])
+	if (Joystick->joystick_st->button[4])
 		return 1;
-	if (Joystick.joystick_st->button[5])
+	if (Joystick->joystick_st->button[5])
 		return -1;
 	return 0;
 }

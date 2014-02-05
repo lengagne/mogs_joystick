@@ -27,9 +27,15 @@
 class Generic_Joystick
 {
       public:
-	Generic_Joystick ();
+	Generic_Joystick ( );
+	      
+	Generic_Joystick (char * path);
+	
+	void init (char * path);
 
 	~Generic_Joystick ();
+	
+	void check();
 
 	/// use to stop the process
 	virtual bool get_stop ();
@@ -51,12 +57,12 @@ class Generic_Joystick
 
 	std::string get_name ()
 	{
-		std::string out = Joystick.name; 
+		std::string out = Joystick->name; 
 		return out;
 	}
 
       protected:
-	  cJoystick Joystick;
+	  cJoystick* Joystick;
 };
 
 #endif

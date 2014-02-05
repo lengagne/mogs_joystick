@@ -25,20 +25,27 @@
 
 int main (int argc, char *argv[])
 {
+	if (argc ==2)
+	{
+		Generic_Joystick test;
+		test.init(argv[1]);
+		printf ("Generic pad name : %s\n", (test.get_name ()).c_str() );
 
-	Generic_Joystick test;
-	printf ("Generic pad name : %s\n", (test.get_name ()).c_str() );
-
-	while (!test.get_stop ())
-	  {
-		  printf ("Forward: %.2f\t", test.get_forward_velocity ());
-		  printf ("Side : %.2f\t", test.get_side_velocity ());
-		  printf ("Rotate %.2f\t", test.get_rotate_velocity ());
-		  printf ("Up %.2f\t", test.get_up_velocity ());
-		  printf ("Pause %d\t", test.get_pause ());
-		  printf ("\r");
-	  }
-	printf ("\nYou pushed on the stop button\n");
+		while (!test.get_stop ())
+		{
+			printf ("Forward: %.2f\t", test.get_forward_velocity ());
+			printf ("Side : %.2f\t", test.get_side_velocity ());
+			printf ("Rotate %.2f\t", test.get_rotate_velocity ());
+			printf ("Up %.2f\t", test.get_up_velocity ());
+			printf ("Pause %d\t", test.get_pause ());
+			printf ("\r");
+		}
+		printf ("\nYou pushed on the stop button\n");
+	}
+	else
+	{
+		std::cerr<<" please specify the path (/dev/input/jsX)"<<std::endl;
+	}	
 
 	return 0;
 }

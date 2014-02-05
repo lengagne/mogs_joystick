@@ -22,10 +22,11 @@
 #include <stdlib.h>
 #include <limits.h>
 
-XBox_pad::XBox_pad ()
+XBox_pad::XBox_pad (char * path)
 {
+	Joystick = new cJoystick(path);
 	// set some assumption
-	if ((int) Joystick.axes == 8 && (int) Joystick.buttons == 11)
+	if ((int) Joystick->axes == 8 && (int) Joystick->buttons == 11)
 		std::cout << " You are using the XBOX pad" << std::endl;
 	else
 	  {
@@ -40,28 +41,28 @@ XBox_pad::XBox_pad ()
 
 XBox_pad::~XBox_pad ()
 {
-
+	if (Joystick)	delete Joystick;
 }
 
 /// use to stop the process
 bool
 XBox_pad::get_stop ()
 {
-	return (Joystick.joystick_st->button[6]);
+	return (Joystick->joystick_st->button[6]);
 }
 
 /// use to stop the process
 bool
 XBox_pad::get_pause ()
 {
-	return (Joystick.joystick_st->button[7]);
+	return (Joystick->joystick_st->button[7]);
 }
 
 /// get the forward velocity (positive if forward, negative if backward)
 double
 XBox_pad::get_forward_velocity ()
 {
-	double tmp = -((double) Joystick.joystick_st->axis[1]) / SHRT_MAX;
+	double tmp = -((double) Joystick->joystick_st->axis[1]) / SHRT_MAX;
 	if (tmp < 0.2 && tmp > -0.2)
 		tmp = 0.0;
 	return (tmp);
@@ -71,7 +72,7 @@ XBox_pad::get_forward_velocity ()
 double
 XBox_pad::get_side_velocity ()
 {
-	double tmp = ((double) Joystick.joystick_st->axis[0]) / SHRT_MAX;
+	double tmp = ((double) Joystick->joystick_st->axis[0]) / SHRT_MAX;
 	if (tmp < 0.2 && tmp > -0.2)
 		tmp = 0.0;
 	return (tmp);
@@ -81,7 +82,7 @@ XBox_pad::get_side_velocity ()
 double
 XBox_pad::get_rotate_velocity ()
 {
-	double tmp = ((double) Joystick.joystick_st->axis[3]) / SHRT_MAX;
+	double tmp = ((double) Joystick->joystick_st->axis[3]) / SHRT_MAX;
 	if (tmp < 0.2 && tmp > -0.2)
 		tmp = 0.0;
 	return (tmp);
@@ -91,7 +92,7 @@ XBox_pad::get_rotate_velocity ()
 double
 XBox_pad::get_up_velocity ()
 {
-	double tmp = -((double) Joystick.joystick_st->axis[4]) / SHRT_MAX;
+	double tmp = -((double) Joystick->joystick_st->axis[4]) / SHRT_MAX;
 	if (tmp < 0.2 && tmp > -0.2)
 		tmp = 0.0;
 	return (tmp);

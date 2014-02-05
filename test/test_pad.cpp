@@ -26,25 +26,30 @@
 
 int main (int argc, char *argv[])
 {
+	if (argc ==2)
+	{	
+		cJoystick js(argv[1]);
+		int nb_axis = (int) js.axes;
+		int nb_bouton = (int) js.buttons;
 
-	cJoystick js;
-	int nb_axis = (int) js.axes;
-	int nb_bouton = (int) js.buttons;
+		printf ("Number of Axis = %d\n", (int) js.axes);
+		printf ("Number of Buttons = %d\n", (int) js.buttons);
 
-	printf ("Number of Axis = %d\n", (int) js.axes);
-	printf ("Number of Buttons = %d\n", (int) js.buttons);
+		printf ("Axis Values --- Buttons values\n");
+		while (true)
+		{
+			for (int i = 0; i < nb_axis; i++)
+				printf ("%d\t", js.joystick_st->axis[i]);
+			printf ("---");
+			for (int i = 0; i < nb_bouton; i++)
+				printf ("%d\t", js.joystick_st->button[i]);
 
-	printf ("Axis Values --- Buttons values\n");
-	while (true)
+			printf ("\r");
+		}
+	}
+	else
 	{
-		  for (int i = 0; i < nb_axis; i++)
-			  printf ("%d\t", js.joystick_st->axis[i]);
-		  printf ("---");
-		  for (int i = 0; i < nb_bouton; i++)
-			  printf ("%d\t", js.joystick_st->button[i]);
-
-		  printf ("\r");
-	  }
-
+		std::cerr<<" please specify the path (/dev/input/jsX)"<<std::endl;
+	}
 	return 0;
 }

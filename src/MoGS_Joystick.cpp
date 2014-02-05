@@ -27,28 +27,47 @@
 
 MoGS_Joystick::MoGS_Joystick ()
 {
-	Joystick = new Generic_Joystick ();
-	std::string name = Joystick->get_name();
-
-	if (name.compare ("GreenAsia Sanwa Supply 12 button game pad") == 0)
+	bool undefined_joystick = true;
+	bool next_joystick = true;
+	int cpt = 0;
+	while ( undefined_joystick && next_joystick)
 	{
-		delete Joystick;
-		Joystick = new GreenAsian_Sanwa_pad ();
+		char tmp_path[20];
+		sprintf(tmp_path,"/dev/input/js%d",cpt);
+		if (open (tmp_path, O_RDONLY | O_NONBLOCK))
+		{		
+			Joystick = new Generic_Joystick (tmp_path);
+			std::string name = Joystick->get_name();
+			if (name.compare ("GreenAsia Sanwa Supply 12 button game pad") == 0)
+			{
+				delete Joystick;
+				Joystick = new GreenAsian_Sanwa_pad (tmp_path);
+				undefined_joystick = false;
+			}
+			else if (name.compare ("Microsoft X-Box 360 pad") == 0)
+			{
+				delete Joystick;
+				Joystick = new XBox_pad (tmp_path);
+				undefined_joystick = false;
+			}
+			else if (name.compare ("Mega World USB 2-Axis 8-Button Gamepad") == 0)
+			{
+				delete Joystick;
+				Joystick = new Mega_World_USB_2_Axis_8_Button_Gamepad(tmp_path);
+				undefined_joystick = false;
+				
+			}
+		}
+		else{
+			next_joystick = false;
+		}		
+		cpt++;
+	}	
+	if (undefined_joystick)
+	{
+		std::cerr <<"There is no known pad, so we use the generic configuration pad"<< std::endl;
 	}
-	else if (name.compare ("Microsoft X-Box 360 pad") == 0)
-	{
-		delete Joystick;
-		Joystick = new XBox_pad ();
-	}
-	else if (name.compare ("Mega World USB 2-Axis 8-Button Gamepad") == 0)
-	{
-		delete Joystick;
-		Joystick = new Mega_World_USB_2_Axis_8_Button_Gamepad();
-	}
-	else
-	{
-		std::cout <<"This pad is not known, so we use the generic configuration pad"<< std::endl;
-	}	  
+	Joystick->check();
 }
 
 MoGS_Joystick::~MoGS_Joystick ()

@@ -27,9 +27,6 @@
 #include <linux/joystick.h>
 #include <vector>
 
-#define JOYSTICK_DEV "/dev/input/js0"
-
-
 struct Joystick_State
 {
 	std::vector < signed short >button;
@@ -51,7 +48,7 @@ class cJoystick
 
       protected:
       public:
-	  cJoystick ();
+	  cJoystick (char * joystick_dev);
 	 ~cJoystick ();
 	static void *loop (void *obj);
 	void readEv ();

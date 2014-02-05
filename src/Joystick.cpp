@@ -20,13 +20,13 @@
 #include "Joystick.h"
 #include <unistd.h>
 
-cJoystick::cJoystick ()
+cJoystick::cJoystick (char * joystick_dev)
 {
 	active = false;
 	joystick_fd = 0;
 	joystick_ev = new js_event ();
 	joystick_st = new Joystick_State ();
-	joystick_fd = open (JOYSTICK_DEV, O_RDONLY | O_NONBLOCK);
+	joystick_fd = open (joystick_dev, O_RDONLY | O_NONBLOCK);
 	if (joystick_fd > 0)
 	  {
 		  ioctl (joystick_fd, JSIOCGNAME (256), name);
@@ -71,8 +71,7 @@ void *cJoystick::loop (void *obj)
 	return obj;
 }
 
-void
-cJoystick::readEv ()
+void cJoystick::readEv ()
 {
 	int bytes = read (joystick_fd, joystick_ev, sizeof (*joystick_ev));
 	if (bytes > 0)
@@ -91,8 +90,7 @@ cJoystick::readEv ()
 	  }
 }
 
-bool
-cJoystick::buttonPressed (int n)
+bool cJoystick::buttonPressed (int n)
 {
 	return n > -1 && n < buttons ? joystick_st->button[n] : 0;
 }

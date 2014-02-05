@@ -27,7 +27,7 @@
 class GreenAsian_Sanwa_pad:public Generic_Joystick
 {
       public:
-	GreenAsian_Sanwa_pad ();
+	GreenAsian_Sanwa_pad (char * path);
 
 	~GreenAsian_Sanwa_pad ();
 

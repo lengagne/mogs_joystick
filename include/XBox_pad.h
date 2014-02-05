@@ -25,7 +25,7 @@
 class XBox_pad:public Generic_Joystick
 {
       public:
-	XBox_pad ();
+	XBox_pad (char * path);
 
 	~XBox_pad ();
 
