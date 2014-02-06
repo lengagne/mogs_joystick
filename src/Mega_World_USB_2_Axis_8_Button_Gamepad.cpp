@@ -64,7 +64,7 @@ Mega_World_USB_2_Axis_8_Button_Gamepad::get_forward_velocity ()
 double
 Mega_World_USB_2_Axis_8_Button_Gamepad::get_side_velocity ()
 {
-	return (((double) Joystick->joystick_st->axis[0]) / (SHRT_MAX));
+	return (-((double) Joystick->joystick_st->axis[0]) / (SHRT_MAX));
 }
 
 /// get the rotate velocity (positive if one the right, negative if on the left)
