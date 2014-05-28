@@ -1,4 +1,4 @@
-//      Generic_Joystick->cpp
+//      HORI_PAD_3_TURBO.cpp
 //      Copyright (C) 2012 lengagne (lengagne@gmail.com)
 // 
 //      This program is free software: you can redistribute it and/or modify
@@ -17,81 +17,66 @@
 //      This program was developped in the following labs:
 //      from 2012: IUT de Beziers/ LIRMM, Beziers, France
 
-#include "Generic_Joystick.h"
+#include "HORI_PAD_3_TURBO.h"
 #include <stdlib.h>
 #include <limits.h>
 
-Generic_Joystick::Generic_Joystick ()
-{
-	Joystick = NULL;
-}
-
-Generic_Joystick::Generic_Joystick (char * path)
-{
-	init(path);
-}
-
-void Generic_Joystick::init (char * path)
+HORI_PAD_3_TURBO::HORI_PAD_3_TURBO (char * path)
 {
 	Joystick = new cJoystick(path);
-
+	// set some assumption
+	if ((int) Joystick->axes == 6 && (int) Joystick->buttons == 13)
+		std::cout << " You are using the HORI_PAD_3_TURBO" <<std::endl;
+	else
+	  {
+		  std::cerr << "Error in " << __FILE__ << " at line " << __LINE__ << ". This is not the data for the HORI_PAD_3_TURBO."  << std::endl;
+		  exit (0);
+	  }
 }
 
-
-Generic_Joystick::~Generic_Joystick ()
+HORI_PAD_3_TURBO::~HORI_PAD_3_TURBO ()
 {
 	if (Joystick)	delete Joystick;
 }
 
-bool Generic_Joystick::check()
-{
-	// set some assumption
-	if ((int) Joystick->axes >= 2 && (int) Joystick->buttons >= 6)
-		return true;
-	
-	return false;
-}
-
 /// use to stop the process
-bool Generic_Joystick::get_stop ()
+bool
+HORI_PAD_3_TURBO::get_stop ()
 {
-	return (Joystick->joystick_st->button[0]);
+	return (Joystick->joystick_st->button[8]);
 }
 
 /// use to pause the process
-bool Generic_Joystick::get_pause ()
+bool
+HORI_PAD_3_TURBO::get_pause ()
 {
-	return (Joystick->joystick_st->button[3]);
+	return (Joystick->joystick_st->button[9]);
 }
 
 /// get the forward velocity (positive if forward, negative if backward)
-double Generic_Joystick::get_forward_velocity ()
+double
+HORI_PAD_3_TURBO::get_forward_velocity ()
 {
 	return (((double) -Joystick->joystick_st->axis[1]) / (SHRT_MAX));
 }
 
 /// get the side velocity (positive if one the right, negative if on the left)
-double Generic_Joystick::get_side_velocity ()
+double
+HORI_PAD_3_TURBO::get_side_velocity ()
 {
-	return (((double) Joystick->joystick_st->axis[0]) / (SHRT_MAX));
+	return (-((double) Joystick->joystick_st->axis[0]) / (SHRT_MAX));
 }
 
 /// get the rotate velocity (positive if one the right, negative if on the left)
-double Generic_Joystick::get_rotate_velocity ()
+double
+HORI_PAD_3_TURBO::get_rotate_velocity ()
 {
-	if (Joystick->joystick_st->button[1])
-		return -1;
-	if (Joystick->joystick_st->button[2])
-		return 1;
-	return 0;
+	return (-((double) Joystick->joystick_st->axis[2]) / (SHRT_MAX));
 }
 
 /// get the up velocity (positive if up, negative if down)
-double Generic_Joystick::get_up_velocity ()
+double
+HORI_PAD_3_TURBO::get_up_velocity ()
 {
-	if (Joystick->joystick_st->button[4])
-		return 1;
-	if (Joystick->joystick_st->button[5])
-		return -1;
-	return 0;
+	return (-((double) Joystick->joystick_st->axis[3]) / (SHRT_MAX));
 }

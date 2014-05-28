@@ -45,7 +45,7 @@ cJoystick::cJoystick (char * joystick_dev)
 	else
 	  {
 		  std::cerr << "Error in " << __FILE__ << " at line " << __LINE__ << "." << std::endl;
-		  std::cerr << "There is no Joystick found." << std::endl;
+		  std::cerr << "There is no Joystick found on."<<joystick_dev << std::endl;
 		  exit (0);
 	  }
 }

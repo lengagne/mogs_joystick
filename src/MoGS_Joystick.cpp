@@ -21,6 +21,8 @@
 #include "GreenAsian_Sanwa_pad.h"
 #include "Mega_World_USB_2_Axis_8_Button_Gamepad.h"
 #include "XBox_pad.h"
+#include "HORI_PAD_3_TURBO.h"
+
 #include <string.h>
 #include <stdlib.h>
 #include <iostream>
@@ -54,8 +56,18 @@ MoGS_Joystick::MoGS_Joystick ()
 			{
 				delete Joystick;
 				Joystick = new Mega_World_USB_2_Axis_8_Button_Gamepad(tmp_path);
+				undefined_joystick = false;	
+			}
+			else if (name.compare ("HORO CO.,LTD. HORI PAD 3 TURBO") == 0)
+			{
+				delete Joystick;
+				Joystick = new HORI_PAD_3_TURBO(tmp_path);
 				undefined_joystick = false;
-				
+			}else if (Joystick->check())	// check if the pas has the good buttons
+			{
+// 				delete Joystick;
+// 				Joystick = new Generic_Joystick();
+				undefined_joystick = false;
 			}
 		}
 		else{

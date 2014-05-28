@@ -1,4 +1,4 @@
-//      Generic_Joystick.h
+//      HORI_PAD_3_TURBO.h
 //      Copyright (C) 2012 lengagne (lengagne@gmail.com)
 // 
 //      This program is free software: you can redistribute it and/or modify
@@ -15,32 +15,26 @@
 //      along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 //      This program was developped in the following labs:
-//      from 2012: IUT de Beziers/ LIRMM, Beziers, France
+//      Universite Blaise Pascal Clermont Ferrand 2
 
 
-#ifndef __GENERIC_JOYSTICK_H__
-#define __GENERIC_JOYSTICK_H__
+#ifndef __HORI_PAD_3_TURBO_H__
+#define __HORI_PAD_3_TURBO_H__
 
 #include <string.h>
-#include "Joystick.h"
+#include "Generic_Joystick.h"
 
-class Generic_Joystick
+class HORI_PAD_3_TURBO:public Generic_Joystick
 {
       public:
-	Generic_Joystick ( );
-	      
-	Generic_Joystick (char * path);
-	
-	void init (char * path);
+	HORI_PAD_3_TURBO (char * path);
 
-	~Generic_Joystick ();
-	
-	bool check();
+	~HORI_PAD_3_TURBO ();
 
 	/// use to stop the process
 	virtual bool get_stop ();
 
-	/// use to pause the process
+	/// use to stop the process
 	virtual bool get_pause ();
 
 	/// get the forward velocity (positive if forward, negative if backward)
@@ -55,14 +49,6 @@ class Generic_Joystick
 	/// get the up velocity (positive if up, negative if down)
 	virtual double get_up_velocity ();
 
-	std::string get_name ()
-	{
-		std::string out = Joystick->name; 
-		return out;
-	}
-
-      protected:
-	  cJoystick* Joystick;
 };
 
 #endif
