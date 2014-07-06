@@ -1,4 +1,4 @@
-//      joystick.h
+//      MoGS_Config_Joystick.h
 //      Copyright (C) 2012 lengagne (lengagne@gmail.com)
 // 
 //      This program is free software: you can redistribute it and/or modify
@@ -15,47 +15,42 @@
 //      along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 //      This program was developped in the following labs:
-//      from 2012: IUT de Beziers/ LIRMM, Beziers, France
+//	from 2013 : Université Blaise Pascal / axis : ISPR / theme MACCS
 
-#ifndef JOYSTICK_H
-#define JOYSTICK_H
+#ifndef __MOGS_CONFIG_JOYSTICK_H__
+#define __MOGS_CONFIG_JOYSTICK_H__
 
-#include <iostream>
-#include <fcntl.h>
-#include <pthread.h>
-#include <math.h>
-#include <linux/joystick.h>
+#include <string>
 #include <vector>
 
-struct Joystick_State
-{
-	std::vector < signed short >button;
-	std::vector < signed short >axis;
-};
+#include "MoGS_Joystick.h"
+#include "additionnal_tinyxml.h"
 
-class cJoystick
+
+class MoGS_Config_Joystick
 {
       public:
-	pthread_t thread;
-	bool active;
-	int joystick_fd;
-	js_event *joystick_ev;
-	Joystick_State *joystick_st;
-	__u32 version;
-	__u8 axes;
-	__u8 buttons;
-	char name[256];
+	MoGS_Config_Joystick ();
 
-      protected:
-      public:
+	~MoGS_Config_Joystick ();
 	
-	cJoystick ();
-	cJoystick (char * joystick_dev, bool verbose=true);
-	 ~cJoystick ();
-	bool init (char * joystick_dev);
-	static void *loop (void *obj);
-	void readEv ();
-	bool buttonPressed (int n);
+	void add_Joystick(const pad_control & info) const;
+
+	void create_config() const;
+	
+	pad_control get_pad_config(const std::string name) const;
+	
+	bool has_pad(const std::string name) const;
+	
+	type get_push(const std::string question, cJoystick * Joystick) const;
+	
+	bool read_config();
+	
+      protected:
+	      
+      private:
+
+	std::vector<pad_control> pads_;
 };
 
 #endif

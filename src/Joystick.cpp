@@ -20,7 +20,12 @@
 #include "Joystick.h"
 #include <unistd.h>
 
-cJoystick::cJoystick (char * joystick_dev)
+cJoystick::cJoystick ( )
+{
+	
+}
+
+cJoystick::cJoystick (char * joystick_dev, bool verbose)
 {
 	active = false;
 	joystick_fd = 0;
@@ -44,9 +49,12 @@ cJoystick::cJoystick (char * joystick_dev)
 	  }
 	else
 	  {
-		  std::cerr << "Error in " << __FILE__ << " at line " << __LINE__ << "." << std::endl;
-		  std::cerr << "There is no Joystick found on."<<joystick_dev << std::endl;
-		  exit (0);
+		  if (verbose)
+		  {
+			std::cerr << "Error in " << __FILE__ << " at line " << __LINE__ << "." << std::endl;
+			std::cerr << "There is no Joystick found on."<<joystick_dev << std::endl;
+			exit (0);
+		  }
 	  }
 }
 
@@ -61,6 +69,35 @@ cJoystick::~cJoystick ()
 	delete joystick_st;
 	delete joystick_ev;
 	joystick_fd = 0;
+}
+
+bool cJoystick::init (char * joystick_dev)
+{
+	active = false;
+	joystick_fd = 0;
+	joystick_ev = new js_event ();
+	joystick_st = new Joystick_State ();
+	joystick_fd = open (joystick_dev, O_RDONLY | O_NONBLOCK);
+	if (joystick_fd > 0)
+	{
+		  ioctl (joystick_fd, JSIOCGNAME (256), name);
+		  ioctl (joystick_fd, JSIOCGVERSION, &version);
+		  ioctl (joystick_fd, JSIOCGAXES, &axes);
+		  ioctl (joystick_fd, JSIOCGBUTTONS, &buttons);
+//              std::cout << "   Name: " << name << std::endl;
+//              std::cout << "Version: " << version << std::endl;
+//              std::cout << "   Axes: " << (int)axes << std::endl;
+//              std::cout << "Buttons: " << (int)buttons << std::endl;
+		  joystick_st->axis.reserve (axes);
+		  joystick_st->button.reserve (buttons);
+		  active = true;
+		  pthread_create (&thread, 0, &cJoystick::loop, this);
+		  return true;
+	}
+	else
+	{
+		  return false;
+	}
 }
 
 void *cJoystick::loop (void *obj)

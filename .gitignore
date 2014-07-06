@@ -15,3 +15,5 @@ build
 
 #temporary files
 *~
+
+include/config_Joystick.h

@@ -20,7 +20,23 @@
 #ifndef __MOGS_JOYSTICK_H__
 #define __MOGS_JOYSTICK_H__
 
-#include "Generic_Joystick.h"
+#include "Joystick.h"
+
+enum	push_type{
+	AXIS = true,
+	BUTTON = false,
+};
+
+struct	type{
+	push_type push;
+	unsigned int id;
+	double sign;
+};
+
+struct	pad_control{
+	std::string name;
+	
+};
 
 class MoGS_Joystick
 {
@@ -50,7 +66,8 @@ class MoGS_Joystick
       protected:
       private:
 
-	  Generic_Joystick * Joystick;
+	pad_control config_;
+	cJoystick * Joystick;
 };
 
 #endif

@@ -39,10 +39,9 @@ int main (int argc, char *argv[])
 		while (true)
 		{
 			for (int i = 0; i < nb_axis; i++)
-				printf ("%d\t", js.joystick_st->axis[i]);
-			printf ("---");
+				printf ("A%d = %d\t",i, js.joystick_st->axis[i]);
 			for (int i = 0; i < nb_bouton; i++)
-				printf ("%d\t", js.joystick_st->button[i]);
+				printf ("B%d = %d\t", i,js.joystick_st->button[i]);
 
 			printf ("\r");
 		}
