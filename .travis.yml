@@ -6,7 +6,7 @@ compiler:
 before_install:
  - mkdir auto_install
  - cd auto_install
- - git clone git@github.com:lengagne/mogs_tinyxml.git
+ - git clone https://github.com/lengagne/mogs_tinyxml.git
  - cd mogs_tinyxml
  - sudo ./install_packages_ubuntu.sh
  - mkdir build; cd build
