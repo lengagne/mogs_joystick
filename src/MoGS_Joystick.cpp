@@ -20,11 +20,6 @@
 #include "MoGS_Joystick.h"
 #include "MoGS_Config_Joystick.h"
 
-#include "GreenAsian_Sanwa_pad.h"
-#include "Mega_World_USB_2_Axis_8_Button_Gamepad.h"
-#include "XBox_pad.h"
-#include "HORI_PAD_3_TURBO.h"
-
 #include <string.h>
 #include <stdlib.h>
 #include <iostream>
@@ -34,31 +29,31 @@ MoGS_Joystick::MoGS_Joystick ()
 	MoGS_Config_Joystick config_finder_;
 	if ( ! config_finder_.read_config())
 	{
+		std::cerr <<"MoGS_Joystick is not configured, please run the \"MoGS_Config_Joystick\" executable (certainly as root)"<< std::endl;
 		config_finder_.create_config();
 	}
 	bool undefined_joystick = true;
 	bool next_joystick = true;
 	int cpt = 0;
-	cJoystick * Joystick = NULL;
+	Joystick_ = NULL;
 	while ( undefined_joystick && next_joystick)
 	{
-		std::cout<<"cpt = "<<cpt<<std::endl;
 		char tmp_path[20];
 		sprintf(tmp_path,"/dev/input/js%d",cpt);
-		if (Joystick)
-			delete Joystick;
-		Joystick = new cJoystick ( );
-		if (Joystick->init(tmp_path))
+		if (Joystick_)
+		{
+			delete Joystick_;
+		}
+		Joystick_ = new cJoystick ( );
+		if (Joystick_->init(tmp_path))
 		{		
-			std::string name = Joystick->name;
-			if ( config_finder_.has_pad(name))
+			if ( config_finder_.has_pad(std::string(Joystick_->name)))
 			{
-				config_ = config_finder_.get_pad_config(name);
+				config_ = config_finder_.get_pad_config(Joystick_->name);
 				undefined_joystick = false;
 			}
 		}else{
 			next_joystick = false;
-			std::cout<<"next_joystick = "<< next_joystick <<std::endl;
 		}
 		cpt++;
 	}	
@@ -66,52 +61,60 @@ MoGS_Joystick::MoGS_Joystick ()
 	{
 		std::cerr <<"There is no known pad, please run the \"MoGS_Config_Joystick\" executable (certainly as root)"<< std::endl;
 	}
-// 	Joystick->check();
 }
 
 MoGS_Joystick::~MoGS_Joystick ()
 {
-	delete Joystick;
+	delete Joystick_;
+}
+
+double MoGS_Joystick::get_double( const type & in) const
+{
+	if (in.push == AXIS)
+	{
+		return (in.sign * (((double) Joystick_->joystick_st->axis[in.id]) / (SHRT_MAX)));
+	}else
+	{
+		return Joystick_->joystick_st->button[in.id] - Joystick_->joystick_st->button[in.id_neg];
+	}
 }
 
 /// use to stop the process
-bool
-MoGS_Joystick::get_stop ()
+bool MoGS_Joystick::get_stop ()
 {
-// 	return (Joystick->get_stop ());
+	return (Joystick_->joystick_st->button[config_.stop_button.id]);
 }
 
 /// use to pause the process
 bool
 MoGS_Joystick::get_pause ()
 {
-// 	return (Joystick->get_pause ());
+	return (Joystick_->joystick_st->button[config_.pause_button.id]);
 }
 
 /// get the forward velocity (positive if forward, negative if backward)
-double
-MoGS_Joystick::get_forward_velocity ()
+double MoGS_Joystick::get_forward_velocity ()
 {
-// 	return (Joystick->get_forward_velocity ());
+	return get_double(config_.forward);
 }
 
 /// get the side velocity (positive if one the right, negative if on the left)
 double
 MoGS_Joystick::get_side_velocity ()
 {
-// 	return (Joystick->get_side_velocity ());
+ 	return get_double(config_.side);
 }
 
 /// get the rotate velocity (positive if one the right, negative if on the left)
 double
 MoGS_Joystick::get_rotate_velocity ()
 {
-// 	return Joystick->get_rotate_velocity ();
+	return get_double(config_.rotate);
 }
 
 /// get the up velocity (positive if up, negative if down)
 double
 MoGS_Joystick::get_up_velocity ()
 {
-// 	return Joystick->get_up_velocity ();
+	return get_double(config_.up);
 }

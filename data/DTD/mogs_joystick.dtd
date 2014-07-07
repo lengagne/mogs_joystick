@@ -1,5 +1,20 @@
 <!ELEMENT Joysticks (Joystick?)>
 
-<!ELEMENT Joystick (name)>
+<!ELEMENT Joystick (name,stop_button, pause_button,forward,side,up,rotate)>
 
 <!ELEMENT name (#PCDATA)>
+<!ELEMENT stop_button (id)>
+<!ELEMENT pause_button (id)>
+<!ELEMENT forward (id,id_neg?,sign?)>
+<!ELEMENT side (id,id_neg?,sign?)>
+<!ELEMENT up (id,id_neg?,sign?)>
+<!ELEMENT rotate (id,id_neg?,sign?)>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT id_neg (#PCDATA)>
+<!ELEMENT sign (#PCDATA)>
+
+
+<!ATTLIST forward type CDATA #REQUIRED>
+<!ATTLIST side type CDATA #REQUIRED>
+<!ATTLIST up type CDATA #REQUIRED>
+<!ATTLIST rotate type CDATA #REQUIRED>

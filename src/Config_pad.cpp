@@ -67,10 +67,14 @@ int main ()
 	std::cout<<"The pad has "<<nb_axis <<" axis and "<< nb_bouton <<" boutons."<<std::endl;
 	std::cout<<"You can use the \"./test_pad "<< tmp_path <<"\" to know which button is needed "<<std::endl;
 	
-	type tmp;
-	tmp = config_finder_.get_push("\tPlease push on the stop button",Joystick);
-	
 	config.name = Joystick->name;
+	config.stop_button = config_finder_.get_push_button("\t Configuration of the stop button",Joystick);
+	config.pause_button = config_finder_.get_push_button("\t Configuration of the pause button",Joystick);
+	config.forward = config_finder_.get_push("\t Configuration of the forward buttons/axis",Joystick);
+	config.side = config_finder_.get_push("\t Configuration of the side buttons/axis",Joystick);
+	config.up = config_finder_.get_push("\t Configuration of the up buttons/axis",Joystick);
+	config.rotate = config_finder_.get_push("\t Configuration of the rotate buttons/axis",Joystick);
+	
 	config_finder_.add_Joystick(config);
 	
 	return 1;

@@ -34,9 +34,24 @@ class MoGS_Config_Joystick
 
 	~MoGS_Config_Joystick ();
 	
-	void add_Joystick(const pad_control & info) const;
+	void add_button(std::string balise,
+			type in,
+			tinyxml2::XMLElement * El);
+	
+	void add_axis_button(	std::string balise,
+				type in, 				     
+				tinyxml2::XMLElement * El);	
+	
+	void add_Joystick(const pad_control & info);
 
 	void create_config() const;
+	
+	type get_axis_button(	std::string balise,
+				tinyxml2::XMLElement * El);	
+	
+	type get_button(std::string balise,
+			tinyxml2::XMLElement * El);	
+	
 	
 	pad_control get_pad_config(const std::string name) const;
 	
@@ -44,12 +59,16 @@ class MoGS_Config_Joystick
 	
 	type get_push(const std::string question, cJoystick * Joystick) const;
 	
+	type get_push_button(const std::string question, cJoystick * Joystick) const;
+	
 	bool read_config();
 	
       protected:
 	      
       private:
 
+	tinyxml2::XMLDocument doc;
+	      
 	std::vector<pad_control> pads_;
 };
 

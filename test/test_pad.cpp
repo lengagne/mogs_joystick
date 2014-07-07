@@ -21,7 +21,6 @@
 #include <fstream>
 
 #include "Joystick.h"
-#include "Generic_Joystick.h"
 
 
 int main (int argc, char *argv[])

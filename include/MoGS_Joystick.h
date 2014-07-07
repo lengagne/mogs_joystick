@@ -30,12 +30,18 @@ enum	push_type{
 struct	type{
 	push_type push;
 	unsigned int id;
+	unsigned int id_neg;
 	double sign;
 };
 
 struct	pad_control{
 	std::string name;
-	
+	type stop_button;
+	type pause_button;
+	type forward;
+	type side;
+	type up;
+	type rotate;
 };
 
 class MoGS_Joystick
@@ -65,9 +71,11 @@ class MoGS_Joystick
 
       protected:
       private:
+	      
+	double get_double( const type & in) const;
 
 	pad_control config_;
-	cJoystick * Joystick;
+	cJoystick * Joystick_;
 };
 
 #endif

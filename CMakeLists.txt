@@ -2,6 +2,9 @@ PROJECT (MoGS_Joystick)
 set(PROJECT_CONTACT lengagne@gmail.com)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
+set (MOGS_JOYSTICK_VERSION_MAJOR 2)
+set (MOGS_JOYSTICK_VERSION_MINOR 0)
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse2")
 set(CMAKE_VERBOSE_MAKEFILE OFF)
@@ -63,12 +66,6 @@ ADD_EXECUTABLE(test_pad
 		"${CMAKE_CURRENT_SOURCE_DIR}/test/test_pad.cpp")
 
 target_link_libraries(test_pad      
-      MoGS_Joystick)
-
-ADD_EXECUTABLE(test_generic
-		"${CMAKE_CURRENT_SOURCE_DIR}/test/test_generic.cpp")
-
-target_link_libraries(test_generic      
       MoGS_Joystick)
 
 ADD_EXECUTABLE(test_MoGS_pad

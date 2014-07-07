@@ -29,7 +29,6 @@ int main (int argc, char *argv[])
 {
 
 	MoGS_Joystick test;
-	printf ("Use of the MoGS_pad\n");
 
 	while (!test.get_stop ())
 	  {
