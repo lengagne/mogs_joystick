@@ -61,6 +61,10 @@ MoGS_Joystick::MoGS_Joystick ()
 	{
 		std::cerr <<"There is no known pad, please run the \"MoGS_Config_Joystick\" executable (certainly as root)"<< std::endl;
 	}
+	
+	// init the stop and pause button
+	Joystick_->joystick_st->button[config_.stop_button.id] = false;
+	Joystick_->joystick_st->button[config_.pause_button.id] = false;
 }
 
 MoGS_Joystick::~MoGS_Joystick ()

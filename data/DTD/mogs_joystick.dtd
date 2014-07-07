@@ -1,4 +1,4 @@
-<!ELEMENT Joysticks (Joystick?)>
+<!ELEMENT Joysticks (Joystick*)>
 
 <!ELEMENT Joystick (name,stop_button, pause_button,forward,side,up,rotate)>
 

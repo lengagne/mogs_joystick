@@ -51,31 +51,31 @@ int main ()
 			}
 		}else{
 			next_joystick = false;
-			std::cout<<"next_joystick = "<< next_joystick <<std::endl;
 		}
 		cpt++;
 	}	
 	if (undefined_joystick)
 	{
-		std::cerr <<"There is no known pad, please run the \"MoGS_Config_Joystick\" executable (certainly as root)"<< std::endl;
+		std::cerr <<"There is no unconfigured pad"<< std::endl;
+	}else
+	{
+		int nb_axis = (int) Joystick->axes;
+		int nb_bouton = (int) Joystick->buttons;
+		
+		std::cout<<"We will add the pad : "<<Joystick->name <<std::endl;
+		std::cout<<"The pad has "<<nb_axis <<" axis and "<< nb_bouton <<" boutons."<<std::endl;
+		std::cout<<"You can use the \"./test_pad "<< tmp_path <<"\" to know which button is needed "<<std::endl;
+		
+		config.name = Joystick->name;
+		config.stop_button = config_finder_.get_push_button("\t Configuration of the stop button",Joystick);
+		config.pause_button = config_finder_.get_push_button("\t Configuration of the pause button",Joystick);
+		config.forward = config_finder_.get_push("\t Configuration of the forward buttons/axis",Joystick);
+		config.side = config_finder_.get_push("\t Configuration of the side buttons/axis",Joystick);
+		config.up = config_finder_.get_push("\t Configuration of the up buttons/axis",Joystick);
+		config.rotate = config_finder_.get_push("\t Configuration of the rotate buttons/axis",Joystick);
+		
+		config_finder_.add_Joystick(config);
 	}
-	
-	int nb_axis = (int) Joystick->axes;
-	int nb_bouton = (int) Joystick->buttons;
-	
-	std::cout<<"We will add the pad : "<<Joystick->name <<std::endl;
-	std::cout<<"The pad has "<<nb_axis <<" axis and "<< nb_bouton <<" boutons."<<std::endl;
-	std::cout<<"You can use the \"./test_pad "<< tmp_path <<"\" to know which button is needed "<<std::endl;
-	
-	config.name = Joystick->name;
-	config.stop_button = config_finder_.get_push_button("\t Configuration of the stop button",Joystick);
-	config.pause_button = config_finder_.get_push_button("\t Configuration of the pause button",Joystick);
-	config.forward = config_finder_.get_push("\t Configuration of the forward buttons/axis",Joystick);
-	config.side = config_finder_.get_push("\t Configuration of the side buttons/axis",Joystick);
-	config.up = config_finder_.get_push("\t Configuration of the up buttons/axis",Joystick);
-	config.rotate = config_finder_.get_push("\t Configuration of the rotate buttons/axis",Joystick);
-	
-	config_finder_.add_Joystick(config);
 	
 	return 1;
 }

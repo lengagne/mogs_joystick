@@ -31,14 +31,15 @@ int main (int argc, char *argv[])
 	MoGS_Joystick test;
 
 	while (!test.get_stop ())
-	  {
+	{
 		  printf ("Forward: %.2f\t", test.get_forward_velocity ());
 		  printf ("Side : %.2f\t", test.get_side_velocity ());
 		  printf ("Rotate %.2f\t", test.get_rotate_velocity ());
 		  printf ("Up %.2f\t", test.get_up_velocity ());
 		  printf ("Pause %d\t", test.get_pause ());
+		  printf ("Stop %d\t", test.get_stop ());
 		  printf ("\r");
-	  }
+	}
 	printf ("\nYou pushed on the stop button\n");
 
 	return 0;

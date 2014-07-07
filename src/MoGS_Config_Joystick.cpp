@@ -83,7 +83,6 @@ void MoGS_Config_Joystick::add_axis_button(std::string balise,
 
 void MoGS_Config_Joystick::add_Joystick(const pad_control & info)
 {
-	std::cout<<" We are adding the config to the xml"<<std::endl;
 	// FIXME : check if the user is root (sometimes does not needed)
 	int user = getuid();
 	if (user != 0)
@@ -93,7 +92,6 @@ void MoGS_Config_Joystick::add_Joystick(const pad_control & info)
 	}
 	
 	std::string filename = (std::string) CONFIG_REPOSITORY + "/MoGS_Config_Joystick.xml";
-	std::cout<<" We are reading the file : "<< filename<<std::endl;
 	
 	int loadOkay = doc.LoadFile (filename.c_str ());
 	if (loadOkay != tinyxml2::XML_NO_ERROR)
@@ -134,7 +132,6 @@ void MoGS_Config_Joystick::create_config() const
 	}
 	
 	std::string filename = (std::string) CONFIG_REPOSITORY + "/MoGS_Config_Joystick.xml";
-	std::cout<<" We are creating the file : "<< filename<<std::endl;
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLDeclaration* decl = doc.NewDeclaration("xml version=\"1.0\" encoding=\"UTF-8\"");  
 	tinyxml2::XMLElement * root = doc.NewElement ("Joysticks");
@@ -167,14 +164,13 @@ bool MoGS_Config_Joystick::has_pad(const std::string name) const
 
 type MoGS_Config_Joystick::get_push(const std::string question, cJoystick * Joystick) const
 {
-	std::cout<<" get push"<<std::endl;
 	char c;
 	int id = -1, id_max;
 	type out;
 	do{
-		std::cout<<question<<std::endl;
+		std::cout<<question;
 		std::cout<<"\tA= Axis\tB= Button"<<std::endl;
-		scanf("%c",&c);
+		int dummy = scanf("%c",&c);
 		if ( c == 'A')
 		{
 			out.push = AXIS;
@@ -189,16 +185,16 @@ type MoGS_Config_Joystick::get_push(const std::string question, cJoystick * Joys
 	do{
 		if (out.push == AXIS)
 		{
-			std::cout<<question<<std::endl;
+			std::cout<<question;
 			std::cout<<"\tid ? "<<std::endl;
-			scanf("%d",&id);
+			int dummy = scanf("%d",&id);
 			out.id = id;
 			out.id_neg = id;
 			
 			do{
-				std::cout<<question<<std::endl;
+				std::cout<<question;
 				std::cout<<"\tsign (+ or -)"<<std::endl;
-				scanf("%c",&c);
+				int dummy = scanf("%c",&c);
 				if ( c == '+')
 				{
 					out.sign = 1.0;
@@ -210,17 +206,18 @@ type MoGS_Config_Joystick::get_push(const std::string question, cJoystick * Joys
 			
 		}else
 		{
-			std::cout<<question<<std::endl;
+			std::cout<<question;
 			std::cout<<"\tPlease give the id for positive value"<<std::endl;
-			scanf("%d",&id);
+			int dummy = scanf("%d",&id);
 			out.id = id;
 			std::cout<<"\tPlease give the id for negative value"<<std::endl;
-			scanf("%d",&id);
+			dummy = scanf("%d",&id);
 			out.id_neg = id;
 			
 		}
 	}while ( out.id < 0 || out.id > id_max || out.id_neg < 0 || out.id_neg > id_max);
-
+	std::cout<<"*************************"<<std::endl;
+	std::cout<<"*************************"<<std::endl;
 	return out;
 }
 
@@ -272,19 +269,18 @@ type MoGS_Config_Joystick::get_push_button(const std::string question, cJoystick
 {
 	char c;
 	int id = -1, id_max;
+	id_max = (int) Joystick->buttons;
 	type out;
 	out.push = BUTTON;
 	do{
-		std::cout<<question<<std::endl;
+		std::cout<<question;
 		std::cout<<"\t Please give the id "<<std::endl;
-		scanf("%d",&id);
+		int dummy = scanf("%d",&id);
 		out.id = id;
 	}while ( out.id < 0 || out.id > id_max );
-
+	std::cout<<"*************************"<<std::endl;
+	std::cout<<"*************************"<<std::endl;
 	return out;
-	
-	// FIXME en cas de boutton, il y a deux valeurs
-	
 }
 
 bool MoGS_Config_Joystick::read_config()
@@ -333,10 +329,7 @@ bool MoGS_Config_Joystick::read_config()
 		tmp.up = get_axis_button("up",ElChild);
 		tmp.rotate = get_axis_button("rotate",ElChild);
 		pads_.push_back(tmp);
-		std::cout<<" Pushing on config"<<std::endl;
 	}
-	
-	std::cout<<"We found "<< cpt<<" configured pad" <<std::endl;
 	
 	return true;
 }
