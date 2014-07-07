@@ -19,6 +19,7 @@ foreach(p LIB INCLUDE)
 endforeach()
 
 FIND_PACKAGE(MoGS_Tinyxml REQUIRED)
+LINK_DIRECTORIES( ${MoGS_Tinyxml_LIBRARY_DIRS} )
 
 set(MoGS_Joystick_MODULE_COMPILED "TRUE" CACHE INTERNAL "")
 set(MoGS_Joystick_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include/" CACHE INTERNAL "" )
@@ -55,7 +56,7 @@ ADD_LIBRARY(	MoGS_Joystick SHARED
 		${MoGS_Joystick_SOURCES}
 )
 
-link_directories( 	${MoGS_LIBRARY_DIRS})
+link_directories( ${MoGS_LIBRARY_DIRS})
 
 target_link_libraries(MoGS_Joystick
 			-lpthread
@@ -80,6 +81,9 @@ ADD_EXECUTABLE(MoGS_Config_Joystick
 target_link_libraries(MoGS_Config_Joystick      
       MoGS_Joystick)
       
+
+ADD_SUBDIRECTORY( ${PROJECT_SOURCE_DIR}/apps )
+
 # Perform the proper linking
 SET (CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
