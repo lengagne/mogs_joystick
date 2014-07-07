@@ -2,3 +2,4 @@
 
 <!ELEMENT Joystick (name)>
 
+<!ELEMENT name (#PCDATA)>
