@@ -16,37 +16,44 @@
  *
  */
 
-#include "JoystickMapper.h"
-#include "ui_JoystickMapper.h"
+#ifndef __MOGS_JOYSTICKSELECTOR_H__
+#define __MOGS_JOYSTICKSELECTOR_H__
 
-#include "Joystick.h"
+#include <QDialog>
 
-using namespace mogs;
-
-/*!
- * Default constructor
- */
-JoystickMapper::JoystickMapper()
+class QDataWidgetMapper;
+class QStandardItemModel ;
+namespace Ui
 {
-    ui = new Ui::JoystickMapper;
-    ui->setupUi(this);
+class JoystickSelector;
 }
 
-/*!
- * Destructor
- */
-JoystickMapper::~JoystickMapper()
+namespace mogs 
 {
-    delete ui;
-}
 
-/*!
- * Sets ptr to the device
- */
-void JoystickMapper::setJoystick( cJoystick * js_ )
+class JoystickSelector : public QDialog
 {
-    js = js_ ;
-    QString name = QString::fromStdString( js->name ) ;
-    QString wt = windowTitle() + " [ " + name + " ]" ;
-    setWindowTitle(wt);
-}
+    Q_OBJECT
+    Q_PROPERTY( int selectedPort READ selectedPort WRITE setSelectedPort ) ;
+
+    Ui::JoystickSelector * ui;
+    QStandardItemModel * m_avJs ;
+    
+public:
+    explicit JoystickSelector( QWidget * parent = 0 );
+    virtual ~JoystickSelector();
+    int selectedPort() const ;
+    int jsCount() const ;
+    
+public slots :
+    void setSelectedPort( const int & port ) ;
+    void findValidJoysticks() ;
+
+private :
+    void initializeModel() ;
+    
+} ;
+
+} ;
+
+#endif // MOGS_JOYSTICKSELECTOR_H

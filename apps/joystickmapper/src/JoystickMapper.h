@@ -22,11 +22,15 @@
 #define MOGS_JOYSTICKMAPPER_H
 
 #include <QMainWindow>
+#include <memory>
 
+class cJoystick;
 namespace Ui
 {
 class JoystickMapper;
 }
+
+class cJoystick ;
 
 namespace mogs 
 {
@@ -36,11 +40,14 @@ class JoystickMapper : public QMainWindow
     Q_OBJECT
     
     Ui::JoystickMapper * ui;
+    cJoystick * js ;
     
 public:
     explicit JoystickMapper();
     virtual ~JoystickMapper();
-
+    
+    void setJoystick( cJoystick * js ) ;
+    
 };
 
 }

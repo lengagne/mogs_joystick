@@ -24,45 +24,44 @@
 #include <QMessageBox>
 
 #include "src/JoystickMapper.h"
+#include "JoystickSelector.h"
 #include "Joystick.h"
 
 int main (int argc, char *argv[])
 {
     QApplication app( argc , argv ) ;
     
-    // First, we lists the avaliable joypads :
-    QMap<int,cJoystick*> avaliableJoysticks ;
-    bool undefined_joystick = true;
-    bool next_joystick = true ;
-    int cpt = 0;
-    char tmp_path[20];
-    
-    while ( next_joystick )
-    {
-        sprintf(tmp_path,"/dev/input/js%d",cpt) ;
-        std::unique_ptr<cJoystick> js( new cJoystick ) ;
-        
-        if ( js->init(tmp_path) )
-        {
-            std::string name = js->name;
-            // check compatibility
-            if ((int) js->axes >= 2 && (int) js->buttons >= 6 )
-            {
-                qDebug() << tmp_path << ":" << QString::fromStdString(name) ;
-                avaliableJoysticks.insert( cpt , js.get() ) ;
-            }
-        }
-        else 
-        {
-            next_joystick = false;
-        }        
-        cpt++ ;
-    }
-    
+    // First, we lists the avaliable joypads and see what we can do :
+    int portToUse = 0 ;
+    mogs::JoystickSelector jsSelect ;
+    jsSelect.findValidJoysticks();
+   
     // No valid joystick: abort !
-    if ( avaliableJoysticks.isEmpty() ) 
+    if ( jsSelect.jsCount() == 0 ) 
     {
         QMessageBox::critical( 0 , QObject::tr("Joystick mapper") , QObject::tr("No valid joystick found!") ) ;
+        return EXIT_FAILURE ;
+    }
+    else if ( jsSelect.jsCount() == 1 ) 
+    {
+        portToUse = jsSelect.selectedPort() ;
+    } 
+    else 
+    {
+        int ret = jsSelect.exec() ;
+        if ( ret == QDialog::Accepted ) 
+            portToUse = jsSelect.selectedPort() ;
+        else 
+            return EXIT_FAILURE ;
+    }
+    
+    // Ok, now we open the device ;
+    char tmp_path[20] ;
+    sprintf(tmp_path,"/dev/input/js%d",portToUse) ;
+    std::unique_ptr<cJoystick> js( new cJoystick ) ;
+    if ( !js->init(tmp_path) )
+    {
+        qCritical() << "Unable to open selected device" ;
         return EXIT_FAILURE ;
     }
     
@@ -82,9 +81,7 @@ int main (int argc, char *argv[])
     
     // Window :
     mogs::JoystickMapper mapper ;
-    
-    
-    
+    mapper.setJoystick( js.get() ) ;
     mapper.show();
     
     return app.exec() ;
