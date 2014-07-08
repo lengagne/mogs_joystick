@@ -25,7 +25,7 @@ cJoystick::cJoystick ( )
 	
 }
 
-cJoystick::cJoystick (char * joystick_dev, bool verbose)
+cJoystick::cJoystick (const char* joystick_dev, bool verbose)
 {
 	active = false;
 	joystick_fd = 0;
@@ -71,7 +71,7 @@ cJoystick::~cJoystick ()
 	joystick_fd = 0;
 }
 
-bool cJoystick::init (char * joystick_dev)
+bool cJoystick::init (const char* joystick_dev)
 {
 	active = false;
 	joystick_fd = 0;

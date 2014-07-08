@@ -50,9 +50,9 @@ class cJoystick
       public:
 	
 	cJoystick ();
-	cJoystick (char * joystick_dev, bool verbose=true);
+	cJoystick ( const char * joystick_dev, bool verbose=true);
 	 ~cJoystick ();
-	bool init (char * joystick_dev);
+	bool init ( const char * joystick_dev);
 	static void *loop (void *obj);
 	void readEv ();
 	bool buttonPressed (int n);
