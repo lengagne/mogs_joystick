@@ -20,6 +20,7 @@
 #include "MoGS_Config_Joystick.h"
 
 #include "config_Joystick.h"
+#include <unistd.h>
 #include <fstream>
 #include <string>
 
