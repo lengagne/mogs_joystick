@@ -55,17 +55,6 @@ int main (int argc, char *argv[])
             return EXIT_FAILURE ;
     }
     
-    qDebug() << "portToUse =" << portToUse ;
-    
-    // Ok, now we open the device ;
-    std::unique_ptr<cJoystick> js( new cJoystick ) ;
-    if ( !js->init( portToUse.toStdString().c_str() ) )
-    {
-        qCritical() << "Unable to open selected device" ;
-        return EXIT_FAILURE ;
-    }
-    
-    
     // Translations
 //     QString locale = QLocale::system().name().section("_",0,0);   
 //     
@@ -81,7 +70,7 @@ int main (int argc, char *argv[])
     
     // Window :
     mogs::JoystickMapper mapper ;
-    mapper.setJoystick( js.get() ) ;
+    mapper.setJoystick( portToUse ) ;
     mapper.show();
     
     return app.exec() ;

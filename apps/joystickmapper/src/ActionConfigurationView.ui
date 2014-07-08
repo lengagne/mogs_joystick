@@ -12,141 +12,47 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QFormLayout" name="formLayout">
-     <property name="fieldGrowthPolicy">
-      <enum>QFormLayout::ExpandingFieldsGrow</enum>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
      </property>
-     <item row="0" column="0">
-      <widget class="QLabel" name="startLabel">
-       <property name="text">
-        <string>&amp;Start :</string>
-       </property>
-       <property name="buddy">
-        <cstring>startComboBox</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QComboBox" name="startComboBox"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="sTopLabel">
-       <property name="text">
-        <string>S&amp;top :</string>
-       </property>
-       <property name="buddy">
-        <cstring>sTopComboBox</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QComboBox" name="sTopComboBox"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="moveForwardLabel">
-       <property name="text">
-        <string>Move &amp;forward :</string>
-       </property>
-       <property name="buddy">
-        <cstring>moveForwardComboBox</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QComboBox" name="moveForwardComboBox"/>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="moveBackwardLabel">
-       <property name="text">
-        <string>Move &amp;backward :</string>
-       </property>
-       <property name="buddy">
-        <cstring>moveBackwardComboBox</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QComboBox" name="moveBackwardComboBox"/>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="moveRightLabel">
-       <property name="text">
-        <string>Move &amp;right :</string>
-       </property>
-       <property name="buddy">
-        <cstring>moveRightComboBox</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QComboBox" name="moveRightComboBox"/>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="moveLeftLabel">
-       <property name="text">
-        <string>Move &amp;left :</string>
-       </property>
-       <property name="buddy">
-        <cstring>moveLeftComboBox</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="QComboBox" name="moveLeftComboBox"/>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="moveUpLabel">
-       <property name="text">
-        <string>Move &amp;up :</string>
-       </property>
-       <property name="buddy">
-        <cstring>moveUpComboBox</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="QComboBox" name="moveUpComboBox"/>
-     </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="moveDownLabel">
-       <property name="text">
-        <string>Move &amp;down :</string>
-       </property>
-       <property name="buddy">
-        <cstring>moveDownComboBox</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="QComboBox" name="moveDownComboBox"/>
-     </item>
-     <item row="8" column="0">
-      <widget class="QLabel" name="rotateLEftLabel">
-       <property name="text">
-        <string>Rotate l&amp;eft:</string>
-       </property>
-       <property name="buddy">
-        <cstring>rotateLEftComboBox</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="1">
-      <widget class="QComboBox" name="rotateLEftComboBox"/>
-     </item>
-     <item row="9" column="0">
-      <widget class="QLabel" name="rotateRiGhtLabel">
-       <property name="text">
-        <string>Rotate ri&amp;ght :</string>
-       </property>
-       <property name="buddy">
-        <cstring>rotateRiGhtComboBox</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="1">
-      <widget class="QComboBox" name="rotateRiGhtComboBox"/>
-     </item>
-    </layout>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>273</width>
+        <height>430</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QGroupBox" name="axisBox">
+         <property name="title">
+          <string>Axis</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout">
+          <property name="fieldGrowthPolicy">
+           <enum>QFormLayout::ExpandingFieldsGrow</enum>
+          </property>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="buttonsBox">
+         <property name="title">
+          <string>Buttons</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_2">
+          <property name="fieldGrowthPolicy">
+           <enum>QFormLayout::ExpandingFieldsGrow</enum>
+          </property>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

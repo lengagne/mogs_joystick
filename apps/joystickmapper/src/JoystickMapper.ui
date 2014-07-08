@@ -14,7 +14,9 @@
    <string>MoGS Joystick mapper</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="input-gaming"/>
+   <iconset theme="input-gaming">
+    <normaloff/>
+   </iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -23,7 +25,7 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QWidget" name="widget" native="true"/>
+      <widget class="mogs::JoystickWrapper" name="jsWrapper" native="true"/>
       <widget class="mogs::ActionConfigurationView" name="actionView" native="true"/>
      </widget>
     </item>
@@ -46,6 +48,12 @@
    <class>mogs::ActionConfigurationView</class>
    <extends>QWidget</extends>
    <header>ActionConfigurationView.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>mogs::JoystickWrapper</class>
+   <extends>QWidget</extends>
+   <header>JoystickWrapper.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

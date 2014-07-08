@@ -31,11 +31,14 @@ ADD_DEFINITIONS( ${QT_DEFINITIONS} )
 #
 INCLUDE_DIRECTORIES( ${PROJECT_SOURCE_DIR}/src )
 
-SET( Mapper_SRCS
+SET( Mapper_SRCS 
     ${PROJECT_SOURCE_DIR}/main.cpp
     ${PROJECT_SOURCE_DIR}/src/JoystickMapper.cpp 
     ${PROJECT_SOURCE_DIR}/src/ActionConfigurationView.cpp
-    ${PROJECT_SOURCE_DIR}/src/JoystickSelector.cpp )
+    ${PROJECT_SOURCE_DIR}/src/JoystickSelector.cpp 
+    ${PROJECT_SOURCE_DIR}/src/JoystickWrapper.cpp  
+#    ${PROJECT_SOURCE_DIR}/src/JoystickConfigurationModel.cpp
+ )
 
 SET( Mapper_UI 
     ${PROJECT_SOURCE_DIR}/src/JoystickMapper.ui 

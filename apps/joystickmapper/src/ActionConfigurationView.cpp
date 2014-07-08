@@ -18,6 +18,7 @@
 
 #include "ActionConfigurationView.h"
 #include "ui_ActionConfigurationView.h"
+#include <QComboBox>
 
 using namespace mogs;
 
@@ -28,6 +29,8 @@ ActionConfigurationView::ActionConfigurationView( QWidget * parent )
 {
     ui = new Ui::ActionConfigurationView;
     ui->setupUi(this);
+    
+    ui->buttonBox->setEnabled(false);
 }
 
 /*!
@@ -36,4 +39,62 @@ ActionConfigurationView::ActionConfigurationView( QWidget * parent )
 ActionConfigurationView::~ActionConfigurationView()
 {
     delete ui;
+}
+
+/*!
+ * 
+ */
+void ActionConfigurationView::resetUi(const int& nbAxis, const int& nbButtons)
+{
+    QStringList axisActions = getAxisActions() ;
+    for ( int n = 0 ; n < nbAxis ; n++ ) 
+    {
+        const QString label = tr("Axis %1 :").arg(n) ;
+        QComboBox * cb = new QComboBox( ui->axisBox ) ;
+        cb->addItems( axisActions );
+        static_cast<QFormLayout*>( ui->axisBox->layout() )->addRow( label , cb );
+    }
+    
+    QStringList buttonsActions = getButtonsActions() ;
+    for ( int n = 0 ; n < nbButtons ; n++ ) 
+    {
+        const QString label = tr("Button %1 :").arg(n) ;
+        QComboBox * cb = new QComboBox( ui->buttonsBox ) ;
+        cb->addItems( buttonsActions );
+        static_cast<QFormLayout*>( ui->buttonsBox->layout() )->addRow( label , cb );
+    }
+    
+}
+
+/*!
+ * List available actions.
+ * Can be enhanced by parsing DTD file
+ */
+QStringList ActionConfigurationView::getAxisActions() const
+{
+    QStringList actions ; 
+    actions << QString() ;
+    actions << tr("Move forward/backward") ;
+    actions << tr("Move left/right") ;
+    actions << tr("Rotate left/right") ;
+    return actions ;
+}
+
+/*!
+ * List available actions.
+ * Can be enhanced by parsing DTD file
+ */
+QStringList ActionConfigurationView::getButtonsActions() const
+{
+    QStringList actions ; 
+    actions << QString() ;
+    actions << tr("Start") ;
+    actions << tr("Stop") ;
+    actions << tr("Move forward") ;
+    actions << tr("Move backward") ;
+    actions << tr("Move left") ;
+    actions << tr("Move right") ;
+    actions << tr("Rotate left") ;
+    actions << tr("Rotate right") ;
+    return actions ;
 }

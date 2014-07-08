@@ -36,10 +36,16 @@ class ActionConfigurationView : public QWidget
     Ui::ActionConfigurationView * ui;
     
 public:
-    explicit ActionConfigurationView(QWidget* parent = 0 );
+    explicit ActionConfigurationView(QWidget * parent = 0 );
     virtual ~ActionConfigurationView();
+    
+    void resetUi( const int & nbAxis , const int & nbButtons ) ;
+    
+private :
+    QStringList getAxisActions() const ;
+    QStringList getButtonsActions() const ;
 
-};
+} ;
 }
 
 #endif // MOGS_ACTIONCONFIGURATIONVIEW_H

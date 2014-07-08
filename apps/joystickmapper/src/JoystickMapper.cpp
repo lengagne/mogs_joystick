@@ -26,7 +26,9 @@ using namespace mogs;
 /*!
  * Default constructor
  */
-JoystickMapper::JoystickMapper()
+JoystickMapper::JoystickMapper() : 
+    QMainWindow() ,
+    js( new cJoystick )
 {
     ui = new Ui::JoystickMapper;
     ui->setupUi(this);
@@ -43,10 +45,25 @@ JoystickMapper::~JoystickMapper()
 /*!
  * Sets ptr to the device
  */
-void JoystickMapper::setJoystick( cJoystick * js_ )
-{
-    js = js_ ;
-    QString name = QString::fromStdString( js->name ) ;
-    QString wt = windowTitle() + " [ " + name + " ]" ;
-    setWindowTitle(wt);
+void JoystickMapper::setJoystick( const QString device )
+{    
+    // Open device
+    if ( js->init( device.toAscii() ) )
+    {
+        // Ok, start thread :)
+        js->start() ;
+        
+        // Fancy title. :)
+        QString name = QString::fromStdString( js->name ) ;
+        QString wt = windowTitle() + " [ " + name + " ]" ;
+        setWindowTitle(wt);
+        
+        // Grabing actions :
+        ui->jsWrapper->setJoystick( js.toWeakRef() );
+        
+    } ;
+    
+    
+    
+    ui->actionView->resetUi( js->axes , js->buttons );
 }
