@@ -18,7 +18,9 @@ foreach(p LIB INCLUDE)
 	endif()
 endforeach()
 
-FIND_PACKAGE(MoGS_Tinyxml REQUIRED)
+if (NOT MoGS_Tinyxml_FOUND)
+	FIND_PACKAGE(MoGS_Tinyxml REQUIRED)
+endif (NOT MoGS_Tinyxml_FOUND)
 
 set(MoGS_Joystick_MODULE_COMPILED "TRUE" CACHE INTERNAL "")
 set(MoGS_Joystick_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include/" CACHE INTERNAL "" )
@@ -31,12 +33,19 @@ add_definitions(${MoGS_Joystick_FLAGS})
 
 configure_file ( "${PROJECT_SOURCE_DIR}/config_Joystick.h.in"
 		 "${PROJECT_SOURCE_DIR}/include/config_Joystick.h" )
+		 
+IF(NOT MoGS_GLOBAL_COMPILED)
+	add_custom_target(test)
+ENDIF(NOT MoGS_GLOBAL_COMPILED)
 
 INCLUDE_DIRECTORIES ( 
 	include
 	${MoGS_Tinyxml_INCLUDE_DIRS}
 )
 
+LINK_DIRECTORIES( ${CMAKE_BINARY_DIR}/lib/${CMAKE_BUILD_TYPE}
+		  ${MoGS_Tinyxml_LIBRARY_DIRS})
+		  
 # Perform the proper linking
 SET (CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
@@ -48,38 +57,39 @@ LIST(REMOVE_ITEM MoGS_Joystick_SOURCES  ${CMAKE_CURRENT_SOURCE_DIR}/src/Config_p
 
 FILE ( GLOB_RECURSE
         header_files_MoGS_Joystick
-	include/*.h
-	)
+	include/*.h)
 
 ADD_LIBRARY(	MoGS_Joystick SHARED 
-		${MoGS_Joystick_SOURCES}
-)
-
-link_directories( 	${MoGS_LIBRARY_DIRS})
+		${MoGS_Joystick_SOURCES})
 
 target_link_libraries(MoGS_Joystick
 			-lpthread
-			${MoGS_Tinyxml_LIBRARIES}
-)
+			${MoGS_Tinyxml_LIBRARIES})
 
-ADD_EXECUTABLE(test_pad
+ADD_EXECUTABLE(	test_pad EXCLUDE_FROM_ALL
 		"${CMAKE_CURRENT_SOURCE_DIR}/test/test_pad.cpp")
-
-target_link_libraries(test_pad      
-      MoGS_Joystick)
-
-ADD_EXECUTABLE(test_MoGS_pad
+		
+ADD_EXECUTABLE(	test_MoGS_pad EXCLUDE_FROM_ALL
 		"${CMAKE_CURRENT_SOURCE_DIR}/test/test_MoGS_pad.cpp")
+		
+target_link_libraries(	test_pad       
+			MoGS_Joystick)
+			
+target_link_libraries(	test_MoGS_pad       
+			MoGS_Joystick) 
 
-target_link_libraries(test_MoGS_pad      
-      MoGS_Joystick)
+add_custom_target(	test_mogs_joystick
+			COMMAND make test_pad
+			COMMAND make test_MoGS_pad)
+			
+add_dependencies(	test test_mogs_joystick)
 
 ADD_EXECUTABLE(MoGS_Config_Joystick
 		"${CMAKE_CURRENT_SOURCE_DIR}/src/Config_pad.cpp")
 
 target_link_libraries(MoGS_Config_Joystick      
       MoGS_Joystick)
-      
+     
 # Perform the proper linking
 SET (CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 

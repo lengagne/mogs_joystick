@@ -11,6 +11,6 @@ set(MoGS_Joystick_INCLUDE_DIRS  @INSTALL_INCLUDE_DIRS@)
 
 set(MoGS_Joystick_LIBRARY_DIRS  @INSTALL_LIB_DIRS@)
 
-set(MoGS_Joystick_LIBRARIES MoGS_Joystick)
+set(MoGS_Joystick_LIBRARIES @MoGS_Joystick_LIBRARIES@)
 
 SET(MoGS_Joystick_FLAGS @MoGS_Joystick_FLAGS@)
