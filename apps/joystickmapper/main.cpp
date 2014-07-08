@@ -32,7 +32,7 @@ int main (int argc, char *argv[])
     QApplication app( argc , argv ) ;
     
     // First, we lists the avaliable joypads and see what we can do :
-    int portToUse = 0 ;
+    QString portToUse ;
     mogs::JoystickSelector jsSelect ;
     jsSelect.findValidJoysticks();
    
@@ -55,11 +55,11 @@ int main (int argc, char *argv[])
             return EXIT_FAILURE ;
     }
     
+    qDebug() << "portToUse =" << portToUse ;
+    
     // Ok, now we open the device ;
-    char tmp_path[20] ;
-    sprintf(tmp_path,"/dev/input/js%d",portToUse) ;
     std::unique_ptr<cJoystick> js( new cJoystick ) ;
-    if ( !js->init(tmp_path) )
+    if ( !js->init( portToUse.toStdString().c_str() ) )
     {
         qCritical() << "Unable to open selected device" ;
         return EXIT_FAILURE ;

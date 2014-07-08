@@ -34,7 +34,6 @@ namespace mogs
 class JoystickSelector : public QDialog
 {
     Q_OBJECT
-    Q_PROPERTY( int selectedPort READ selectedPort WRITE setSelectedPort ) ;
 
     Ui::JoystickSelector * ui;
     QStandardItemModel * m_avJs ;
@@ -42,11 +41,10 @@ class JoystickSelector : public QDialog
 public:
     explicit JoystickSelector( QWidget * parent = 0 );
     virtual ~JoystickSelector();
-    int selectedPort() const ;
+    QString selectedPort() const ;
     int jsCount() const ;
     
 public slots :
-    void setSelectedPort( const int & port ) ;
     void findValidJoysticks() ;
 
 private :

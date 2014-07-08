@@ -51,20 +51,9 @@ JoystickSelector::~JoystickSelector()
 /*!
  * 
  */
-int JoystickSelector::selectedPort() const
+QString JoystickSelector::selectedPort() const
 {
-    const int i = ui->portSelect->currentIndex() ;
-    const QVariant p = ui->portSelect->itemData(i) ;
-    return p.toInt() ;
-}
-
-/*!
- * 
- */
-void JoystickSelector::setSelectedPort(const int& port)
-{
-    const int i = ui->portSelect->findData( port ) ;
-    ui->portSelect->setCurrentIndex(i) ;
+    return ui->portSelect->currentText() ;
 }
 
 /*!
@@ -93,14 +82,13 @@ void JoystickSelector::findValidJoysticks()
             {
                 bool hasConfig = configFinder.has_pad(name) ;
                 QList<QStandardItem*> row ;
-                row << new QStandardItem( cpt ) ;
                 row << new QStandardItem( tmp_path ) ;
                 row << new QStandardItem( QString::fromStdString(name) ) ;
                 row << new QStandardItem( QString::number(js->axes) ) ;
                 row << new QStandardItem( QString::number(js->buttons) ) ;
                 row << new QStandardItem( hasConfig ) ;
                 if ( hasConfig )
-                    row.at(1)->setIcon( style()->standardIcon(QStyle::SP_DialogApplyButton) );
+                    row.at(0)->setIcon( style()->standardIcon(QStyle::SP_DialogApplyButton) );
                 qDebug() << tmp_path << ":" << QString::fromStdString(name) ;
                 m_avJs->appendRow(row);
             }
@@ -113,21 +101,21 @@ void JoystickSelector::findValidJoysticks()
 /*!
  * Configure the data model as follow :
  * 
- * |  0      | 1         | 2       | 3       | 4          | 5          |
- * |---------|-----------|---------|---------|------------|------------|
- * | int     | string    | string  | int     | int        | bool       |
- * | port_id | port_name | js_name | nb_axis | nb_buttons | has_config |
+ * |  0        | 1         | 2       | 3       | 4           |
+ * |-----------|-----------|---------|---------|-------------|
+ * | string    | string  | int     | int        | bool       |
+ * | port_name | js_name | nb_axis | nb_buttons | has_config |
  * 
  */
 void JoystickSelector::initializeModel()
 {
     if( !m_avJs )
-        m_avJs = new QStandardItemModel( 0 , 6 , this ) ;
+        m_avJs = new QStandardItemModel( 0 , 5 , this ) ;
     else 
         m_avJs->clear() ;
     
     ui->portSelect->setModel( m_avJs );
-    ui->portSelect->setModelColumn( 1 );
+    ui->portSelect->setModelColumn( 0 );
     
     QDataWidgetMapper * mapper = findChild<QDataWidgetMapper*>() ;
     if  ( !mapper )
@@ -135,9 +123,9 @@ void JoystickSelector::initializeModel()
         mapper = new QDataWidgetMapper(this) ;
         mapper->setModel( m_avJs );
         mapper->setSubmitPolicy( QDataWidgetMapper::AutoSubmit );
-        mapper->addMapping( ui->nameLineEdit , 2 );
-        mapper->addMapping( ui->axisLineEdit , 3 ) ;
-        mapper->addMapping( ui->buttonsLineEdit , 4 ) ;
+        mapper->addMapping( ui->nameLineEdit , 1 );
+        mapper->addMapping( ui->axisLineEdit , 2 ) ;
+        mapper->addMapping( ui->buttonsLineEdit , 3 ) ;
         connect( ui->portSelect , SIGNAL(currentIndexChanged(int)) , mapper , SLOT(setCurrentIndex(int)) );
     }
 }
