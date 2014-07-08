@@ -28,6 +28,7 @@ int main (int argc, char *argv[])
 	if (argc ==2)
 	{	
 		cJoystick js(argv[1]);
+                js.start();
 		int nb_axis = (int) js.axes;
 		int nb_bouton = (int) js.buttons;
 

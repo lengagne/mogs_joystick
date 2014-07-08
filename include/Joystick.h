@@ -48,14 +48,15 @@ class cJoystick
 
       protected:
       public:
-	
 	cJoystick ();
-	cJoystick ( const char * joystick_dev, bool verbose=true);
+	cJoystick ( const char * joystick_dev, bool verbose = true);
 	 ~cJoystick ();
-	bool init ( const char * joystick_dev);
-	static void *loop (void *obj);
+	bool init ( const char* joystick_dev, bool verbose = false );
 	void readEv ();
-	bool buttonPressed (int n);
+	bool buttonPressed (int n) ;
+        void start() ;
+        
+        static void *loop (void *obj);
 };
 
 #endif
