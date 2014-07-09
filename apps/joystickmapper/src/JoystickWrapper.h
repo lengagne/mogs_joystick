@@ -28,6 +28,7 @@
 class cJoystick;
 class QTimerEvent;
 class QProgressBar ;
+class QSlider ;
 class QPushButton ;
 
 namespace mogs 
@@ -38,12 +39,13 @@ class JoystickWrapper : public QWidget
     Q_OBJECT   
     
     QSharedPointer<cJoystick> js ;
-    QMap<int,QProgressBar*> m_axisState ;
+    QMap<int,QSlider*> m_axisState ;
     QMap<int,QPushButton*> m_buttonsState ;
     
 public:
     explicit JoystickWrapper( QWidget * parent = 0 );
     ~JoystickWrapper();
+    
     void setJoystick( const QWeakPointer< cJoystick > & js ) ;
 
 protected :

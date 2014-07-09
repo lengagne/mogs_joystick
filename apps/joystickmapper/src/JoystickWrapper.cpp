@@ -24,7 +24,7 @@
 #include <climits>
 
 #include <QVBoxLayout>
-#include <QProgressBar>
+#include <QSlider>
 #include <QPushButton>
 #include <QLayout>
 
@@ -58,10 +58,10 @@ void JoystickWrapper::setJoystick( const QWeakPointer<cJoystick> & js_ )
     {
         for ( int n = 0 ; n < (int)js->axes ; n++ ) 
         {
-            QProgressBar * viz = new QProgressBar(this) ;
+            QSlider * viz = new QSlider( Qt::Horizontal , this) ;
             viz->setRange( SHRT_MIN , SHRT_MAX ) ;
             viz->setValue( 0 ) ;
-            viz->setTextVisible(false);
+//             viz->setTextVisible(false);
             m_axisState.insert( n , viz ) ;
             layout()->addWidget( viz );
         }

@@ -18,7 +18,7 @@
 
 #include "ActionConfigurationView.h"
 #include "ui_ActionConfigurationView.h"
-#include <QComboBox>
+#include "JoystickConfigurationModel.h"
 
 using namespace mogs;
 
@@ -44,27 +44,21 @@ ActionConfigurationView::~ActionConfigurationView()
 /*!
  * 
  */
-void ActionConfigurationView::resetUi(const int& nbAxis, const int& nbButtons)
+void ActionConfigurationView::setModel(JoystickConfigurationModel* model)
 {
-    QStringList axisActions = getAxisActions() ;
-    for ( int n = 0 ; n < nbAxis ; n++ ) 
-    {
-        const QString label = tr("Axis %1 :").arg(n) ;
-        QComboBox * cb = new QComboBox( ui->axisBox ) ;
-        cb->addItems( axisActions );
-        static_cast<QFormLayout*>( ui->axisBox->layout() )->addRow( label , cb );
-    }
+    if ( !model ) return ;
     
-    QStringList buttonsActions = getButtonsActions() ;
-    for ( int n = 0 ; n < nbButtons ; n++ ) 
-    {
-        const QString label = tr("Button %1 :").arg(n) ;
-        QComboBox * cb = new QComboBox( ui->buttonsBox ) ;
-        cb->addItems( buttonsActions );
-        static_cast<QFormLayout*>( ui->buttonsBox->layout() )->addRow( label , cb );
-    }
+    QModelIndex axisIndex = model->index(1,0) ;
+    ui->axisTableView->setModel(model) ;
+    ui->axisTableView->setRootIndex(axisIndex) ;
+    ui->axisTableView->hideColumn(1);
     
+    QModelIndex butIndex = model->index(0,0) ;
+    ui->buttonTableView->setModel(model) ;
+    ui->buttonTableView->setRootIndex(butIndex) ;
+    ui->buttonTableView->hideColumn(1);
 }
+
 
 /*!
  * List available actions.

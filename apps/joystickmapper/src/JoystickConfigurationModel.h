@@ -19,28 +19,63 @@
 #ifndef JOYSTICKCONFIGURATIONMODEL_H
 #define JOYSTICKCONFIGURATIONMODEL_H
 
-#include <QAbstractItemModel>
-#include <memory>
+#include <QStandardItemModel>
+#include <QSharedPointer>
 
 class cJoystick;
+struct jsItem ;
 
 class JoystickConfigurationModel : public QAbstractItemModel
 {
     Q_OBJECT
     
-    std::unique_ptr<cJoystick> js ;
+    QSharedPointer<cJoystick> js ;
+    jsItem * axisItem ;
+    jsItem * buttonItem ;
 
 public:
+
+    enum AxisActions 
+    {
+        NoAxisAction = 99 ,
+        AxisFrontBack = 0 ,
+        AxisLeftRight = 1 ,
+        AxisRotate = 2
+    } ;
+    
+    enum ButtonActions
+    {
+       NoButtonAction = 99 ,
+       ButtonFront = 0 ,
+       ButtonBack = 1 ,
+       ButtonLeft = 2 ,
+       ButtonRight = 3 ,
+       ButtonRotateLeft = 4 ,
+       ButtonRotateRight = 5 ,
+       ButtonStart = 6 ,
+       ButtonStop = 7
+    } ;
+    
     explicit JoystickConfigurationModel( QObject * parent );
     ~JoystickConfigurationModel();
-    void openDevice( const QString & device ) ;
     
-    virtual int columnCount(const QModelIndex& parent = QModelIndex()) const ;
-    virtual int rowCount(const QModelIndex& parent = QModelIndex()) const ; 
-    virtual QVariant data( const QModelIndex & index , int role = Qt::DisplayRole ) const ;
+    virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const ;
+    virtual QModelIndex parent(const QModelIndex& child) const ;
+    virtual int rowCount( const QModelIndex & parent = QModelIndex() ) const ;
+    virtual int columnCount(const QModelIndex& parent = QModelIndex()) const ; 
+    virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const ;
+    virtual Qt::ItemFlags flags( const QModelIndex & index ) const ;
     
-
-private:
+    bool openDevice( const QString& device ) ;
+    void startAutoRefresh() ;
+    QString name() const ;
+    QWeakPointer<cJoystick> ptr() const { return js.toWeakRef() ; };
+    
+protected :
+    void timerEvent( QTimerEvent * event ) ;
+    
+private :
+    jsItem * getItem( const QModelIndex & index ) const ;
 
 };
 

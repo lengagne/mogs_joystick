@@ -18,8 +18,11 @@
 
 #include "JoystickMapper.h"
 #include "ui_JoystickMapper.h"
+#include "JoystickConfigurationModel.h"
 
 #include "Joystick.h"
+
+#include <QTableView>
 
 using namespace mogs;
 
@@ -28,7 +31,7 @@ using namespace mogs;
  */
 JoystickMapper::JoystickMapper() : 
     QMainWindow() ,
-    js( new cJoystick )
+    model( new JoystickConfigurationModel(this) )
 {
     ui = new Ui::JoystickMapper;
     ui->setupUi(this);
@@ -45,25 +48,19 @@ JoystickMapper::~JoystickMapper()
 /*!
  * Sets ptr to the device
  */
-void JoystickMapper::setJoystick( const QString device )
+void JoystickMapper::setJoystick( const QString & device )
 {    
     // Open device
-    if ( js->init( device.toAscii() ) )
-    {
-        // Ok, start thread :)
-        js->start() ;
+    model->openDevice( device ) ;
+    model->startAutoRefresh() ;
         
-        // Fancy title. :)
-        QString name = QString::fromStdString( js->name ) ;
-        QString wt = windowTitle() + " [ " + name + " ]" ;
-        setWindowTitle(wt);
+    // Fancy title. :)
+    QString wt = windowTitle() + " [ " + model->name() + " ]" ;
+    setWindowTitle(wt);
         
-        // Grabing actions :
-        ui->jsWrapper->setJoystick( js.toWeakRef() );
-        
-    } ;
+    // Grabing actions :
+    ui->jsWrapper->setJoystick( model->ptr() );
     
-    
-    
-    ui->actionView->resetUi( js->axes , js->buttons );
+    // Table views :
+    ui->actionView->setModel(model);
 }

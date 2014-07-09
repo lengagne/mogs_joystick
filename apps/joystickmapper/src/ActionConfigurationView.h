@@ -21,6 +21,7 @@
 
 #include <QWidget>
 
+class JoystickConfigurationModel;
 namespace Ui
 {
 class ActionConfigurationView;
@@ -38,8 +39,7 @@ class ActionConfigurationView : public QWidget
 public:
     explicit ActionConfigurationView(QWidget * parent = 0 );
     virtual ~ActionConfigurationView();
-    
-    void resetUi( const int & nbAxis , const int & nbButtons ) ;
+    void setModel( JoystickConfigurationModel * model ) ;
     
 private :
     QStringList getAxisActions() const ;

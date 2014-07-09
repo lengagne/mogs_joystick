@@ -23,6 +23,7 @@
 
 #include <QMainWindow>
 
+class JoystickConfigurationModel;
 class cJoystick;
 namespace Ui
 {
@@ -39,13 +40,13 @@ class JoystickMapper : public QMainWindow
     Q_OBJECT
     
     Ui::JoystickMapper * ui ;
-    QSharedPointer<cJoystick> js ;
+    JoystickConfigurationModel * model ;
     
 public:
     explicit JoystickMapper();
     virtual ~JoystickMapper();
     
-    void setJoystick( const QString device ) ;
+    void setJoystick( const QString& device ) ;
     
 };
 
