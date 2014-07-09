@@ -72,8 +72,8 @@ bool cJoystick::init ( const char * joystick_dev , bool verbose )
 // 		std::cout << "Version: " << version << std::endl;
 // 		std::cout << "   Axes: " << (int)axes << std::endl;
 // 		std::cout << "Buttons: " << (int)buttons << std::endl;
-        joystick_st->axis.reserve (axes);
-        joystick_st->button.reserve (buttons);
+        joystick_st->axis.resize(axes);
+        joystick_st->button.resize(buttons);
         return true;
     }
     else
