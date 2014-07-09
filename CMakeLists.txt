@@ -109,8 +109,6 @@ install( TARGETS MoGS_Config_Joystick RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX
 ### Configure file
 configure_file(MoGS_JoystickConfig.cmake.in "${PROJECT_BINARY_DIR}/MoGS_JoystickConfig.cmake" @ONLY)
 
-
-
 install ( 	FILES "${PROJECT_BINARY_DIR}/MoGS_JoystickConfig.cmake"
 		DESTINATION "${INSTALL_LIB_PATH}/MoGS_Joystick" COMPONENT dev ) 
 
