@@ -15,7 +15,8 @@
 //      along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 //      This program was developped in the following labs:
-//      from 2012: IUT de Beziers/ LIRMM, Beziers, France
+//      2012-2013:  IUT de Beziers/ LIRMM, Beziers, France
+//	from 2013:  Université Blaise Pascal / axis : ISPR / theme MACCS
 
 #include "Joystick.h"
 #include <unistd.h>
