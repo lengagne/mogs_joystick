@@ -59,7 +59,7 @@ void JoystickMapper::setJoystick( const QString & device )
     setWindowTitle(wt);
         
     // Grabing actions :
-    ui->jsWrapper->setJoystick( model->ptr() );
+    ui->jsWrapper->setJoystick(model);
     
     // Table views :
     ui->actionView->setModel(model);

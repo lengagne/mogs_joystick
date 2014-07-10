@@ -19,6 +19,8 @@
 
 #include "JoystickWrapper.h"
 #include "Joystick.h"
+#include "JoystickConfigurationModel.h"
+#include "AxisRangeDelegate.h"
 
 #include <memory>
 #include <climits>
@@ -27,6 +29,7 @@
 #include <QSlider>
 #include <QPushButton>
 #include <QLayout>
+#include <QListView>
 
 using namespace mogs ;
 
@@ -51,21 +54,30 @@ JoystickWrapper::~JoystickWrapper()
 /*!
  * 
  */
-void JoystickWrapper::setJoystick( const QWeakPointer<cJoystick> & js_ )
+void JoystickWrapper::setJoystick( JoystickConfigurationModel * js )
 {   
-    js = js_ ;
-    if ( js->active )
-    {
-        for ( int n = 0 ; n < (int)js->axes ; n++ ) 
-        {
-            QSlider * viz = new QSlider( Qt::Horizontal , this) ;
-            viz->setRange( SHRT_MIN , SHRT_MAX ) ;
-            viz->setValue( 0 ) ;
+//     js = js_ ;
+//     if ( js->active )
+//     {
+        QListView * view = new QListView(this) ;
+	layout()->addWidget(view);
+	
+	view->setModel( js );
+	view->setRootIndex(js->axisIndex());
+	view->setModelColumn(1);
+	view->setBatchSize(1);
+	view->setLayoutMode( QListView::Batched );
+	view->setItemDelegate( new AxisRangeDelegate(this) );
+//         for ( int n = 0 ; n < (int)js->axes ; n++ ) 
+//         {
+//             QSlider * viz = new QSlider( Qt::Horizontal , this) ;
+//             viz->setRange( SHRT_MIN , SHRT_MAX ) ;
+//             viz->setValue( 0 ) ;
 //             viz->setTextVisible(false);
-            m_axisState.insert( n , viz ) ;
-            layout()->addWidget( viz );
-        }
-        
+//             m_axisState.insert( n , viz ) ;
+//             layout()->addWidget( viz );
+//         }
+/*        
         for ( int n = 0 ; n < (int)js->buttons ; n++ ) 
         {
             QPushButton * b = new QPushButton( QString::number(n) , this ) ;
@@ -76,7 +88,7 @@ void JoystickWrapper::setJoystick( const QWeakPointer<cJoystick> & js_ )
         }
         
         startTimer(100) ;
-    }
+    }*/
 }
 
 /*!

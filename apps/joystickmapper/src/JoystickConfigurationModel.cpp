@@ -305,15 +305,15 @@ void JoystickConfigurationModel::timerEvent(QTimerEvent* event)
     if ( !js && !js->active )
         return ;
     
-    QModelIndex axisIndex = index(0,0) ;
-    QModelIndex i0 = index(0,1,axisIndex) ;
-    QModelIndex i1 = index((int)js->axes,1,axisIndex) ;
-    emit dataChanged( i0 , i1 );
+    emit dataChanged( axisIndex() , axisIndex() ) ;
+    QModelIndex a0 = index( 0 , 1 , axisIndex() ) ;
+    QModelIndex a1 = index( (int)js->axes , 1 , axisIndex() ) ;
+    emit dataChanged(a0,a1);
     
-    QModelIndex buttIndex = index(1,0) ;
-    QModelIndex j0 = index(0,1,buttIndex) ;
-    QModelIndex j1 = index((int)js->buttons,1,buttIndex) ;
-    emit dataChanged( j0 , j1 );
+    emit dataChanged( buttonIndex() , buttonIndex() ) ;
+    QModelIndex b0 = index( 0 , 1 , buttonIndex() ) ;
+    QModelIndex b1 = index( (int)js->axes , 1 , buttonIndex() ) ;
+    emit dataChanged(b0,b1);
 }
 
 /*!
@@ -327,7 +327,7 @@ void JoystickConfigurationModel::startAutoRefresh()
     if ( !js->active ) 
         js->start() ;
     
-//     startTimer(50) ;
+    startTimer(50) ;
 }
 
 /*!

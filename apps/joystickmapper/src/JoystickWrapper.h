@@ -26,10 +26,17 @@
 #include <memory>
 
 class cJoystick;
+class JoystickConfigurationModel ;
+
 class QTimerEvent;
 class QProgressBar ;
 class QSlider ;
 class QPushButton ;
+
+// namespace Ui
+// {
+//   class JoystickWrapper ;
+// }
 
 namespace mogs 
 {
@@ -38,15 +45,17 @@ class JoystickWrapper : public QWidget
 {
     Q_OBJECT   
     
+//     Ui::JoystickWrapper * ui ;
+    
     QSharedPointer<cJoystick> js ;
-    QMap<int,QSlider*> m_axisState ;
-    QMap<int,QPushButton*> m_buttonsState ;
+    QMap<int,QSlider *> m_axisState ;
+    QMap<int,QPushButton *> m_buttonsState ;
     
 public:
     explicit JoystickWrapper( QWidget * parent = 0 );
-    ~JoystickWrapper();
+    virtual ~JoystickWrapper();
     
-    void setJoystick( const QWeakPointer< cJoystick > & js ) ;
+    void setJoystick( JoystickConfigurationModel * js ) ;
 
 protected :
     void timerEvent( QTimerEvent * event ) ;

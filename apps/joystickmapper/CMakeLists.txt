@@ -39,6 +39,7 @@ SET( Mapper_SRCS
     ${PROJECT_SOURCE_DIR}/src/JoystickWrapper.cpp  
     ${PROJECT_SOURCE_DIR}/src/JoystickConfigurationModel.cpp
     ${PROJECT_SOURCE_DIR}/src/JoystickActionDelegate.cpp
+    ${PROJECT_SOURCE_DIR}/src/AxisRangeDelegate.cpp
  )
 
 SET( Mapper_UI 
