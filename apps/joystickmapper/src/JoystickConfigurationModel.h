@@ -28,6 +28,7 @@ struct jsItem ;
 class JoystickConfigurationModel : public QAbstractItemModel
 {
     Q_OBJECT
+    Q_ENUMS( AxisActions ButtonActions ) ;
     
     QSharedPointer<cJoystick> js ;
     jsItem * axisItem ;
@@ -37,23 +38,23 @@ public:
 
     enum AxisActions 
     {
-        NoAxisAction = 99 ,
-        AxisFrontBack = 0 ,
-        AxisLeftRight = 1 ,
-        AxisRotate = 2
+        NoAxisAction = 0 ,
+        AxisFrontBack = 1 ,
+        AxisLeftRight = 2 ,
+        AxisRotate = 3
     } ;
     
     enum ButtonActions
     {
-       NoButtonAction = 99 ,
-       ButtonFront = 0 ,
-       ButtonBack = 1 ,
-       ButtonLeft = 2 ,
-       ButtonRight = 3 ,
-       ButtonRotateLeft = 4 ,
-       ButtonRotateRight = 5 ,
-       ButtonStart = 6 ,
-       ButtonStop = 7
+       NoButtonAction = 0 ,
+       ButtonFront = 1 ,
+       ButtonBack = 2 ,
+       ButtonLeft = 3 ,
+       ButtonRight = 4 ,
+       ButtonRotateLeft = 5 ,
+       ButtonRotateRight = 6 ,
+       ButtonStart = 7 ,
+       ButtonStop = 8
     } ;
     
     explicit JoystickConfigurationModel( QObject * parent );
@@ -64,12 +65,15 @@ public:
     virtual int rowCount( const QModelIndex & parent = QModelIndex() ) const ;
     virtual int columnCount(const QModelIndex& parent = QModelIndex()) const ; 
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const ;
+    virtual bool setData(const QModelIndex & index, const QVariant & value, int role = Qt::EditRole ) ;
     virtual Qt::ItemFlags flags( const QModelIndex & index ) const ;
     
     bool openDevice( const QString& device ) ;
     void startAutoRefresh() ;
     QString name() const ;
     QWeakPointer<cJoystick> ptr() const { return js.toWeakRef() ; };
+    QModelIndex axisIndex() const ;
+    QModelIndex buttonIndex() const ;
     
 protected :
     void timerEvent( QTimerEvent * event ) ;

@@ -63,11 +63,25 @@ bool JoystickConfigurationModel::openDevice( const QString & device )
         emit layoutAboutToBeChanged() ;
         js = QSharedPointer<cJoystick>(js_) ;
         
-        // Axis
+        // Top items
+        beginInsertRows( QModelIndex() , 0 , 1 );
+       
         axisItem = new jsItem ;
         axisItem->parent = 0 ;
         axisItem->row = 0 ;
         axisItem->action = NoAxisAction ;
+        
+        buttonItem = new jsItem ;
+        buttonItem->parent = 0 ;
+        buttonItem->row = 0 ;
+        buttonItem->action = NoButtonAction ;
+        endInsertRows();
+        emit dataChanged( axisIndex() , buttonIndex() );
+        
+        
+        // Axes items 
+        beginInsertRows( axisIndex() , 0 , js->axes );
+        beginInsertColumns( axisIndex() , 0 , 2 );
         int r = 0 ;
         for ( std::vector<int16_t>::iterator i = js->joystick_st->axis.begin() ; i != js->joystick_st->axis.end() ; i++ )
         {
@@ -78,12 +92,13 @@ bool JoystickConfigurationModel::openDevice( const QString & device )
             a->action = NoAxisAction ;
             axisItem->childs.push_back(a);
         }
+        endInsertColumns();
+        endInsertRows() ;
+        emit dataChanged( index(0,0,axisIndex()) , index(js->axes,2,axisIndex()) );
         
         // button
-        buttonItem = new jsItem ;
-        buttonItem->parent = 0 ;
-        buttonItem->row = 0 ;
-        buttonItem->action = NoButtonAction ;
+        beginInsertRows( buttonIndex() , 0 , js->buttons );
+        beginInsertColumns( buttonIndex() , 0 , 2 );
         r = 0 ;
         for ( std::vector<int16_t>::iterator i = js->joystick_st->button.begin() ; i != js->joystick_st->button.end() ; i++ )
         {
@@ -95,9 +110,10 @@ bool JoystickConfigurationModel::openDevice( const QString & device )
             b->action = NoButtonAction ;
             buttonItem->childs.push_back( b );
         }
+        endInsertColumns();
+        endInsertRows() ;
+        emit dataChanged( index(0,0,buttonIndex()) , index(js->buttons,2,buttonIndex()) );
         
-        
-        emit dataChanged( index(0,0) , index(1,0) );
         emit layoutChanged();
     }
     
@@ -135,7 +151,7 @@ QModelIndex JoystickConfigurationModel::index( int row , int column , const QMod
     
     if ( parentItem == 0 ) // looking for top items 
     {
-        return createIndex( row , 0 , (row)? axisItem : buttonItem ) ;
+        return (!row)? axisIndex() : buttonIndex() ;
     }
     else  // loking for child item
     {
@@ -168,9 +184,9 @@ QModelIndex JoystickConfigurationModel::parent(const QModelIndex& child) const
     if ( !parentItem )
         return QModelIndex();
     else if ( parentItem == axisItem ) 
-        return createIndex( 0 , 0 , axisItem ) ;
+        return axisIndex() ;
     else if ( parentItem == buttonItem ) 
-        return createIndex( 1 , 0 , buttonItem ) ;
+        return buttonIndex() ;
 
     return QModelIndex() ;
 }
@@ -218,33 +234,68 @@ int JoystickConfigurationModel::columnCount(const QModelIndex& parent) const
  */
 QVariant JoystickConfigurationModel::data( const QModelIndex& index , int role ) const
 {
-    if ( !js ) 
+    if ( !js || !index.isValid() ) 
         return QVariant() ;
     
-    if ( !index.isValid() )
-        return QVariant() ;
-    
-    if ( role != Qt::DisplayRole && role != Qt::EditRole )
-        return QVariant() ;
+    if (role != Qt::DisplayRole && role != Qt::EditRole)
+        return QVariant();
     
     jsItem * item = getItem(index) ;
     if ( item == axisItem ) 
-        return QString("axis") ;
+    {
+        return QString("axes") ;
+    }
     else if ( item == buttonItem ) 
+    {
         return QString("buttons") ;
+    }
     else 
     {
         if ( index.column() == 0 ) 
-            return item->row ;
+        {
+            QString str ;
+            if ( getItem(index.parent()) == axisItem )
+                str = "axis %1" ;
+            else 
+                str = "button %1" ;
+                    
+            return str.arg(index.row()) ;
+        }
         else if ( index.column() == 1 ) 
-            return (*item->it) ;
+        {
+            return QVariant::fromValue<int16_t>( *(item->it) ) ;
+        }
         else if ( index.column() == 2 ) 
-            return item->action ;
+        {
+            return QVariant::fromValue<int>( item->action ) ;
+        }
             
     }
        
     return QVariant() ;
 }
+
+/*!
+ * 
+ */
+bool JoystickConfigurationModel::setData(const QModelIndex & index, const QVariant& value, int role)
+{
+    if (role != Qt::EditRole)
+        return false ;
+    else if ( !index.isValid() || index.column() != 2 ) 
+        return false ;
+    
+    jsItem * item = getItem( index ) ;
+    if ( item ) 
+    {
+        item->action = value.toInt() ;
+        emit dataChanged(index,index);
+        return true ;
+    }
+    
+    return QAbstractItemModel::setData(index,value,role) ;
+}
+
 
 /*!
  * 
@@ -276,7 +327,7 @@ void JoystickConfigurationModel::startAutoRefresh()
     if ( !js->active ) 
         js->start() ;
     
-    startTimer(50) ;
+//     startTimer(50) ;
 }
 
 /*!
@@ -305,3 +356,17 @@ Qt::ItemFlags JoystickConfigurationModel::flags(const QModelIndex& index) const
             return Qt::ItemIsEnabled | Qt::ItemIsSelectable ;
     }
 }
+
+/*!
+ * 
+ */
+QModelIndex JoystickConfigurationModel::axisIndex() const
+{
+    return createIndex(0,0,axisItem) ;
+}
+
+QModelIndex JoystickConfigurationModel::buttonIndex() const
+{
+    return createIndex(1,0,buttonItem) ;
+}
+
