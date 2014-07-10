@@ -19,6 +19,9 @@
 #include "ActionConfigurationView.h"
 #include "ui_ActionConfigurationView.h"
 #include "JoystickConfigurationModel.h"
+#include "JoystickActionDelegate.h"
+
+#include <QItemEditorFactory>
 
 using namespace mogs;
 
@@ -47,48 +50,19 @@ ActionConfigurationView::~ActionConfigurationView()
 void ActionConfigurationView::setModel(JoystickConfigurationModel* model)
 {
     if ( !model ) return ;
+
+    QStandardItemModel * m = new QStandardItemModel( 5,3 ) ;
     
-    QModelIndex axisIndex = model->index(1,0) ;
+    // Axes:
+    JoystickActionDelegate * axesDelegate = new JoystickActionDelegate( "AxisActions" , ui->axisTableView ) ;
     ui->axisTableView->setModel(model) ;
-    ui->axisTableView->setRootIndex(axisIndex) ;
+    ui->axisTableView->setRootIndex(model->axisIndex()) ;
+    ui->axisTableView->setItemDelegateForColumn( 2 , axesDelegate );
     ui->axisTableView->hideColumn(1);
     
-    QModelIndex butIndex = model->index(0,0) ;
-    ui->buttonTableView->setModel(model) ;
-    ui->buttonTableView->setRootIndex(butIndex) ;
+    JoystickActionDelegate * buttDelegate = new JoystickActionDelegate( "ButtonActions" , ui->axisTableView ) ;
+    ui->buttonTableView->setModel(model);
+    ui->buttonTableView->setRootIndex(model->buttonIndex()) ;
+    ui->buttonTableView->setItemDelegateForColumn(2,buttDelegate) ;
     ui->buttonTableView->hideColumn(1);
-}
-
-
-/*!
- * List available actions.
- * Can be enhanced by parsing DTD file
- */
-QStringList ActionConfigurationView::getAxisActions() const
-{
-    QStringList actions ; 
-    actions << QString() ;
-    actions << tr("Move forward/backward") ;
-    actions << tr("Move left/right") ;
-    actions << tr("Rotate left/right") ;
-    return actions ;
-}
-
-/*!
- * List available actions.
- * Can be enhanced by parsing DTD file
- */
-QStringList ActionConfigurationView::getButtonsActions() const
-{
-    QStringList actions ; 
-    actions << QString() ;
-    actions << tr("Start") ;
-    actions << tr("Stop") ;
-    actions << tr("Move forward") ;
-    actions << tr("Move backward") ;
-    actions << tr("Move left") ;
-    actions << tr("Move right") ;
-    actions << tr("Rotate left") ;
-    actions << tr("Rotate right") ;
-    return actions ;
 }

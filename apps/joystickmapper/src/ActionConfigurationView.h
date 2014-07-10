@@ -41,10 +41,6 @@ public:
     virtual ~ActionConfigurationView();
     void setModel( JoystickConfigurationModel * model ) ;
     
-private :
-    QStringList getAxisActions() const ;
-    QStringList getButtonsActions() const ;
-
 } ;
 }
 
