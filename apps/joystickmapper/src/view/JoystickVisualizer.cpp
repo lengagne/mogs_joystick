@@ -64,11 +64,13 @@ void JoystickVisualizer::setJoystick( JoystickWrapper * js )
     ui->axisView->setRootIndex(js->axisIndex());
     ui->axisView->setModelColumn(1);
     ui->axisView->setItemDelegate( new AxisRangeDelegate(this) );
+    ui->axisView->viewport()->setAutoFillBackground(false);
     
     ui->buttonView->setModel(js);
     ui->buttonView->setRootIndex(js->buttonIndex());
     ui->buttonView->setModelColumn(1);
     ui->buttonView->setItemDelegate( new ButtonPressedDelegate(this) );
+    ui->buttonView->viewport()->setAutoFillBackground(false);
 }
 
 /*!

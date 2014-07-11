@@ -20,6 +20,7 @@
 
 #include <climits>
 #include <QPainter>
+#include <QDebug>
 
 using namespace mogs ;
 
@@ -58,7 +59,7 @@ QSize AxisRangeDelegate::sizeHint(const QStyleOptionViewItem& option, const QMod
  */
 void AxisRangeDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex & index) const
 {
-   QBrush bg = option.palette.background() ;
+   QBrush bg = option.palette.dark() ;
    painter->setRenderHint(QPainter::HighQualityAntialiasing);
    
    // bg
@@ -68,7 +69,7 @@ void AxisRangeDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opt
    painter->drawRoundedRect( option.rect , r , r );
    
    // Current pos :
-   qreal p = computeRelativePosition( index.data().value<short>() ) ;
+   qreal p = computeRelativePosition( index ) ;
    QRect cursorRect ;
    int length = option.rect.width() - 2*r ;
    cursorRect.setTopLeft( option.rect.topLeft() );
@@ -90,9 +91,11 @@ void AxisRangeDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opt
 /*!
  * 
  */
-qreal AxisRangeDelegate::computeRelativePosition(const short int& v) const
+qreal AxisRangeDelegate::computeRelativePosition(const QModelIndex& index) const
 {
-    qreal p = ((qreal)v-min_v) / (max_v-min_v) ;
-    return p ;
+    qreal v = index.data().toReal() ;
+    qreal p = (v-min_v) / (max_v-min_v) ;
+    bool inverted = index.data(Qt::UserRole).toBool() ;
+    return (inverted)? (1.0-p) : p ;
 }
 

@@ -37,7 +37,7 @@ public:
     virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const ;
 
 private:
-    qreal computeRelativePosition( const short & v ) const ;
+    qreal computeRelativePosition( const QModelIndex & index ) const ;
     
 };
 

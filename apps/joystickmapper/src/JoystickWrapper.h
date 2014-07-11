@@ -78,13 +78,12 @@ public:
     QModelIndex axisIndex() const ;
     QModelIndex buttonIndex() const ;
     
-    static qreal computeAxisRelativePosition( const short & value ) ;
-    
 protected :
     void timerEvent( QTimerEvent * event ) ;
     
 private :
     jsItem * getItem( const QModelIndex & index ) const ;
+    bool validRole( const int & role ) const ;
 
 };
 
