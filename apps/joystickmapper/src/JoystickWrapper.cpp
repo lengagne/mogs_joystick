@@ -267,12 +267,14 @@ QVariant JoystickWrapper::data( const QModelIndex& index , int role ) const
         }
         else if ( index.column() == 1 && role == Qt::DisplayRole ) 
             return QVariant::fromValue<int16_t>( item->value ) ;
-        else if ( index.column() == 1 && role == Qt::UserRole ) 
+        else if ( index.column() == 1 && role == Qt::CheckStateRole ) 
             return QVariant::fromValue<bool>( item->inverted ) ;
-        else if ( index.column() == 2 ) 
+        else if ( index.column() == 2 && role == Qt::DisplayRole ) 
             return QVariant::fromValue<int>( item->action ) ;
-        else if ( index.column() == 3 )
+        else if ( index.column() == 3 && role == Qt::CheckStateRole )
             return QVariant::fromValue<bool>( item->inverted ) ;
+        else if ( index.column() == 3 && role == Qt::DisplayRole )
+            return QString( "Inverted axis" ) ;
             
     }
        
@@ -400,8 +402,12 @@ bool JoystickWrapper::validRole(const int& role) const
     if ( role == Qt::DisplayRole )
         return true ;
     
+    if ( role == Qt::CheckStateRole )
+        return true ;
+    
     if ( role >= Qt::UserRole )
         return true ;
+    
     
     return false ;
 }

@@ -95,7 +95,7 @@ qreal AxisRangeDelegate::computeRelativePosition(const QModelIndex& index) const
 {
     qreal v = index.data().toReal() ;
     qreal p = (v-min_v) / (max_v-min_v) ;
-    bool inverted = index.data(Qt::UserRole).toBool() ;
+    bool inverted = index.data(Qt::CheckStateRole).toBool() ;
     return (inverted)? (1.0-p) : p ;
 }
 
