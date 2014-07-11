@@ -24,7 +24,9 @@
 class AxisRangeDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
-
+    qreal max_v ;
+    qreal min_v ;
+    
 public:
     explicit AxisRangeDelegate( QObject * parent = 0 );
     virtual ~AxisRangeDelegate();
@@ -32,6 +34,8 @@ public:
     virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const ;
 
 private:
+    qreal computeRelativePosition( const short & v ) const ;
+    
 };
 
 #endif // AXISRANGEDELEGATE_H

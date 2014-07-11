@@ -17,14 +17,19 @@
  */
 
 #include "AxisRangeDelegate.h"
+
+#include <climits>
 #include <QPainter>
 
 /*!
  * 
  */
 AxisRangeDelegate::AxisRangeDelegate( QObject * parent ) :
-  QStyledItemDelegate(parent)
+  QStyledItemDelegate(parent) , 
+  max_v( (qreal)SHRT_MAX ) ,
+  min_v( (qreal)SHRT_MIN )
 {
+    
   
 }
 
@@ -42,19 +47,49 @@ AxisRangeDelegate::~AxisRangeDelegate()
  */
 QSize AxisRangeDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    return QSize(150,50) ;
+    return QSize(75,25) ;
 //     return QStyledItemDelegate::sizeHint(option, index);
 }
 
 /*!
  * 
  */
-void AxisRangeDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+void AxisRangeDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex & index) const
 {
    QBrush bg = option.palette.background() ;
-   painter->drawRect( option.rect );
+   painter->setRenderHint(QPainter::HighQualityAntialiasing);
    
-   painter->drawText(option.rect,Qt::AlignCenter,index.data().toString());
-//     QStyledItemDelegate::paint(painter, option, index);
+   // bg
+   painter->setPen( Qt::NoPen );
+   painter->setBrush(bg);
+   int r = option.rect.height()/2 ;
+   painter->drawRoundedRect( option.rect , r , r );
+   
+   // Current pos :
+   qreal p = computeRelativePosition( index.data().value<short>() ) ;
+   QRect cursorRect ;
+   int length = option.rect.width() - 2*r ;
+   cursorRect.setTopLeft( option.rect.topLeft() );
+   cursorRect.setHeight( option.rect.height() );
+   cursorRect.setWidth( option.rect.height() );
+   cursorRect.translate( p * length , 0 );
+   painter->setPen( Qt::black );
+   painter->drawEllipse( cursorRect );
+   
+   QFont f = option.font ;
+   f.setBold(true);
+   painter->setPen(Qt::white);
+   painter->setFont(f);
+   painter->drawText( cursorRect , Qt::AlignCenter , QString::number(index.row()));
+    
+}
+
+/*!
+ * 
+ */
+qreal AxisRangeDelegate::computeRelativePosition(const short int& v) const
+{
+    qreal p = ((qreal)v-min_v) / (max_v-min_v) ;
+    return p ;
 }
 
