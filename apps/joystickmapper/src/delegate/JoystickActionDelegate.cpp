@@ -26,6 +26,8 @@
 #include <QPainter>
 #include <QApplication>
 
+using namespace mogs ;
+
 /*!
  * 
  */

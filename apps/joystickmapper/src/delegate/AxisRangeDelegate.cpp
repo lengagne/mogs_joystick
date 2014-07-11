@@ -21,6 +21,8 @@
 #include <climits>
 #include <QPainter>
 
+using namespace mogs ;
+
 /*!
  * 
  */

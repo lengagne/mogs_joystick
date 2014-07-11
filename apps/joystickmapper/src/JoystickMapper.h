@@ -23,24 +23,24 @@
 
 #include <QMainWindow>
 
-class JoystickWrapper;
 class cJoystick;
+
 namespace Ui
 {
 class JoystickMapper;
 }
 
-class cJoystick ;
-
 namespace mogs 
 {
+    
+class JoystickWrapper;
 
 class JoystickMapper : public QMainWindow 
 {
     Q_OBJECT
     
     Ui::JoystickMapper * ui ;
-    JoystickWrapper * model ;
+    mogs::JoystickWrapper * model ;
     
 public:
     explicit JoystickMapper();

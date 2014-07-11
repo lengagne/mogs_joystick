@@ -16,8 +16,8 @@
  *
  */
 
-#ifndef JOYSTICKACTIONDELEGATE_H
-#define JOYSTICKACTIONDELEGATE_H
+#ifndef __MOGS_JOYSTICKACTIONDELEGATE_H__
+#define __MOGS_JOYSTICKACTIONDELEGATE_H__
 
 #include <QItemDelegate>
 #include <QModelIndex>
@@ -25,6 +25,9 @@
 #include <QMetaEnum>
 
 class QPainter ;
+
+namespace mogs 
+{
 
 class JoystickActionDelegate : public QItemDelegate 
 {
@@ -39,6 +42,8 @@ public:
     virtual void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const; 
     virtual void updateEditorGeometry(QWidget* editor, const QStyleOptionViewItem& option, const QModelIndex& index) const;
     virtual void paint( QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
+
+};
 
 };
 

@@ -68,6 +68,8 @@ void JoystickSelector::findValidJoysticks()
     int cpt = 0;
     char tmp_path[20];
     
+    QDir
+    
     do
     {
         sprintf(tmp_path,"/dev/input/js%d",cpt) ;

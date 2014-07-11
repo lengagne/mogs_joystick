@@ -46,7 +46,7 @@ ActionConfigurationView::~ActionConfigurationView()
 /*!
  * 
  */
-void ActionConfigurationView::setModel(JoystickWrapper* model)
+void ActionConfigurationView::setModel( mogs::JoystickWrapper * model)
 {
     if ( !model ) return ;
 

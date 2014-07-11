@@ -26,7 +26,6 @@
 #include <memory>
 
 class cJoystick;
-class JoystickWrapper ;
 
 class QTimerEvent;
 class QProgressBar ;
@@ -40,6 +39,7 @@ namespace Ui
 
 namespace mogs 
 {
+class JoystickWrapper ;
 
 class JoystickVisualizer : public QWidget
 {

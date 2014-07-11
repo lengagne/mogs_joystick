@@ -16,10 +16,13 @@
  *
  */
 
-#ifndef BUTTONPRESSEDDELEGATE_H
-#define BUTTONPRESSEDDELEGATE_H
+#ifndef __MOGS_BUTTONPRESSEDDELEGATE_H__
+#define __MOGS_BUTTONPRESSEDDELEGATE_H__
 
 #include <QStyledItemDelegate>
+
+namespace mogs
+{
 
 class ButtonPressedDelegate : public QStyledItemDelegate
 {
@@ -30,6 +33,8 @@ public:
     ~ButtonPressedDelegate();
     virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const ;
     virtual void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const ;
+
+};
 
 };
 

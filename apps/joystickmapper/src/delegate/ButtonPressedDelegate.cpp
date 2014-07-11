@@ -1,6 +1,5 @@
 /*
- * <one line to give the program's name and a brief idea of what it does.>
- * Copyright (C) 2014  ClÃ©ment Fouque <email>
+ * Copyright (C) 2014  Clément Fouque <clement.fouque@univ-bpclermont.fr>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +19,8 @@
 #include "ButtonPressedDelegate.h"
 
 #include <QPainter>
+
+using namespace mogs ;
 
 /*!
  *

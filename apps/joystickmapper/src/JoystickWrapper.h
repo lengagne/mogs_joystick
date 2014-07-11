@@ -25,6 +25,9 @@
 class cJoystick;
 class jsItem ;
 
+namespace mogs
+{
+
 class JoystickWrapper : public QAbstractItemModel
 {
     Q_OBJECT
@@ -82,6 +85,8 @@ protected :
     
 private :
     jsItem * getItem( const QModelIndex & index ) const ;
+
+};
 
 };
 

@@ -57,7 +57,7 @@ jsItem::~jsItem()
     }
 }
 
-
+using namespace mogs ;
 
 /*!
  * Constructor

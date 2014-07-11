@@ -16,10 +16,13 @@
  *
  */
 
-#ifndef AXISRANGEDELEGATE_H
-#define AXISRANGEDELEGATE_H
+#ifndef __MOGS_AXISRANGEDELEGATE_H__
+#define __MOGS_AXISRANGEDELEGATE_H__
 
 #include <QStyledItemDelegate>
+
+namespace mogs 
+{
 
 class AxisRangeDelegate : public QStyledItemDelegate
 {
@@ -37,5 +40,7 @@ private:
     qreal computeRelativePosition( const short & v ) const ;
     
 };
+
+} ;
 
 #endif // AXISRANGEDELEGATE_H
