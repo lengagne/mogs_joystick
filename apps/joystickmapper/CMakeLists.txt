@@ -34,20 +34,21 @@ INCLUDE_DIRECTORIES( ${PROJECT_SOURCE_DIR}/src )
 SET( Mapper_SRCS 
     ${PROJECT_SOURCE_DIR}/main.cpp
     ${PROJECT_SOURCE_DIR}/src/JoystickMapper.cpp 
-    ${PROJECT_SOURCE_DIR}/src/ActionConfigurationView.cpp
     ${PROJECT_SOURCE_DIR}/src/JoystickSelector.cpp 
-    ${PROJECT_SOURCE_DIR}/src/JoystickVisualizer.cpp  
     ${PROJECT_SOURCE_DIR}/src/JoystickConfigurationModel.cpp
-    ${PROJECT_SOURCE_DIR}/src/JoystickActionDelegate.cpp
-    ${PROJECT_SOURCE_DIR}/src/AxisRangeDelegate.cpp
-    ${PROJECT_SOURCE_DIR}/src/ButtonPressedDelegate.cpp
+    ${PROJECT_SOURCE_DIR}/src/view/ActionConfigurationView.cpp
+    ${PROJECT_SOURCE_DIR}/src/view/JoystickVisualizer.cpp  
+    ${PROJECT_SOURCE_DIR}/src/delegate/JoystickActionDelegate.cpp
+    ${PROJECT_SOURCE_DIR}/src/delegate/AxisRangeDelegate.cpp
+    ${PROJECT_SOURCE_DIR}/src/delegate/ButtonPressedDelegate.cpp
  )
 
 SET( Mapper_UI 
     ${PROJECT_SOURCE_DIR}/src/JoystickMapper.ui 
-    ${PROJECT_SOURCE_DIR}/src/JoystickVisualizer.ui 
-    ${PROJECT_SOURCE_DIR}/src/ActionConfigurationView.ui 
-    ${PROJECT_SOURCE_DIR}/src/JoystickSelector.ui )
+    ${PROJECT_SOURCE_DIR}/src/JoystickSelector.ui 
+    ${PROJECT_SOURCE_DIR}/src/view/JoystickVisualizer.ui 
+    ${PROJECT_SOURCE_DIR}/src/view/ActionConfigurationView.ui 
+)
 
 QT4_WRAP_UI( Mapper_UI_HPP ${Mapper_UI} ${APP_RESOURCES} ${TRANSLATION_BIN} )
 

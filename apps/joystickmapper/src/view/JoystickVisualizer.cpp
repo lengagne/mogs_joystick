@@ -22,8 +22,8 @@
 
 #include "Joystick.h"
 #include "JoystickConfigurationModel.h"
-#include "AxisRangeDelegate.h"
-#include "ButtonPressedDelegate.h"
+#include "delegate/AxisRangeDelegate.h"
+#include "delegate/ButtonPressedDelegate.h"
 
 #include <memory>
 #include <climits>

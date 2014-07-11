@@ -47,13 +47,13 @@
   <customwidget>
    <class>mogs::ActionConfigurationView</class>
    <extends>QWidget</extends>
-   <header>ActionConfigurationView.h</header>
+   <header>view/ActionConfigurationView.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>mogs::JoystickVisualizer</class>
    <extends>QWidget</extends>
-   <header>JoystickVisualizer.h</header>
+   <header>view/JoystickVisualizer.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

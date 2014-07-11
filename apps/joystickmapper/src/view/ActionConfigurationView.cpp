@@ -18,10 +18,9 @@
 
 #include "ActionConfigurationView.h"
 #include "ui_ActionConfigurationView.h"
-#include "JoystickConfigurationModel.h"
-#include "JoystickActionDelegate.h"
 
-#include <QItemEditorFactory>
+#include "JoystickConfigurationModel.h"
+#include "delegate/JoystickActionDelegate.h"
 
 using namespace mogs;
 
