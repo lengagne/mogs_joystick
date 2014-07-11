@@ -21,7 +21,7 @@
 
 #include <QWidget>
 
-class JoystickConfigurationModel;
+class JoystickWrapper;
 namespace Ui
 {
 class ActionConfigurationView;
@@ -39,7 +39,7 @@ class ActionConfigurationView : public QWidget
 public:
     explicit ActionConfigurationView(QWidget * parent = 0 );
     virtual ~ActionConfigurationView();
-    void setModel( JoystickConfigurationModel * model ) ;
+    void setModel( JoystickWrapper * model ) ;
     
 } ;
 }

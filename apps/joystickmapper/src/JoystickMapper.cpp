@@ -18,7 +18,7 @@
 
 #include "JoystickMapper.h"
 #include "ui_JoystickMapper.h"
-#include "JoystickConfigurationModel.h"
+#include "JoystickWrapper.h"
 
 #include "Joystick.h"
 
@@ -31,7 +31,7 @@ using namespace mogs;
  */
 JoystickMapper::JoystickMapper() : 
     QMainWindow() ,
-    model( new JoystickConfigurationModel(this) )
+    model( new JoystickWrapper(this) )
 {
     ui = new Ui::JoystickMapper;
     ui->setupUi(this);

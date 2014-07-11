@@ -17,7 +17,7 @@
  */
 
 #include "JoystickActionDelegate.h"
-#include "JoystickConfigurationModel.h"
+#include "JoystickWrapper.h"
 
 #include <QComboBox>
 #include <QMetaEnum>
@@ -32,7 +32,7 @@
 JoystickActionDelegate::JoystickActionDelegate(const QString& enumName , QObject * parent ) :
     QItemDelegate(parent)
 {
-    const QMetaObject &mo = JoystickConfigurationModel::staticMetaObject ;
+    const QMetaObject &mo = JoystickWrapper::staticMetaObject ;
     int eIdx = mo.indexOfEnumerator( enumName.toAscii() ) ;
     m_enum = mo.enumerator(eIdx) ;
 }

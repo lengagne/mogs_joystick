@@ -16,7 +16,7 @@
  *
  */
 
-#include "JoystickConfigurationModel.h"
+#include "JoystickWrapper.h"
 #include "Joystick.h"
 
 #include <climits>
@@ -62,7 +62,7 @@ jsItem::~jsItem()
 /*!
  * Constructor
  */
-JoystickConfigurationModel::JoystickConfigurationModel(QObject* parent) :
+JoystickWrapper::JoystickWrapper(QObject* parent) :
     QAbstractItemModel(parent) ,
     axisItem(0) ,
     buttonItem(0)
@@ -73,7 +73,7 @@ JoystickConfigurationModel::JoystickConfigurationModel(QObject* parent) :
 /*!
  * 
  */
-JoystickConfigurationModel::~JoystickConfigurationModel()
+JoystickWrapper::~JoystickWrapper()
 {
     
 }
@@ -81,7 +81,7 @@ JoystickConfigurationModel::~JoystickConfigurationModel()
 /*!
  *
  */
-bool JoystickConfigurationModel::openDevice( const QString & device )
+bool JoystickWrapper::openDevice( const QString & device )
 {
     cJoystick * js_ = new cJoystick ;
         
@@ -130,7 +130,7 @@ bool JoystickConfigurationModel::openDevice( const QString & device )
 /*!
  * Return item associated with the index
  */
-jsItem * JoystickConfigurationModel::getItem(const QModelIndex& index) const
+jsItem * JoystickWrapper::getItem(const QModelIndex& index) const
 {
     if ( !js ) return 0 ;
     
@@ -147,7 +147,7 @@ jsItem * JoystickConfigurationModel::getItem(const QModelIndex& index) const
 /*!
  * 
  */
-QModelIndex JoystickConfigurationModel::index( int row , int column , const QModelIndex & parent) const
+QModelIndex JoystickWrapper::index( int row , int column , const QModelIndex & parent) const
 {
     if ( !js ) return QModelIndex() ;
     
@@ -177,7 +177,7 @@ QModelIndex JoystickConfigurationModel::index( int row , int column , const QMod
 /*!
  * Get index of parent item
  */
-QModelIndex JoystickConfigurationModel::parent(const QModelIndex& child) const
+QModelIndex JoystickWrapper::parent(const QModelIndex& child) const
 {
     if ( !js ) 
         return QModelIndex() ;
@@ -201,7 +201,7 @@ QModelIndex JoystickConfigurationModel::parent(const QModelIndex& child) const
 /*!
  * rowCount
  */
-int JoystickConfigurationModel::rowCount( const QModelIndex & parent ) const
+int JoystickWrapper::rowCount( const QModelIndex & parent ) const
 {
     if ( !js ) 
         return 0 ;
@@ -218,7 +218,7 @@ int JoystickConfigurationModel::rowCount( const QModelIndex & parent ) const
 /*!
  * 
  */
-int JoystickConfigurationModel::columnCount(const QModelIndex& parent) const
+int JoystickWrapper::columnCount(const QModelIndex& parent) const
 {
     if (!js)
         return 0 ;
@@ -239,7 +239,7 @@ int JoystickConfigurationModel::columnCount(const QModelIndex& parent) const
 /*!
  * 
  */
-QVariant JoystickConfigurationModel::data( const QModelIndex& index , int role ) const
+QVariant JoystickWrapper::data( const QModelIndex& index , int role ) const
 {
     if ( !js || !index.isValid() ) 
         return QVariant() ;
@@ -286,7 +286,7 @@ QVariant JoystickConfigurationModel::data( const QModelIndex& index , int role )
 /*!
  * 
  */
-bool JoystickConfigurationModel::setData(const QModelIndex & index, const QVariant& value, int role)
+bool JoystickWrapper::setData(const QModelIndex & index, const QVariant& value, int role)
 {
     if (role != Qt::EditRole)
         return false ;
@@ -308,7 +308,7 @@ bool JoystickConfigurationModel::setData(const QModelIndex & index, const QVaria
 /*!
  * 
  */
-void JoystickConfigurationModel::timerEvent(QTimerEvent* event)
+void JoystickWrapper::timerEvent(QTimerEvent* event)
 {
     if ( !js && !js->active )
         return ;
@@ -341,7 +341,7 @@ void JoystickConfigurationModel::timerEvent(QTimerEvent* event)
 /*!
  * 
  */
-void JoystickConfigurationModel::startAutoRefresh()
+void JoystickWrapper::startAutoRefresh()
 {
     if ( !js ) 
         return ;
@@ -355,7 +355,7 @@ void JoystickConfigurationModel::startAutoRefresh()
 /*!
  * 
  */
-QString JoystickConfigurationModel::name() const
+QString JoystickWrapper::name() const
 {
     if ( !js ) 
         return QString() ;
@@ -366,7 +366,7 @@ QString JoystickConfigurationModel::name() const
 /*!
  * 
  */
-Qt::ItemFlags JoystickConfigurationModel::flags(const QModelIndex& index) const
+Qt::ItemFlags JoystickWrapper::flags(const QModelIndex& index) const
 {
     if (!index.isValid())
         return 0 ;
@@ -382,7 +382,7 @@ Qt::ItemFlags JoystickConfigurationModel::flags(const QModelIndex& index) const
 /*!
  * 
  */
-QModelIndex JoystickConfigurationModel::axisIndex() const
+QModelIndex JoystickWrapper::axisIndex() const
 {
     return createIndex(0,0,axisItem) ;
 }
@@ -390,7 +390,7 @@ QModelIndex JoystickConfigurationModel::axisIndex() const
 /*!
  * 
  */
-QModelIndex JoystickConfigurationModel::buttonIndex() const
+QModelIndex JoystickWrapper::buttonIndex() const
 {
     return createIndex(1,0,buttonItem) ;
 }

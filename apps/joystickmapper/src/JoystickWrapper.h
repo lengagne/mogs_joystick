@@ -16,8 +16,8 @@
  *
  */
 
-#ifndef JOYSTICKCONFIGURATIONMODEL_H
-#define JOYSTICKCONFIGURATIONMODEL_H
+#ifndef __JOYSTICKWRAPPER_H__
+#define __JOYSTICKWRAPPER_H__
 
 #include <QStandardItemModel>
 #include <QSharedPointer>
@@ -25,7 +25,7 @@
 class cJoystick;
 class jsItem ;
 
-class JoystickConfigurationModel : public QAbstractItemModel
+class JoystickWrapper : public QAbstractItemModel
 {
     Q_OBJECT
     Q_ENUMS( AxisActions ButtonActions ) ;
@@ -57,8 +57,8 @@ public:
        ButtonStop = 8
     } ;
     
-    explicit JoystickConfigurationModel( QObject * parent );
-    ~JoystickConfigurationModel();
+    explicit JoystickWrapper( QObject * parent );
+    ~JoystickWrapper();
     
     virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const ;
     virtual QModelIndex parent(const QModelIndex& child) const ;

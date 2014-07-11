@@ -26,7 +26,7 @@
 #include <memory>
 
 class cJoystick;
-class JoystickConfigurationModel ;
+class JoystickWrapper ;
 
 class QTimerEvent;
 class QProgressBar ;
@@ -55,7 +55,7 @@ public:
     explicit JoystickVisualizer( QWidget * parent = 0 );
     virtual ~JoystickVisualizer();
     
-    void setJoystick( JoystickConfigurationModel * js ) ;
+    void setJoystick( JoystickWrapper * js ) ;
 
 protected :
     virtual void resizeEvent(QResizeEvent * );

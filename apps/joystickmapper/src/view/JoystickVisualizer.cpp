@@ -21,7 +21,7 @@
 #include "ui_JoystickVisualizer.h"
 
 #include "Joystick.h"
-#include "JoystickConfigurationModel.h"
+#include "JoystickWrapper.h"
 #include "delegate/AxisRangeDelegate.h"
 #include "delegate/ButtonPressedDelegate.h"
 
@@ -58,7 +58,7 @@ JoystickVisualizer::~JoystickVisualizer()
 /*!
  * 
  */
-void JoystickVisualizer::setJoystick( JoystickConfigurationModel * js )
+void JoystickVisualizer::setJoystick( JoystickWrapper * js )
 {   
     ui->axisView->setModel(js);
     ui->axisView->setRootIndex(js->axisIndex());

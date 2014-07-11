@@ -19,7 +19,7 @@
 #include "ActionConfigurationView.h"
 #include "ui_ActionConfigurationView.h"
 
-#include "JoystickConfigurationModel.h"
+#include "JoystickWrapper.h"
 #include "delegate/JoystickActionDelegate.h"
 
 using namespace mogs;
@@ -46,7 +46,7 @@ ActionConfigurationView::~ActionConfigurationView()
 /*!
  * 
  */
-void ActionConfigurationView::setModel(JoystickConfigurationModel* model)
+void ActionConfigurationView::setModel(JoystickWrapper* model)
 {
     if ( !model ) return ;
 

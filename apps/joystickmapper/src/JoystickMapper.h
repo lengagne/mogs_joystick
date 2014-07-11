@@ -23,7 +23,7 @@
 
 #include <QMainWindow>
 
-class JoystickConfigurationModel;
+class JoystickWrapper;
 class cJoystick;
 namespace Ui
 {
@@ -40,7 +40,7 @@ class JoystickMapper : public QMainWindow
     Q_OBJECT
     
     Ui::JoystickMapper * ui ;
-    JoystickConfigurationModel * model ;
+    JoystickWrapper * model ;
     
 public:
     explicit JoystickMapper();
