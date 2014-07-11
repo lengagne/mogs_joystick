@@ -23,7 +23,7 @@
 #include <QSharedPointer>
 
 class cJoystick;
-struct jsItem ;
+class jsItem ;
 
 class JoystickConfigurationModel : public QAbstractItemModel
 {
@@ -74,6 +74,8 @@ public:
     QWeakPointer<cJoystick> ptr() const { return js.toWeakRef() ; };
     QModelIndex axisIndex() const ;
     QModelIndex buttonIndex() const ;
+    
+    static qreal computeAxisRelativePosition( const short & value ) ;
     
 protected :
     void timerEvent( QTimerEvent * event ) ;
