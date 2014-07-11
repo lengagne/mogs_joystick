@@ -19,12 +19,49 @@
 
 #include "ButtonPressedDelegate.h"
 
-ButtonPressedDelegate::ButtonPressedDelegate()
+#include <QPainter>
+
+/*!
+ *
+ */
+ButtonPressedDelegate::ButtonPressedDelegate(QObject* parent) :
+    QStyledItemDelegate(parent)
 {
+
 }
 
+/*!
+ *
+ */
 ButtonPressedDelegate::~ButtonPressedDelegate()
 {
+
 }
 
-#include "ButtonPressedDelegate.moc"
+/*!
+ * Size of the delegate;
+ */
+QSize ButtonPressedDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
+    return QSize(25,25) ;
+}
+
+/*!
+ * Painting the delegate
+ */
+void ButtonPressedDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
+    if ( !index.data().toInt() )
+        painter->setBrush( Qt::darkRed );
+    else 
+        painter->setBrush( Qt::red );
+    
+    painter->setPen( Qt::black );
+    painter->drawEllipse( option.rect );
+
+    QFont f = option.font ;
+    f.setBold(true);
+    painter->setPen(Qt::white);
+    painter->setFont(f);
+    painter->drawText( option.rect , Qt::AlignCenter , QString::number(index.row()));
+}
