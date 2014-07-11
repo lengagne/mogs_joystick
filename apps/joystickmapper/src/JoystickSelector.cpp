@@ -25,6 +25,7 @@
 #include <memory>
 #include <QDataWidgetMapper>
 #include <QStandardItemModel>
+#include <QDir>
 #include <QDebug>
 
 using namespace mogs;
@@ -66,16 +67,16 @@ void JoystickSelector::findValidJoysticks()
     MoGS_Config_Joystick configFinder ;
     bool valid = true ;
     int cpt = 0;
-    char tmp_path[20];
     
-    QDir
+    QDir dir( "/dev/input/" , "js*" , QDir::Name , QDir::System ) ;
+    QStringList devices = dir.entryList() ;
     
-    do
+    foreach( QString device , devices ) 
     {
-        sprintf(tmp_path,"/dev/input/js%d",cpt) ;
+        QString dev = dir.absoluteFilePath(device) ;
         std::unique_ptr<cJoystick> js( new cJoystick ) ;
         
-        valid = js->init(tmp_path) ;
+        valid = js->init( dev.toAscii() ) ;
         if ( valid )
         {
             std::string name = js->name;
@@ -84,20 +85,19 @@ void JoystickSelector::findValidJoysticks()
             {
                 bool hasConfig = configFinder.has_pad(name) ;
                 QList<QStandardItem*> row ;
-                row << new QStandardItem( tmp_path ) ;
+                row << new QStandardItem( dev ) ;
                 row << new QStandardItem( QString::fromStdString(name) ) ;
                 row << new QStandardItem( QString::number(js->axes) ) ;
                 row << new QStandardItem( QString::number(js->buttons) ) ;
                 row << new QStandardItem( hasConfig ) ;
                 if ( hasConfig )
                     row.at(0)->setIcon( style()->standardIcon(QStyle::SP_DialogApplyButton) );
-                qDebug() << tmp_path << ":" << QString::fromStdString(name) ;
+                qDebug() << dev << ":" << QString::fromStdString(name) ;
                 m_avJs->appendRow(row);
             }
         }   
         cpt++ ;
     }
-    while( valid ) ;
 }
 
 /*!
