@@ -240,6 +240,27 @@ int JoystickWrapper::columnCount(const QModelIndex& parent) const
 /*!
  * 
  */
+QVariant JoystickWrapper::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if ( orientation == Qt::Horizontal && !validRole(role) ) 
+        return QVariant() ;
+    
+    if ( section == 0 ) 
+        return QString("id") ;
+    else if ( section == 1 ) 
+        return QString("Value") ;
+    else if ( section == 2 ) 
+        return QString("Action") ;
+    else if ( section == 3 ) 
+        return QString("Inverted axes") ;
+    
+    return QAbstractItemModel::headerData(section, orientation, role);
+}
+
+
+/*!
+ * 
+ */
 QVariant JoystickWrapper::data( const QModelIndex& index , int role ) const
 {
     if ( !js || !index.isValid() ) 
@@ -249,13 +270,13 @@ QVariant JoystickWrapper::data( const QModelIndex& index , int role ) const
         return QVariant();
     
     jsItem * item = getItem(index) ;
-    if ( item == axisItem ) 
+    if ( item == axisItem  && role == Qt::DisplayRole ) 
         return QString("axes") ;
-    else if ( item == buttonItem ) 
+    else if ( item == buttonItem && role == Qt::DisplayRole ) 
         return QString("buttons") ;
     else 
     {
-        if ( index.column() == 0 ) 
+        if ( index.column() == 0 && role == Qt::DisplayRole ) 
         {
             QString str ;
             if ( getItem(index.parent()) == axisItem )
@@ -272,7 +293,7 @@ QVariant JoystickWrapper::data( const QModelIndex& index , int role ) const
         else if ( index.column() == 2 && role == Qt::DisplayRole ) 
             return QVariant::fromValue<int>( item->action ) ;
         else if ( index.column() == 3 && role == Qt::CheckStateRole )
-            return QVariant::fromValue<bool>( item->inverted ) ;
+            return (item->inverted)? Qt::Checked : Qt::Unchecked ;
         else if ( index.column() == 3 && role == Qt::DisplayRole )
             return QString( "Inverted axis" ) ;
             
@@ -286,21 +307,20 @@ QVariant JoystickWrapper::data( const QModelIndex& index , int role ) const
  */
 bool JoystickWrapper::setData(const QModelIndex & index, const QVariant& value, int role)
 {
-    if (role != Qt::EditRole)
-        return false ;
-    else if ( !index.isValid() ) 
-        return false ;
-    else if( index.column() != 2 && index.column() != 3 )
+    if ( !index.isValid() ) 
         return false ;
     
     jsItem * item = getItem( index ) ;
-    if ( item ) 
+    if ( index.column() == 2 && Qt::EditRole )
     {
-        if ( index.column() == 2 )
-            item->action = value.toInt() ;
-        else if ( index.column() == 3 )
-            item->inverted = value.toBool() ;
-            
+        item->action = value.toInt() ;
+        emit dataChanged(index,index);
+        return true ;
+        return true ;
+    }
+    else if ( index.column() == 3 && Qt::CheckStateRole )
+    {
+        item->inverted = value.toBool() ;
         emit dataChanged(index,index);
         return true ;
     }
@@ -370,6 +390,8 @@ Qt::ItemFlags JoystickWrapper::flags(const QModelIndex& index) const
     {
         if ( index.column() == 2 ) 
             return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable ;
+        else if ( index.column() == 3 )
+            return Qt::ItemIsUserCheckable | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable ;
         else 
             return Qt::ItemIsEnabled | Qt::ItemIsSelectable ;
     }

@@ -62,10 +62,6 @@ QWidget* JoystickActionDelegate::createEditor(QWidget * parent, const QStyleOpti
     }
     
     editor->setAutoFillBackground(true);
-//     editor->move(option.rect.x(),option.rect.y());
-//     editor->showPopup();
-    qDebug() << editor << editor->isVisible() ;
-    
     return editor ;
 }
 
@@ -105,7 +101,6 @@ void JoystickActionDelegate::setModelData(QWidget* editor, QAbstractItemModel* m
  */
 void JoystickActionDelegate::updateEditorGeometry(QWidget* editor, const QStyleOptionViewItem& option, const QModelIndex& /*index*/) const
 {
-    qDebug() << option.rect ;
     editor->setGeometry( option.rect );
 }
 
@@ -114,14 +109,8 @@ void JoystickActionDelegate::updateEditorGeometry(QWidget* editor, const QStyleO
  */
 void JoystickActionDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-//     bool isSelected = option.state & QStyle::State_Selected ;
-//     if ( isSelected ) 
-//     {
-//         painter->drawRect( option.rect , );
-//     }
-//     
     int act = index.data().toInt() ;
-    QString actTxt = m_enum.key(act) ;
+    QString actTxt ;
+    if( act ) actTxt = m_enum.key(act) ;
     painter->drawText( option.rect , option.displayAlignment , actTxt );
-//     QApplication::style()->drawComplexControl( QStyle::CC_ComboBox , &option, painter , 0 );
 }

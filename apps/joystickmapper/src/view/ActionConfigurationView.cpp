@@ -65,5 +65,6 @@ void ActionConfigurationView::setModel( mogs::JoystickWrapper * model)
     ui->buttonTableView->setRootIndex(model->buttonIndex()) ;
     ui->buttonTableView->setItemDelegateForColumn(2,buttDelegate) ;
     ui->buttonTableView->hideColumn(1);
+    ui->buttonTableView->hideColumn(3);
     ui->buttonTableView->viewport()->setAutoFillBackground(false);
 }
