@@ -25,7 +25,7 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="mogs::JoystickWrapper" name="jsWrapper" native="true"/>
+      <widget class="mogs::JoystickVisualizer" name="jsWrapper" native="true"/>
       <widget class="mogs::ActionConfigurationView" name="actionView" native="true"/>
      </widget>
     </item>
@@ -51,9 +51,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>mogs::JoystickWrapper</class>
+   <class>mogs::JoystickVisualizer</class>
    <extends>QWidget</extends>
-   <header>JoystickWrapper.h</header>
+   <header>JoystickVisualizer.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

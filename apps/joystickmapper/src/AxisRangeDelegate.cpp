@@ -73,6 +73,7 @@ void AxisRangeDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opt
    cursorRect.setHeight( option.rect.height() );
    cursorRect.setWidth( option.rect.height() );
    cursorRect.translate( p * length , 0 );
+   painter->setBrush( Qt::darkRed );
    painter->setPen( Qt::black );
    painter->drawEllipse( cursorRect );
    
