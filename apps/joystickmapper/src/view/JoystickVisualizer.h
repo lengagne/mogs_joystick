@@ -22,6 +22,7 @@
 
 #include <QWidget>
 #include <QMap>
+#include <QModelIndex>
 
 #include <memory>
 
@@ -58,7 +59,14 @@ public:
     void setJoystick( JoystickWrapper * js ) ;
 
 protected :
-    virtual void resizeEvent(QResizeEvent * );
+    virtual void resizeEvent(QResizeEvent * ) ;
+    
+private :
+    void setAxisViewGeometry() ;
+    void setButtonViewGeometry() ;
+    
+signals :
+    void clicked( const QModelIndex & index ) const ;
     
 };
 
