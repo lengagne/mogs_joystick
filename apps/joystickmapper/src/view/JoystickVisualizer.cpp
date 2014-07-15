@@ -25,7 +25,6 @@
 #include "delegate/AxisRangeDelegate.h"
 #include "delegate/ButtonPressedDelegate.h"
 
-#include <memory>
 #include <climits>
 
 #include <QVBoxLayout>
@@ -33,6 +32,8 @@
 #include <QPushButton>
 #include <QLayout>
 #include <QListView>
+#include <QResizeEvent>
+#include <QDebug>
 
 using namespace mogs ;
 
@@ -45,6 +46,9 @@ JoystickVisualizer::JoystickVisualizer( QWidget * parent) :
 {
     ui = new Ui::JoystickVisualizer ;
     ui->setupUi(this) ;
+    
+    connect( ui->axisView , SIGNAL(clicked(QModelIndex)) , SIGNAL(clicked(QModelIndex)) ) ;
+    connect( ui->buttonView , SIGNAL(clicked(QModelIndex)) , SIGNAL(clicked(QModelIndex)) ) ;
 }
 
 /*!
@@ -52,7 +56,7 @@ JoystickVisualizer::JoystickVisualizer( QWidget * parent) :
  */
 JoystickVisualizer::~JoystickVisualizer()
 {
-    
+    delete ui ;
 }
 
 /*!
@@ -60,17 +64,20 @@ JoystickVisualizer::~JoystickVisualizer()
  */
 void JoystickVisualizer::setJoystick( JoystickWrapper * js )
 {   
+    // Axis viewport
     ui->axisView->setModel(js);
     ui->axisView->setRootIndex(js->axisIndex());
     ui->axisView->setModelColumn(1);
     ui->axisView->setItemDelegate( new AxisRangeDelegate(this) );
     ui->axisView->viewport()->setAutoFillBackground(false);
     
+    // Button viewport 
     ui->buttonView->setModel(js);
     ui->buttonView->setRootIndex(js->buttonIndex());
     ui->buttonView->setModelColumn(1);
     ui->buttonView->setItemDelegate( new ButtonPressedDelegate(this) );
     ui->buttonView->viewport()->setAutoFillBackground(false);
+    
 }
 
 /*!
@@ -78,5 +85,35 @@ void JoystickVisualizer::setJoystick( JoystickWrapper * js )
  */
 void JoystickVisualizer::resizeEvent( QResizeEvent * event )
 {
-    ui->buttonView->resize( ui->buttonView->contentsRect().size() );
+    QWidget::resizeEvent(event);
+    setAxisViewGeometry() ;
+    setButtonViewGeometry() ;
+}
+
+/*!
+ * 
+ */
+void JoystickVisualizer::setAxisViewGeometry()
+{
+    QSize size = ui->axisView->itemDelegate()->sizeHint( QStyleOptionViewItem() , QModelIndex() ) ;
+    const QModelIndex rootIndex = ui->axisView->rootIndex() ;
+    const int r = ui->axisView->model()->rowCount( rootIndex ) ;
+    
+    int h = r * ( size.height() + 2 * ui->axisView->spacing() );
+    ui->axisView->setFixedHeight(h);
+}
+
+/*!
+ * 
+ */
+void JoystickVisualizer::setButtonViewGeometry()
+{
+    QSize vSize = ui->buttonView->itemDelegate()->sizeHint( QStyleOptionViewItem() , QModelIndex() ) ;
+    const QModelIndex rootIndex = ui->buttonView->rootIndex() ;
+    const int n = ui->buttonView->model()->rowCount( rootIndex ) ;
+    
+    int nl = ui->buttonView->viewport()->width() / ( vSize.width() + 2 * ui->buttonView->spacing() ) ;
+    int nc = n / nl + 1 ;
+    int h = nc * ( vSize.height() + 2 * ui->buttonView->spacing() ) ;
+    ui->buttonView->setFixedHeight(h);
 }
