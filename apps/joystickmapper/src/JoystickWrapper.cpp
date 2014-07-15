@@ -23,6 +23,7 @@
 #include <climits>
 #include <vector>
 #include <QDebug>
+#include <QMetaEnum>
 
 class jsItem 
 {
@@ -106,7 +107,6 @@ bool JoystickWrapper::openDevice( const QString & device )
         for ( int r = 0 ; r < (int)js->axes ; r++ ) 
         {
             jsItem * a = new jsItem(r,axisItem) ;
-            if ( r == 0 ) a->inverted = true ;
         }
         endInsertColumns();
         endInsertRows() ;
@@ -293,10 +293,16 @@ QVariant JoystickWrapper::data( const QModelIndex& index , int role ) const
             return QVariant::fromValue<int16_t>( item->value ) ;
         else if ( index.column() == 1 && role == Qt::CheckStateRole ) 
             return QVariant::fromValue<bool>( item->inverted ) ;
+        else if ( index.column() == 2 && role == Qt::DisplayRole )
+            return QVariant::fromValue<int>( item->action ) ;
         else if ( index.column() == 2 && role == Qt::EditRole )
         {
             QStringList actions ; 
-            actions << "a" << "b" ;
+            if ( getItem(index.parent()) == axisItem )
+                actions = getAxisActions() ;
+            else 
+                actions = getButtonActions() ;
+            
             return QVariant::fromValue<QStringList>(actions) ;
         }
         else if ( index.column() == 3 && role == Qt::CheckStateRole )
@@ -322,7 +328,6 @@ bool JoystickWrapper::setData(const QModelIndex & index, const QVariant& value, 
     {
         item->action = value.toInt() ;
         emit dataChanged(index,index);
-        return true ;
         return true ;
     }
     else if ( index.column() == 3 && Qt::CheckStateRole )
@@ -468,6 +473,9 @@ void JoystickWrapper::saveConfig()
  */
 bool JoystickWrapper::actionIsSet( const JoystickWrapper::AxisActions& action ) const
 {
+    if ( action == NoAxisAction ) 
+        return false ;
+    
     foreach( jsItem * axis , axisItem->childs )
     {
         if ( axis->action == action ) 
@@ -495,5 +503,81 @@ bool JoystickWrapper::actionIsSet( const JoystickWrapper::AxisActions& action ) 
  */
 bool JoystickWrapper::actionIsSet( const JoystickWrapper::ButtonActions& action ) const
 {
+    if ( action == NoButtonAction )
+        return false ;
+    
+    foreach( jsItem * button , buttonItem->childs ) 
+    {
+        if ( button->action == action ) 
+            return true ;
+    }
+    
+    foreach ( jsItem * axis , axisItem->childs )
+    {
+        switch( action ) 
+        {
+            case ( ButtonFront ) :
+            case ( ButtonBack ) :
+                if ( axis->action == AxisFrontBack ) return true ;
+            case ( ButtonLeft ) :
+            case ( ButtonRight ) :
+                if ( axis->action == AxisLeftRight ) return true ;
+            case ( ButtonRotateLeft ) :
+            case ( ButtonRotateRight ) :
+                if ( axis->action == AxisRotate ) return true ;
+            case ( ButtonStop ) :
+            case ( ButtonStart ) :
+                break ;
+        }
+    }
+    
+    return false ;
+}
 
+/*!
+ * 
+ */
+QStringList JoystickWrapper::getAxisActions() const
+{
+    const QMetaObject &mo = JoystickWrapper::staticMetaObject ;
+    int eIdx = mo.indexOfEnumerator( "AxisActions" ) ;
+    QMetaEnum e = mo.enumerator(eIdx) ;
+    
+    QStringList actions ;
+    for( int n = 0 ; n < e.keyCount() ; n++ )
+    {
+        QString actTxt = e.key(n) ;
+        int actVal = e.value(n) ;
+        
+        if ( !actionIsSet( static_cast<AxisActions>(actVal) ) ) 
+        {
+            actions << actTxt ;
+        }
+    }
+    
+    return actions ;
+}
+
+/*!
+ * 
+ */
+QStringList JoystickWrapper::getButtonActions() const
+{
+    const QMetaObject &mo = JoystickWrapper::staticMetaObject ;
+    int eIdx = mo.indexOfEnumerator( "ButtonActions" ) ;
+    QMetaEnum e = mo.enumerator(eIdx) ;
+    
+    QStringList actions ;
+    for( int n = 0 ; n < e.keyCount() ; n++ )
+    {
+        QString actTxt = e.key(n) ;
+        int actVal = e.value(n) ;
+        
+        if ( !actionIsSet( static_cast<ButtonActions>(actVal) ) ) 
+        {
+            actions << actTxt ;
+        }
+    }
+    
+    return actions ;
 }

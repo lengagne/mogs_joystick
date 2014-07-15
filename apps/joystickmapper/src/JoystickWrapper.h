@@ -90,7 +90,8 @@ private :
     bool validRole( const int & role ) const ;
     bool actionIsSet( const ButtonActions & action ) const ;
     bool actionIsSet( const AxisActions & action ) const ;
-
+    QStringList getAxisActions() const ;
+    QStringList getButtonActions() const ;
 };
 
 };
