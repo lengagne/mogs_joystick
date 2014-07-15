@@ -101,6 +101,7 @@ void JoystickActionDelegate::setModelData(QWidget* editor, QAbstractItemModel* m
  */
 void JoystickActionDelegate::updateEditorGeometry(QWidget* editor, const QStyleOptionViewItem& option, const QModelIndex& /*index*/) const
 {
+    editor->setAutoFillBackground(false);
     editor->setGeometry( option.rect );
 }
 
