@@ -50,16 +50,18 @@ JoystickActionDelegate::~JoystickActionDelegate()
 /*!
  * Create the combo box
  */
-QWidget* JoystickActionDelegate::createEditor(QWidget * parent, const QStyleOptionViewItem& option, const QModelIndex& /*index*/) const
+QWidget* JoystickActionDelegate::createEditor(QWidget * parent, const QStyleOptionViewItem& option, const QModelIndex& index ) const
 {
     QComboBox * editor = new QComboBox(parent) ;
     
-    for( int n = 0 ; n < m_enum.keyCount() ; n++ )
-    {
-        QString actTxt = m_enum.key(n) ;
-        int actVal = m_enum.value(n) ;
-        editor->addItem( actTxt , actVal );
-    }
+    QStringList avActions = index.data( Qt::EditRole ).toStringList() ;
+    editor->addItems( avActions );
+//     for( int n = 0 ; n < m_enum.keyCount() ; n++ )
+//     {
+//         QString actTxt = m_enum.key(n) ;
+//         int actVal = m_enum.value(n) ;
+//         editor->addItem( actTxt , actVal );
+//     }
     
     editor->setAutoFillBackground(true);
     return editor ;
@@ -73,8 +75,9 @@ void JoystickActionDelegate::setEditorData( QWidget * editor, const QModelIndex&
     QComboBox * cb = qobject_cast<QComboBox*>( editor ) ;
     if ( cb )
     {
-        int i = cb->findData( index.data() ) ;
-        cb->setCurrentIndex(i);
+        QString key = m_enum.valueToKey( index.data().toInt() ) ;
+        int i = cb->findText( key ) ;
+        cb->setCurrentIndex( i );
     }
     else
         QItemDelegate::setEditorData(editor,index) ;
@@ -89,8 +92,8 @@ void JoystickActionDelegate::setModelData(QWidget* editor, QAbstractItemModel* m
     QComboBox * cb = qobject_cast<QComboBox*>( editor ) ;
     if ( cb )
     {
-        QVariant act = cb->itemData( cb->currentIndex() ) ;
-        model->setData(index,act,Qt::EditRole) ;
+        int val = m_enum.keysToValue( cb->currentText().toAscii() ) ;
+        model->setData(index,QVariant::fromValue<int>(val),Qt::EditRole) ;
     }
     else
         QItemDelegate::setModelData(editor, model, index);
