@@ -242,16 +242,16 @@ int JoystickWrapper::columnCount(const QModelIndex& parent) const
  */
 QVariant JoystickWrapper::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if ( orientation == Qt::Horizontal && !validRole(role) ) 
+    if ( !validRole(role) ) 
         return QVariant() ;
     
-    if ( section == 0 ) 
+    if ( orientation == Qt::Horizontal && section == 0 ) 
         return QString("id") ;
-    else if ( section == 1 ) 
+    else if ( orientation == Qt::Horizontal &&  section == 1 ) 
         return QString("Value") ;
-    else if ( section == 2 ) 
+    else if ( orientation == Qt::Horizontal &&  section == 2 ) 
         return QString("Action") ;
-    else if ( section == 3 ) 
+    else if ( orientation == Qt::Horizontal &&  section == 3 ) 
         return QString("Inverted axes") ;
     
     return QAbstractItemModel::headerData(section, orientation, role);
