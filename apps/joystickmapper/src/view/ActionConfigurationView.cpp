@@ -59,7 +59,8 @@ void ActionConfigurationView::setModel( mogs::JoystickWrapper * model)
     ui->axisTableView->setModel(model) ;
     ui->axisTableView->setRootIndex(model->axisIndex()) ;
     ui->axisTableView->setItemDelegateForColumn( 2 , axesDelegate );
-    ui->axisTableView->hideColumn(1);
+    ui->axisTableView->hideColumn(1); 
+    ui->axisTableView->hideColumn(0); 
     ui->axisTableView->viewport()->setAutoFillBackground(false);
     
     JoystickActionDelegate * buttDelegate = new JoystickActionDelegate( "ButtonActions" , ui->axisTableView ) ;
@@ -68,6 +69,7 @@ void ActionConfigurationView::setModel( mogs::JoystickWrapper * model)
     ui->buttonTableView->setItemDelegateForColumn(2,buttDelegate) ;
     ui->buttonTableView->hideColumn(1);
     ui->buttonTableView->hideColumn(3);
+    ui->buttonTableView->hideColumn(0);
     ui->buttonTableView->viewport()->setAutoFillBackground(false);
 }
 
@@ -76,7 +78,6 @@ void ActionConfigurationView::setModel( mogs::JoystickWrapper * model)
  */
 void ActionConfigurationView::selectItem(const QModelIndex& index)
 {
-    qDebug() << index ;
     ui->axisTableView->setCurrentIndex(index);
     ui->buttonTableView->setCurrentIndex(index);
 }
