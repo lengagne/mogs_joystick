@@ -253,6 +253,8 @@ QVariant JoystickWrapper::headerData(int section, Qt::Orientation orientation, i
         return QString("Action") ;
     else if ( orientation == Qt::Horizontal &&  section == 3 ) 
         return QString("Inverted axes") ;
+    else if ( orientation == Qt::Vertical ) 
+        return section ;
     
     return QAbstractItemModel::headerData(section, orientation, role);
 }
