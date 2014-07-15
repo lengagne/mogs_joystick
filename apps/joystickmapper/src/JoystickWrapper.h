@@ -88,6 +88,8 @@ protected :
 private :
     jsItem * getItem( const QModelIndex & index ) const ;
     bool validRole( const int & role ) const ;
+    bool actionIsSet( const ButtonActions & action ) const ;
+    bool actionIsSet( const AxisActions & action ) const ;
 
 };
 

@@ -293,8 +293,12 @@ QVariant JoystickWrapper::data( const QModelIndex& index , int role ) const
             return QVariant::fromValue<int16_t>( item->value ) ;
         else if ( index.column() == 1 && role == Qt::CheckStateRole ) 
             return QVariant::fromValue<bool>( item->inverted ) ;
-        else if ( index.column() == 2 && role == Qt::DisplayRole ) 
-            return QVariant::fromValue<int>( item->action ) ;
+        else if ( index.column() == 2 && role == Qt::EditRole )
+        {
+            QStringList actions ; 
+            actions << "a" << "b" ;
+            return QVariant::fromValue<QStringList>(actions) ;
+        }
         else if ( index.column() == 3 && role == Qt::CheckStateRole )
             return (item->inverted)? Qt::Checked : Qt::Unchecked ;
         else if ( index.column() == 3 && role == Qt::DisplayRole )
@@ -455,6 +459,41 @@ void JoystickWrapper::readConfig()
  * 
  */
 void JoystickWrapper::saveConfig()
+{
+
+}
+
+/*!
+ * 
+ */
+bool JoystickWrapper::actionIsSet( const JoystickWrapper::AxisActions& action ) const
+{
+    foreach( jsItem * axis , axisItem->childs )
+    {
+        if ( axis->action == action ) 
+            return true ;
+    }
+    
+    foreach( jsItem * button , buttonItem->childs )
+    {
+        switch( action )
+        {
+            case( AxisFrontBack ) : 
+                if ( button->action == ButtonFront || button->action == ButtonBack ) return true ;
+            case( AxisLeftRight ) : 
+                if ( button->action == ButtonLeft || button->action == ButtonRight ) return true ;
+            case( AxisRotate ) : 
+                if ( button->action == ButtonRotateLeft || button->action == ButtonRotateRight ) return true ;
+        }
+    }
+    
+    return false ;
+}
+
+/*!
+ * 
+ */
+bool JoystickWrapper::actionIsSet( const JoystickWrapper::ButtonActions& action ) const
 {
 
 }
