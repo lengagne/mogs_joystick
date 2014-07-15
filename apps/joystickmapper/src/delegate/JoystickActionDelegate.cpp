@@ -109,8 +109,10 @@ void JoystickActionDelegate::updateEditorGeometry(QWidget* editor, const QStyleO
  */
 void JoystickActionDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
+    drawBackground( painter , option , index );
+    
     int act = index.data().toInt() ;
     QString actTxt ;
     if( act ) actTxt = m_enum.key(act) ;
-    painter->drawText( option.rect , option.displayAlignment , actTxt );
+    drawDisplay(painter , option , option.rect , actTxt );
 }
