@@ -18,6 +18,7 @@
 
 #include "JoystickWrapper.h"
 #include "Joystick.h"
+#include "MoGS_Config_Joystick.h"
 
 #include <climits>
 #include <vector>
@@ -393,7 +394,7 @@ Qt::ItemFlags JoystickWrapper::flags(const QModelIndex& index) const
         if ( index.column() == 2 ) 
             return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable ;
         else if ( index.column() == 3 )
-            return Qt::ItemIsUserCheckable | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable ;
+            return Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable ;
         else 
             return Qt::ItemIsEnabled | Qt::ItemIsSelectable ;
     }
@@ -436,3 +437,24 @@ bool JoystickWrapper::validRole(const int& role) const
     return false ;
 }
 
+/*!
+ * 
+ */
+void JoystickWrapper::readConfig()
+{
+    MoGS_Config_Joystick config_finder;
+
+    if ( !config_finder.read_config() )
+    {
+        config_finder.create_config();
+    }
+
+}
+
+/*!
+ * 
+ */
+void JoystickWrapper::saveConfig()
+{
+
+}

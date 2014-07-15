@@ -79,6 +79,9 @@ public:
     QModelIndex axisIndex() const ;
     QModelIndex buttonIndex() const ;
     
+    void readConfig() ;
+    void saveConfig() ;
+    
 protected :
     void timerEvent( QTimerEvent * event ) ;
     
