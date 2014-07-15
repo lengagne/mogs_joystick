@@ -48,8 +48,9 @@ AxisRangeDelegate::~AxisRangeDelegate()
 /*!
  * 
  */
-QSize AxisRangeDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
+QSize AxisRangeDelegate::sizeHint(const QStyleOptionViewItem& /*option*/, const QModelIndex& /*index*/ ) const
 {
+    
     return QSize(75,25) ;
 //     return QStyledItemDelegate::sizeHint(option, index);
 }

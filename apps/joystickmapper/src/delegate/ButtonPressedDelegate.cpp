@@ -42,7 +42,7 @@ ButtonPressedDelegate::~ButtonPressedDelegate()
 /*!
  * Size of the delegate;
  */
-QSize ButtonPressedDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
+QSize ButtonPressedDelegate::sizeHint(const QStyleOptionViewItem& /*option*/, const QModelIndex& /*index*/ ) const
 {
     return QSize(25,25) ;
 }
