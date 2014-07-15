@@ -126,6 +126,8 @@ bool JoystickWrapper::openDevice( const QString & device )
         emit layoutChanged();
     }
     
+    readConfig(); 
+    
     return ok ;
 }
 
@@ -456,6 +458,12 @@ void JoystickWrapper::readConfig()
     if ( !config_finder.read_config() )
     {
         config_finder.create_config();
+    }
+    
+    if ( config_finder.has_pad(js->name) );
+    {
+        qDebug() << tr("An existing configuration was found.") ;
+        
     }
 
 }
