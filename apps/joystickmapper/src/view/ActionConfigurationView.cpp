@@ -22,6 +22,8 @@
 #include "JoystickWrapper.h"
 #include "delegate/JoystickActionDelegate.h"
 
+#include <QDebug>
+
 using namespace mogs;
 
 /*!
@@ -67,4 +69,14 @@ void ActionConfigurationView::setModel( mogs::JoystickWrapper * model)
     ui->buttonTableView->hideColumn(1);
     ui->buttonTableView->hideColumn(3);
     ui->buttonTableView->viewport()->setAutoFillBackground(false);
+}
+
+/*!
+ * Select current item
+ */
+void ActionConfigurationView::selectItem(const QModelIndex& index)
+{
+    qDebug() << index ;
+    ui->axisTableView->setCurrentIndex(index);
+    ui->buttonTableView->setCurrentIndex(index);
 }

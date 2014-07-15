@@ -35,6 +35,8 @@ JoystickMapper::JoystickMapper() :
 {
     ui = new Ui::JoystickMapper;
     ui->setupUi(this);
+    
+    connect( ui->jsWrapper , SIGNAL(clicked(QModelIndex)) , ui->actionView , SLOT(selectItem(QModelIndex)) ) ;
 }
 
 /*!

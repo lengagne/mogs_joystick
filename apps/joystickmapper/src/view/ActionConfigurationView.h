@@ -20,6 +20,7 @@
 #define __MOGS_ACTIONCONFIGURATIONVIEW_H__
 
 #include <QWidget>
+#include <QModelIndex>
 
 namespace Ui
 {
@@ -40,6 +41,9 @@ public:
     explicit ActionConfigurationView(QWidget * parent = 0 );
     virtual ~ActionConfigurationView();
     void setModel( mogs::JoystickWrapper* model ) ;
+    
+public slots :
+    void selectItem( const QModelIndex & index ) ;
     
 } ;
 }

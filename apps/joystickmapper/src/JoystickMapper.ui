@@ -19,15 +19,19 @@
    </iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QSplitter" name="splitter">
+     <widget class="mogs::JoystickVisualizer" name="jsWrapper" native="true"/>
+    </item>
+    <item>
+     <widget class="Line" name="line">
       <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+       <enum>Qt::Vertical</enum>
       </property>
-      <widget class="mogs::JoystickVisualizer" name="jsWrapper" native="true"/>
-      <widget class="mogs::ActionConfigurationView" name="actionView" native="true"/>
      </widget>
+    </item>
+    <item>
+     <widget class="mogs::ActionConfigurationView" name="actionView" native="true"/>
     </item>
    </layout>
   </widget>

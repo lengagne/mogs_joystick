@@ -72,6 +72,7 @@ int main (int argc, char *argv[])
     mogs::JoystickMapper mapper ;
     mapper.setJoystick( portToUse ) ;
     mapper.show();
+    mapper.resize( 800 , 600 );
     
     return app.exec() ;
 }
