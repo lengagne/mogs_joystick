@@ -5,26 +5,12 @@ PROJECT( MoGS_Joystick_Mapper )
 #
 SET( CMAKE_INCLUDE_CURRENT_DIR ON )
 SET( CMAKE_AUTOMOC ON )
+SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall" )
 
 FIND_PACKAGE( Qt4 4.8 COMPONENTS QTCORE QTGUI )
 INCLUDE_DIRECTORIES( ${QT_INCLUDE_DIRS} )
 INCLUDE( ${QT_USE_FILE} )
 ADD_DEFINITIONS( ${QT_DEFINITIONS} )
-
-#
-# Translations
-#
-# SET( LANG_FILES
-#   ${PROJECT_SOURCE_DIR}/resources/translations/joystickmapper_en.ts
-#   ${PROJECT_SOURCE_DIR}/resources/translations/joystickmapper_fr.ts )
-# 
-# QT4_ADD_TRANSLATION( TRANSLATION_BIN ${LANG_FILES} )
-# 
-# # 
-# # Project binary resources
-# #
-# CONFIGURE_FILE( ${PROJECT_SOURCE_DIR}/resources/joystickmapper.qrc.in ${PROJECT_BINARY_DIR}/joystickmapper.qrc IMMEDIATE @ONLY )
-# QT4_ADD_RESOURCES( APP_RESOURCES ${PROJECT_BINARY_DIR}/joystickmapper.qrc )
 
 # 
 # Project source 
@@ -43,14 +29,12 @@ SET( Mapper_SRCS
     ${PROJECT_SOURCE_DIR}/src/delegate/ButtonPressedDelegate.cpp
  )
 
-SET( Mapper_UI 
+QT4_WRAP_UI( Mapper_UI_HPP
     ${PROJECT_SOURCE_DIR}/src/JoystickMapper.ui 
     ${PROJECT_SOURCE_DIR}/src/JoystickSelector.ui 
     ${PROJECT_SOURCE_DIR}/src/view/JoystickVisualizer.ui 
     ${PROJECT_SOURCE_DIR}/src/view/ActionConfigurationView.ui 
 )
-
-QT4_WRAP_UI( Mapper_UI_HPP ${Mapper_UI} ${APP_RESOURCES} ${TRANSLATION_BIN} )
 
 # 
 # Project build
@@ -61,3 +45,4 @@ TARGET_LINK_LIBRARIES( MoGS_Joystick_Mapper MoGS_Joystick ${QT_LIBRARIES} )
 # 
 # Project install
 #
+INSTALL( TARGETS MoGS_Joystick_Mapper RUNTIME DESTINATION bin )

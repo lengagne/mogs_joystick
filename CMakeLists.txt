@@ -5,11 +5,23 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 set (MOGS_JOYSTICK_VERSION_MAJOR 2)
 set (MOGS_JOYSTICK_VERSION_MINOR 0)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse2")
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
+if(COMPILER_SUPPORTS_CXX11)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+elseif(COMPILER_SUPPORTS_CXX0X)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+else()
+        message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+endif()
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse2 -fpic")
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 
-set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib/${CMAKE_BUILD_TYPE})
+set( LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib/${CMAKE_BUILD_TYPE})
+SET( EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin )
 
 foreach(p LIB INCLUDE)
 	set(var CMAKE_INSTALL_${p}DIR)
@@ -20,6 +32,9 @@ endforeach()
 
 FIND_PACKAGE(MoGS_Tinyxml REQUIRED)
 LINK_DIRECTORIES( ${MoGS_Tinyxml_LIBRARY_DIRS} )
+
+FIND_PACKAGE( Boost COMPONENTS filesystem system REQUIRED )
+INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIRS} )
 
 set(MoGS_Joystick_MODULE_COMPILED "TRUE" CACHE INTERNAL "")
 set(MoGS_Joystick_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include/" CACHE INTERNAL "" )
@@ -44,8 +59,6 @@ SET (CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 file(	GLOB_RECURSE
 	MoGS_Joystick_SOURCES
 	src/* )
-	
-LIST(REMOVE_ITEM MoGS_Joystick_SOURCES  ${CMAKE_CURRENT_SOURCE_DIR}/src/Config_pad.cpp)
 
 FILE ( GLOB_RECURSE
         header_files_MoGS_Joystick
@@ -58,31 +71,14 @@ ADD_LIBRARY(	MoGS_Joystick SHARED
 
 link_directories( ${MoGS_LIBRARY_DIRS})
 
-target_link_libraries(MoGS_Joystick
-			-lpthread
-			${MoGS_Tinyxml_LIBRARIES}
+target_link_libraries( MoGS_Joystick
+    -lpthread
+    ${Boost_LIBRARIES}
+    ${MoGS_Tinyxml_LIBRARIES}
 )
 
-ADD_EXECUTABLE(test_pad
-		"${CMAKE_CURRENT_SOURCE_DIR}/test/test_pad.cpp")
-
-target_link_libraries(test_pad      
-      MoGS_Joystick)
-
-ADD_EXECUTABLE(test_MoGS_pad
-		"${CMAKE_CURRENT_SOURCE_DIR}/test/test_MoGS_pad.cpp")
-
-target_link_libraries(test_MoGS_pad      
-      MoGS_Joystick)
-
-ADD_EXECUTABLE(MoGS_Config_Joystick
-		"${CMAKE_CURRENT_SOURCE_DIR}/src/Config_pad.cpp")
-
-target_link_libraries(MoGS_Config_Joystick      
-      MoGS_Joystick)
-      
-
 ADD_SUBDIRECTORY( ${PROJECT_SOURCE_DIR}/apps )
+ADD_SUBDIRECTORY( ${PROJECT_SOURCE_DIR}/test )
 
 # Perform the proper linking
 SET (CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
@@ -97,13 +93,8 @@ install(FILES ${header_files_MoGS_Joystick} DESTINATION ${INSTALL_INCLUDE_DIRS})
 # install the library files
 install( TARGETS MoGS_Joystick LIBRARY DESTINATION ${INSTALL_LIB_DIRS}  COMPONENT main)
 
-# install the binary files
-install( TARGETS MoGS_Config_Joystick RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin  COMPONENT main)
-
 ### Configure file
 configure_file(MoGS_JoystickConfig.cmake.in "${PROJECT_BINARY_DIR}/MoGS_JoystickConfig.cmake" @ONLY)
-
-
 
 install ( 	FILES "${PROJECT_BINARY_DIR}/MoGS_JoystickConfig.cmake"
 		DESTINATION "${INSTALL_LIB_PATH}/MoGS_Joystick" COMPONENT dev ) 

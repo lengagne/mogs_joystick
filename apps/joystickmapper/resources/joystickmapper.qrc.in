@@ -1,4 +1,0 @@
-<qresource prefix="/lang">
-    <file alias="en">${PROJECT_BINARY_DIR}/joystickmapper_en.qm</file>
-    <file alias="fr">${PROJECT_BINARY_DIR}/joystickmapper_fr.qm</file>
-</qresource>
