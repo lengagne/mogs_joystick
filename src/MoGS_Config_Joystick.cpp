@@ -38,9 +38,8 @@ MoGS_Config_Joystick::MoGS_Config_Joystick()
 {
     fs::path home( getenv("HOME") ) ;
     fs::path locpath( home / ".config/MoGs" ) ;
-    if ( !fs::exists(locpath) )
-        search_paths.push_back( locpath ) ;
-   
+    
+    search_paths.push_back( locpath ) ;
     search_paths.push_back( fs::path( (std::string)CONFIG_REPOSITORY ) );
 }
 
@@ -322,17 +321,16 @@ bool MoGS_Config_Joystick::read_config()
         return false ;
 
     std::string filename = get_open_filename() ;
+    std::cout << "Reading config from " << filename << std::endl ;
     
     std::string cmd = "xmllint --dtdvalid " + (std::string) DTD_REPOSITORY + "/mogs_joystick.dtd --noout " + filename;
     int retCode = system (cmd.c_str ());
     if (retCode != 0)
     {
         std::cerr << "Error when execute " << cmd << "  (to check the XML file)" << std::endl;
-// 		exit (0);
         return false;
     }
 
-    tinyxml2::XMLDocument doc;
     bool loadOkay = doc.LoadFile (filename.c_str ());
     if (loadOkay != tinyxml2::XML_NO_ERROR)
     {
@@ -424,12 +422,6 @@ std::string MoGS_Config_Joystick::get_save_filename() const
             fs::create_directory( locpath );
             search_paths.insert( search_paths.begin() , locpath );
         }
-        
-        for( fs::path p : search_paths )
-        {
-            fs::path fp( p / CONFIG_FILENAME ) ;
-            if ( fs::exists( fp ) )
-                return fp.string() ;
-        }
+        return (locpath/CONFIG_FILENAME).string() ;
     }
 }
