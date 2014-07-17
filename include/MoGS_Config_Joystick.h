@@ -22,6 +22,7 @@
 
 #include <string>
 #include <vector>
+#include <boost/filesystem/path.hpp>
 
 #include "MoGS_Joystick.h"
 #include "additionnal_tinyxml.h"
@@ -29,47 +30,33 @@
 
 class MoGS_Config_Joystick
 {
-      public:
-	MoGS_Config_Joystick ();
+    tinyxml2::XMLDocument doc ;
+    std::vector<pad_control> pads_;
+    mutable std::vector<boost::filesystem::path> search_paths ;
 
-	~MoGS_Config_Joystick ();
-	
-	void add_button(std::string balise,
-			type in,
-			tinyxml2::XMLElement * El);
-	
-	void add_axis_button(	std::string balise,
-				type in, 				     
-				tinyxml2::XMLElement * El);	
-	
-	void add_Joystick(const pad_control & info);
+public:
+    MoGS_Config_Joystick ();
+    ~MoGS_Config_Joystick ();
 
-	void create_config() const;
-	
-	type get_axis_button(	std::string balise,
-				tinyxml2::XMLElement * El);	
-	
-	type get_button(std::string balise,
-			tinyxml2::XMLElement * El);	
-	
-	
-	pad_control get_pad_config(const std::string name) const;
-	
-	bool has_pad(const std::string name) const;
-	
-	type get_push(const std::string question, cJoystick * Joystick) const;
-	
-	type get_push_button(const std::string question, cJoystick * Joystick) const;
-	
-	bool read_config();
-	
-      protected:
-	      
-      private:
+    void add_button( const std::string& balise, const type& in, tinyxml2::XMLElement* El );
+    void add_axis_button(const std::string& balise, const type& in, tinyxml2::XMLElement* El );
+    void add_Joystick(const pad_control & info);
+    void create_config() const;
 
-	tinyxml2::XMLDocument doc;
-	      
-	std::vector<pad_control> pads_;
+    type get_axis_button( const std::string& balise, tinyxml2::XMLElement* El);
+    type get_button( const std::string& balise, tinyxml2::XMLElement* El);
+    pad_control get_pad_config(const std::string name) const;
+    type get_push(const std::string& question, cJoystick* Joystick) const;
+    type get_push_button(const std::string& question, cJoystick* Joystick) const;
+
+    bool has_pad(const std::string name) const;
+    bool read_config();
+
+private :
+    bool config_file_exists() const ;
+    std::string get_open_filename() const ;
+    std::string get_save_filename() const ;
+
 };
 
 #endif
