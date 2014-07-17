@@ -54,11 +54,12 @@ MoGS_Config_Joystick::~MoGS_Config_Joystick ()
 /*!
  * 
  */
-void MoGS_Config_Joystick::add_button( const std::string & balise , const type & in , tinyxml2::XMLElement * El )
+void MoGS_Config_Joystick::add_button( const std::string & balise , const type & in , tinyxml2::XMLElement * El ) const
 {
-    tinyxml2::XMLElement * ElAdd = doc.NewElement (balise.c_str());
-    tinyxml2::XMLElement * ElId = doc.NewElement ("id");
-    tinyxml2::XMLText *ElText = doc.NewText ((std::to_string(in.id)).c_str());
+    tinyxml2::XMLDocument * doc = El->GetDocument() ;
+    tinyxml2::XMLElement * ElAdd = doc->NewElement (balise.c_str());
+    tinyxml2::XMLElement * ElId = doc->NewElement ("id");
+    tinyxml2::XMLText *ElText = doc->NewText ((std::to_string(in.id)).c_str());
     ElId->InsertEndChild (ElText);
     ElAdd->InsertEndChild (ElId);
     El->InsertEndChild (ElAdd);
@@ -67,31 +68,32 @@ void MoGS_Config_Joystick::add_button( const std::string & balise , const type &
 /*!
  * 
  */
-void MoGS_Config_Joystick::add_axis_button( const std::string & balise , const type & in , tinyxml2::XMLElement * El )
+void MoGS_Config_Joystick::add_axis_button( const std::string & balise , const type & in , tinyxml2::XMLElement * El ) const 
 {
-    tinyxml2::XMLElement * ElAdd = doc.NewElement (balise.c_str());
+    tinyxml2::XMLDocument * doc = El->GetDocument() ;
+    tinyxml2::XMLElement * ElAdd = doc->NewElement (balise.c_str());
     if (in.push == AXIS)
     {
         ElAdd->SetAttribute("type","axis");
-        tinyxml2::XMLElement * ElId = doc.NewElement ("id");
-        tinyxml2::XMLText *ElText = doc.NewText ((std::to_string(in.id)).c_str());
+        tinyxml2::XMLElement * ElId = doc->NewElement ("id");
+        tinyxml2::XMLText *ElText = doc->NewText ((std::to_string(in.id)).c_str());
         ElId->InsertEndChild (ElText);
         ElAdd->InsertEndChild (ElId);
 
-        tinyxml2::XMLElement * ElSign = doc.NewElement ("sign");
-        ElText = doc.NewText ((std::to_string(in.sign)).c_str());
+        tinyxml2::XMLElement * ElSign = doc->NewElement ("sign");
+        ElText = doc->NewText ((std::to_string(in.sign)).c_str());
         ElSign->InsertEndChild (ElText);
         ElAdd->InsertEndChild (ElSign);
     } else
     {
         ElAdd->SetAttribute("type","button");
-        tinyxml2::XMLElement * ElId = doc.NewElement ("id");
-        tinyxml2::XMLText *ElText = doc.NewText ((std::to_string(in.id)).c_str());
+        tinyxml2::XMLElement * ElId = doc->NewElement ("id");
+        tinyxml2::XMLText *ElText = doc->NewText ((std::to_string(in.id)).c_str());
         ElId->InsertEndChild (ElText);
         ElAdd->InsertEndChild (ElId);
 
-        tinyxml2::XMLElement * ElId_neg = doc.NewElement ("id_neg");
-        ElText = doc.NewText ((std::to_string(in.id_neg)).c_str());
+        tinyxml2::XMLElement * ElId_neg = doc->NewElement ("id_neg");
+        ElText = doc->NewText ((std::to_string(in.id_neg)).c_str());
         ElId_neg->InsertEndChild (ElText);
         ElAdd->InsertEndChild (ElId_neg);
     }
@@ -103,39 +105,17 @@ void MoGS_Config_Joystick::add_axis_button( const std::string & balise , const t
  */
 void MoGS_Config_Joystick::add_Joystick(const pad_control & info)
 {
-    std::string filename = get_save_filename() ;
+    if ( has_pad(info.name) )
+    {
+        for( int n = 0 ; n < pads_.size() ; n++ )
+        {
+            if( pads_[n].name == info.name )
+                pads_[n] = info ;
+        }
+    }
+    else 
+        pads_.push_back( info );
     
-    int loadOkay = doc.LoadFile (filename.c_str ());
-    if (loadOkay != tinyxml2::XML_NO_ERROR)
-    {
-        std::cerr << "Error in " << __FILE__ << " line:" << __LINE__ << " when opening " << filename << std::endl;
-        std::cerr << "doc_.LoadFile returns :" << loadOkay << std::endl;
-        exit (0);
-    }
-    tinyxml2::XMLElement * root = doc.RootElement ();
-    tinyxml2::XMLElement * ElJoystick = doc.NewElement ("Joystick");
-
-    tinyxml2::XMLElement * ElName = doc.NewElement ("name");
-    tinyxml2::XMLText *ElText = doc.NewText ( info.name.c_str());
-    ElName->InsertEndChild (ElText);
-    ElJoystick->InsertEndChild (ElName);
-
-    add_button("stop_button",info.stop_button,ElJoystick);
-    add_button("pause_button",info.pause_button,ElJoystick);
-    add_axis_button("forward",info.forward,ElJoystick);
-    add_axis_button("side",info.side,ElJoystick);
-    add_axis_button("up",info.up,ElJoystick);
-    add_axis_button("rotate",info.rotate,ElJoystick);
-
-
-    root->InsertEndChild ( ElJoystick );
-    int saveOkay = doc.SaveFile (filename.c_str ());
-    if ( saveOkay != tinyxml2::XML_NO_ERROR )
-    {
-        std::cerr << "Error in " << __FILE__ << " line:" << __LINE__ << " when saving " << filename << std::endl;
-        std::cerr << "doc_.SaveFile returns :" << saveOkay << std::endl;
-        exit (0);
-    }
 }
 
 /*!
@@ -144,8 +124,8 @@ void MoGS_Config_Joystick::add_Joystick(const pad_control & info)
 void MoGS_Config_Joystick::create_config() const
 {   
     std::string filename = get_save_filename() ;
-    tinyxml2::XMLDocument doc;
-    tinyxml2::XMLDeclaration* decl = doc.NewDeclaration("xml version=\"1.0\" encoding=\"UTF-8\"");
+    tinyxml2::XMLDocument doc ;
+    tinyxml2::XMLDeclaration * decl = doc.NewDeclaration("xml version=\"1.0\" encoding=\"UTF-8\"");
     tinyxml2::XMLElement * root = doc.NewElement ("Joysticks");
     doc.LinkEndChild( root );
     doc.SaveFile (filename.c_str());
@@ -154,7 +134,7 @@ void MoGS_Config_Joystick::create_config() const
 /*!
  * 
  */
-pad_control MoGS_Config_Joystick::get_pad_config(const std::string name) const
+pad_control MoGS_Config_Joystick::get_pad_config(const std::string & name) const
 {
     for( pad_control pad : pads_ )
     {
@@ -164,7 +144,7 @@ pad_control MoGS_Config_Joystick::get_pad_config(const std::string name) const
     
     std::cerr<<"Error in "<<__FILE__<<" at line "<<__LINE__<<"."<<std::endl;
     std::cerr<<"We cannot find the pad: "<< name <<std::endl;
-    exit(0);
+//     exit(0);
 }
 
 /*!
@@ -331,6 +311,7 @@ bool MoGS_Config_Joystick::read_config()
         return false;
     }
 
+    tinyxml2::XMLDocument doc ;
     bool loadOkay = doc.LoadFile (filename.c_str ());
     if (loadOkay != tinyxml2::XML_NO_ERROR)
     {
@@ -359,6 +340,46 @@ bool MoGS_Config_Joystick::read_config()
 
     return true;
 }
+
+/*!
+ * 
+ */
+bool MoGS_Config_Joystick::save_config() const 
+{
+    std::string filename = get_save_filename() ;
+    
+    std::cout << "Saving file" << std::endl ;
+    tinyxml2::XMLDocument doc ;
+    tinyxml2::XMLDeclaration* decl = doc.NewDeclaration("xml version=\"1.0\" encoding=\"UTF-8\"");
+    tinyxml2::XMLElement * root = doc.NewElement ("Joysticks");
+    
+    for ( pad_control pad : pads_ )
+    {
+        tinyxml2::XMLElement * ElJoystick = doc.NewElement ("Joystick");
+        tinyxml2::XMLElement * ElName = doc.NewElement ("name");
+        tinyxml2::XMLText * ElText = doc.NewText ( pad.name.c_str());
+        ElName->InsertEndChild (ElText);
+        ElJoystick->InsertEndChild (ElName);
+
+        add_button("stop_button",pad.stop_button,ElJoystick);
+        add_button("pause_button",pad.pause_button,ElJoystick);
+        add_axis_button("forward",pad.forward,ElJoystick);
+        add_axis_button("side",pad.side,ElJoystick);
+        add_axis_button("up",pad.up,ElJoystick);
+        add_axis_button("rotate",pad.rotate,ElJoystick);
+        root->InsertEndChild ( ElJoystick );
+    }
+    doc.LinkEndChild( root );
+
+    int saveOkay = doc.SaveFile (filename.c_str ());
+    if ( saveOkay != tinyxml2::XML_NO_ERROR )
+    {
+        std::cerr << "Error in " << __FILE__ << " line:" << __LINE__ << " when saving " << filename << std::endl;
+        std::cerr << "doc_.SaveFile returns :" << saveOkay << std::endl;
+        return false ;
+    }
+    return true ;
+} ;
 
 /*!
  * Check if config file exists in the search paths

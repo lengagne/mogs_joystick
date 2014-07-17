@@ -30,7 +30,6 @@
 
 class MoGS_Config_Joystick
 {
-    tinyxml2::XMLDocument doc ;
     std::vector<pad_control> pads_;
     mutable std::vector<boost::filesystem::path> search_paths ;
 
@@ -38,19 +37,20 @@ public:
     MoGS_Config_Joystick ();
     ~MoGS_Config_Joystick ();
 
-    void add_button( const std::string& balise, const type& in, tinyxml2::XMLElement* El );
-    void add_axis_button(const std::string& balise, const type& in, tinyxml2::XMLElement* El );
-    void add_Joystick(const pad_control & info);
     void create_config() const;
-
-    type get_axis_button( const std::string& balise, tinyxml2::XMLElement* El);
-    type get_button( const std::string& balise, tinyxml2::XMLElement* El);
-    pad_control get_pad_config(const std::string name) const;
-    type get_push(const std::string& question, cJoystick* Joystick) const;
-    type get_push_button(const std::string& question, cJoystick* Joystick) const;
+    bool read_config() ;
+    bool save_config() const ;
 
     bool has_pad(const std::string name) const;
-    bool read_config();
+    pad_control get_pad_config(const std::string& name) const;
+    void add_Joystick(const pad_control & info);
+    
+    void add_button( const std::string& balise, const type& in, tinyxml2::XMLElement* El ) const ;
+    void add_axis_button(const std::string& balise, const type& in, tinyxml2::XMLElement* El ) const ;
+    type get_push(const std::string& question, cJoystick* Joystick) const;
+    type get_push_button(const std::string& question, cJoystick* Joystick) const;
+    type get_axis_button( const std::string& balise, tinyxml2::XMLElement* El);
+    type get_button( const std::string& balise, tinyxml2::XMLElement* El);
 
 private :
     bool config_file_exists() const ;
