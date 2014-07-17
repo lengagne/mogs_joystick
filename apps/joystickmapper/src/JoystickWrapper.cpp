@@ -452,54 +452,76 @@ void JoystickWrapper::readConfig()
     MoGS_Config_Joystick config_finder;
 
     if ( !config_finder.read_config() )
-    {
         config_finder.create_config();
+    
+    // Reset values 
+    for ( int n = 0 ; n < rowCount(axisIndex()) ; n++ )
+    {
+        setData( index(n,2,axisIndex()) , QVariant::fromValue<int>( NoAxisAction ) , Qt::EditRole ) ;
+        setData( index(n,3,axisIndex()) , QVariant::fromValue<bool>( false ) , Qt::EditRole ) ;
+    }
+
+    for ( int n = 0 ; n < rowCount(buttonIndex()) ; n++ )
+    {
+        setData( index(n,2,buttonIndex()) , QVariant::fromValue<int>( NoButtonAction ) , Qt::EditRole ) ;
     }
     
-    if ( config_finder.has_pad(js->name) );
+    // Update from config file if exits
+    if ( config_finder.has_pad(js->name) )
     {
-        qDebug() << tr("An existing configuration was found.") ;
         pad_control conf = config_finder.get_pad_config( js->name ) ;
         
         // Forward action
         if ( conf.forward.push == AXIS ) 
         {
-            axisItem->childs.at( conf.forward.id )->action = AxisFrontBack ;
-            axisItem->childs.at( conf.forward.id )->inverted = ( conf.forward.sign == -1.0 ) ;
+            setData( index(conf.forward.id,2,axisIndex()) , QVariant::fromValue<int>( AxisFrontBack ) , Qt::EditRole ) ;
+            setData( index(conf.forward.id,3,axisIndex()) , QVariant::fromValue<bool>( conf.forward.sign == -1.0 ) , Qt::EditRole ) ;
         }
         else if ( conf.forward.push == BUTTON ) 
         {
-            buttonItem->childs.at( conf.forward.id )->action = ButtonFront ;
-            buttonItem->childs.at( conf.forward.id_neg )->action = ButtonBack ;
+            setData( index(conf.forward.id,2,buttonIndex()) , QVariant::fromValue<int>(ButtonFront) , Qt::EditRole ) ;
+            setData( index(conf.forward.id_neg,2,buttonIndex()) , QVariant::fromValue<int>(ButtonBack) , Qt::EditRole ) ;
         }
         
         // Side action
         if ( conf.side.push == AXIS ) 
         {
-            axisItem->childs.at( conf.side.id )->action = AxisLeftRight ;
-            axisItem->childs.at( conf.side.id )->inverted = ( conf.side.sign == -1.0 ) ;
+            setData( index(conf.side.id,2,axisIndex()) , QVariant::fromValue<int>( AxisLeftRight ) , Qt::EditRole ) ;
+            setData( index(conf.side.id,3,axisIndex()) , QVariant::fromValue<bool>( conf.side.sign == -1.0 ) , Qt::EditRole ) ;
         }
         else if ( conf.side.push == BUTTON ) 
         {
-            buttonItem->childs.at( conf.side.id )->action = ButtonLeft ;
-            buttonItem->childs.at( conf.side.id_neg )->action = ButtonRight ;
+            setData( index(conf.side.id,2,buttonIndex()) , QVariant::fromValue<int>(ButtonLeft) , Qt::EditRole ) ;
+            setData( index(conf.side.id_neg,2,buttonIndex()) , QVariant::fromValue<int>(ButtonRight) , Qt::EditRole ) ;
+        }
+        
+        // Up
+        if ( conf.up.push == AXIS ) 
+        {
+            setData( index(conf.up.id,2,axisIndex()) , QVariant::fromValue<int>( AxisUpDown ) , Qt::EditRole ) ;
+            setData( index(conf.up.id,3,axisIndex()) , QVariant::fromValue<bool>( conf.up.sign == -1.0 ) , Qt::EditRole ) ;
+        }
+        else if ( conf.up.push == BUTTON ) 
+        {
+            setData( index(conf.up.id,2,buttonIndex()) , QVariant::fromValue<int>(ButtonUp) , Qt::EditRole ) ;
+            setData( index(conf.up.id_neg,2,buttonIndex()) , QVariant::fromValue<int>(ButtonDown) , Qt::EditRole ) ;
         }
         
         // Rotate Action 
         if ( conf.rotate.push == AXIS ) 
         {
-            axisItem->childs.at( conf.rotate.id )->action = AxisRotate ;
-            axisItem->childs.at( conf.rotate.id )->inverted = ( conf.forward.sign == -1.0 ) ;
+            setData( index(conf.rotate.id,2,axisIndex()) , QVariant::fromValue<int>( AxisRotate ) , Qt::EditRole ) ;
+            setData( index(conf.rotate.id,3,axisIndex()) , QVariant::fromValue<bool>( conf.rotate.sign == -1.0 ) , Qt::EditRole ) ;
         }
         else if ( conf.rotate.push == BUTTON ) 
         {
-            buttonItem->childs.at( conf.rotate.id )->action = ButtonRotateLeft ;
-            buttonItem->childs.at( conf.rotate.id_neg )->action = ButtonRotateRight ;
+            setData( index(conf.rotate.id,2,buttonIndex()) , QVariant::fromValue<int>(ButtonRotateLeft) , Qt::EditRole ) ;
+            setData( index(conf.rotate.id_neg,2,buttonIndex()) , QVariant::fromValue<int>(ButtonRotateRight) , Qt::EditRole ) ;
         }
         
         // Start/Stop 
-        buttonItem->childs.at( conf.pause_button.id )->action = ButtonStart ;
-        buttonItem->childs.at( conf.stop_button.id )->action = ButtonStop ;
+        setData( index(conf.pause_button.id,2,buttonIndex()) , QVariant::fromValue<int>(ButtonStart) , Qt::EditRole ) ;
+        setData( index(conf.stop_button.id,2,buttonIndex()) , QVariant::fromValue<int>(ButtonStop) , Qt::EditRole ) ;
         
     }
 
@@ -510,7 +532,142 @@ void JoystickWrapper::readConfig()
  */
 void JoystickWrapper::saveConfig()
 {
+    // Get existing config
+    MoGS_Config_Joystick config_finder ;
+    config_finder.read_config() ;
+    
+    pad_control config ;
+    if ( config_finder.has_pad( js->name ) ) 
+        config = config_finder.get_pad_config( js->name ) ;
+    else 
+        config.name = name().toStdString() ;
+    
+    // Read buttons ;
+    foreach( jsItem * button , buttonItem->childs )
+    {
+        switch( button->action )
+        {
+        case ( ButtonFront ) :
+        {
+            config.forward.push = BUTTON ;
+            config.forward.id = button->row ;
+            break ;
+        }
 
+        case ( ButtonBack ) :
+        {
+            config.forward.push = BUTTON ;
+            config.forward.id_neg = button->row ;
+            break ;
+        }
+
+        case ( ButtonLeft ) :
+        {
+            config.side.push = BUTTON ;
+            config.side.id = button->row ;
+            break ;
+        }
+
+        case ( ButtonRight ) :
+        {
+            config.side.push = BUTTON ;
+            config.side.id_neg = button->row ;
+            break ;
+        }
+        
+        case ( ButtonUp ) :
+        {
+            config.up.push = BUTTON ;
+            config.up.id = button->row ;
+            break ;
+        }
+
+        case ( ButtonDown ) :
+        {
+            config.up.push = BUTTON ;
+            config.up.id_neg = button->row ;
+            break ;
+        }
+
+        case ( ButtonRotateLeft ) :
+        {
+            config.rotate.push = BUTTON ;
+            config.rotate.id = button->row ;
+            break ;
+        }
+
+        case ( ButtonRotateRight ) :
+        {
+            config.rotate.push = BUTTON ;
+            config.rotate.id_neg = button->row ;
+            break ;
+        }
+
+        case ( ButtonStop ) :
+        {
+            config.stop_button.id = button->row ;
+            break ;
+        }
+
+        case ( ButtonStart ) :
+        {
+            config.pause_button.id = button->row ;
+            break ;
+        }
+
+        case ( NoButtonAction ) :
+        default :
+            break ;
+
+        }
+    }
+    
+    foreach( jsItem * axis , axisItem->childs )
+    {
+        switch ( axis->action )
+        {
+        case( AxisFrontBack ) :
+        {
+            config.forward.push = AXIS ;
+            config.forward.id = axis->row ;
+            config.forward.sign = (axis->inverted)? -1.0 : 1.0 ;
+            break ;
+        }
+
+        case( AxisLeftRight ) :
+        {
+            config.side.push = AXIS ;
+            config.side.id = axis->row ;
+            config.side.sign = (axis->inverted)? -1.0 : 1.0 ;
+            break ;
+        }
+        
+        case( AxisUpDown ) :
+        {
+            config.up.push = AXIS ;
+            config.up.id = axis->row ;
+            config.up.sign = (axis->inverted)? -1.0 : 1.0 ;
+            break ;
+        }
+
+        case( AxisRotate ) :
+        {
+            config.rotate.push = AXIS ;
+            config.rotate.id = axis->row ;
+            config.rotate.sign = (axis->inverted)? -1.0 : 1.0 ;
+            break ;
+        }
+
+        case ( NoAxisAction ) :
+        default :
+            break ;
+
+        } ;
+    }
+    
+    config_finder.add_Joystick( config );
+    config_finder.save_config() ;
+    
 }
 
 /*!
@@ -533,10 +690,16 @@ bool JoystickWrapper::actionIsSet( const JoystickWrapper::AxisActions& action ) 
         {
             case( AxisFrontBack ) : 
                 if ( button->action == ButtonFront || button->action == ButtonBack ) return true ;
+                break ;
             case( AxisLeftRight ) : 
                 if ( button->action == ButtonLeft || button->action == ButtonRight ) return true ;
+                break ;
+            case( AxisUpDown ) : 
+                if ( button->action == ButtonUp || button->action == ButtonDown ) return true ;
+                break ;
             case( AxisRotate ) : 
                 if ( button->action == ButtonRotateLeft || button->action == ButtonRotateRight ) return true ;
+                break ;
             case( NoAxisAction ) :
             default :
                 break ;
@@ -567,12 +730,19 @@ bool JoystickWrapper::actionIsSet( const JoystickWrapper::ButtonActions& action 
             case ( ButtonFront ) :
             case ( ButtonBack ) :
                 if ( axis->action == AxisFrontBack ) return true ;
+                break ;
             case ( ButtonLeft ) :
             case ( ButtonRight ) :
                 if ( axis->action == AxisLeftRight ) return true ;
+                break ;
+            case ( ButtonUp ) :
+            case ( ButtonDown ) :
+                if ( axis->action == AxisUpDown ) return true ;
+                break ;
             case ( ButtonRotateLeft ) :
             case ( ButtonRotateRight ) :
                 if ( axis->action == AxisRotate ) return true ;
+                break ;
             case ( ButtonStop ) :
             case ( ButtonStart ) :
                 break ;

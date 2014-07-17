@@ -45,7 +45,8 @@ public:
         NoAxisAction = 0 ,
         AxisFrontBack = 1 ,
         AxisLeftRight = 2 ,
-        AxisRotate = 3
+        AxisUpDown = 3 ,
+        AxisRotate = 4
     } ;
     
     enum ButtonActions
@@ -55,10 +56,12 @@ public:
        ButtonBack = 2 ,
        ButtonLeft = 3 ,
        ButtonRight = 4 ,
-       ButtonRotateLeft = 5 ,
-       ButtonRotateRight = 6 ,
-       ButtonStart = 7 ,
-       ButtonStop = 8
+       ButtonUp = 5 ,
+       ButtonDown = 6 ,
+       ButtonRotateLeft = 7 ,
+       ButtonRotateRight = 8 ,
+       ButtonStart = 9 ,
+       ButtonStop = 10
     } ;
     
     explicit JoystickWrapper( QObject * parent );
@@ -74,12 +77,13 @@ public:
     virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
     
     bool openDevice( const QString& device ) ;
-    void startAutoRefresh() ;
     QString name() const ;
     QWeakPointer<cJoystick> ptr() const { return js.toWeakRef() ; };
     QModelIndex axisIndex() const ;
     QModelIndex buttonIndex() const ;
     
+public slots :
+    void startAutoRefresh() ;
     void readConfig() ;
     void saveConfig() ;
     

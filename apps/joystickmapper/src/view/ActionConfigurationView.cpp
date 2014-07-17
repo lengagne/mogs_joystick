@@ -22,7 +22,7 @@
 #include "JoystickWrapper.h"
 #include "delegate/JoystickActionDelegate.h"
 
-#include <QDebug>
+#include <QPushButton>
 
 using namespace mogs;
 
@@ -33,7 +33,6 @@ ActionConfigurationView::ActionConfigurationView( QWidget * parent )
 {
     ui = new Ui::ActionConfigurationView;
     ui->setupUi(this);
-    
     ui->buttonBox->setEnabled(false);
 }
 
@@ -69,6 +68,10 @@ void ActionConfigurationView::setModel( mogs::JoystickWrapper * model)
     ui->buttonTableView->hideColumn(3);
     ui->buttonTableView->hideColumn(0);
     ui->buttonTableView->viewport()->setAutoFillBackground(false);
+    
+    connect( ui->buttonBox->button(QDialogButtonBox::Reset) , SIGNAL(clicked(bool)) , model , SLOT(readConfig()) ) ;
+    connect( ui->buttonBox->button(QDialogButtonBox::Save) , SIGNAL(clicked(bool)) , model , SLOT(saveConfig()) ) ;
+    ui->buttonBox->setEnabled(true);
 }
 
 /*!
