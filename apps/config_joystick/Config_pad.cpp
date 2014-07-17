@@ -75,6 +75,7 @@ int main ()
 		config.rotate = config_finder_.get_push("\t Configuration of the rotate buttons/axis",Joystick);
 		
 		config_finder_.add_Joystick(config);
+                config_finder_.save_config() ;
 	}
 	
 	return 1;
