@@ -459,6 +459,47 @@ void JoystickWrapper::readConfig()
     if ( config_finder.has_pad(js->name) );
     {
         qDebug() << tr("An existing configuration was found.") ;
+        pad_control conf = config_finder.get_pad_config( js->name ) ;
+        
+        // Forward action
+        if ( conf.forward.push == AXIS ) 
+        {
+            axisItem->childs.at( conf.forward.id )->action = AxisFrontBack ;
+            axisItem->childs.at( conf.forward.id )->inverted = ( conf.forward.sign == -1.0 ) ;
+        }
+        else if ( conf.forward.push == BUTTON ) 
+        {
+            buttonItem->childs.at( conf.forward.id )->action = ButtonFront ;
+            buttonItem->childs.at( conf.forward.id_neg )->action = ButtonBack ;
+        }
+        
+        // Side action
+        if ( conf.side.push == AXIS ) 
+        {
+            axisItem->childs.at( conf.side.id )->action = AxisLeftRight ;
+            axisItem->childs.at( conf.side.id )->inverted = ( conf.side.sign == -1.0 ) ;
+        }
+        else if ( conf.side.push == BUTTON ) 
+        {
+            buttonItem->childs.at( conf.side.id )->action = ButtonLeft ;
+            buttonItem->childs.at( conf.side.id_neg )->action = ButtonRight ;
+        }
+        
+        // Rotate Action 
+        if ( conf.rotate.push == AXIS ) 
+        {
+            axisItem->childs.at( conf.rotate.id )->action = AxisRotate ;
+            axisItem->childs.at( conf.rotate.id )->inverted = ( conf.forward.sign == -1.0 ) ;
+        }
+        else if ( conf.rotate.push == BUTTON ) 
+        {
+            buttonItem->childs.at( conf.rotate.id )->action = ButtonRotateLeft ;
+            buttonItem->childs.at( conf.rotate.id_neg )->action = ButtonRotateRight ;
+        }
+        
+        // Start/Stop 
+        buttonItem->childs.at( conf.pause_button.id )->action = ButtonStart ;
+        buttonItem->childs.at( conf.stop_button.id )->action = ButtonStop ;
         
     }
 
@@ -591,3 +632,4 @@ QStringList JoystickWrapper::getButtonActions() const
     
     return actions ;
 }
+

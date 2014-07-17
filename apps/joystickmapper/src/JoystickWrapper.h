@@ -21,6 +21,7 @@
 
 #include <QStandardItemModel>
 #include <QSharedPointer>
+#include <MoGS_Joystick.h>
 
 class cJoystick;
 class jsItem ;
