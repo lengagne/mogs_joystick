@@ -105,9 +105,7 @@ bool JoystickWrapper::openDevice( const QString & device )
         beginInsertRows( axisIndex() , 0 , js->axes );
         beginInsertColumns( axisIndex() , 0 , 2 );
         for ( int r = 0 ; r < (int)js->axes ; r++ ) 
-        {
-            jsItem * a = new jsItem(r,axisItem) ;
-        }
+            new jsItem(r,axisItem) ;
         endInsertColumns();
         endInsertRows() ;
         emit dataChanged( index(0,0,axisIndex()) , index(js->axes,2,axisIndex()) );
@@ -116,9 +114,7 @@ bool JoystickWrapper::openDevice( const QString & device )
         beginInsertRows( buttonIndex() , 0 , js->buttons );
         beginInsertColumns( buttonIndex() , 0 , 2 );
         for ( int r = 0 ; r < (int)js->buttons ; r++ ) 
-        {
-            jsItem * b = new jsItem(r,buttonItem) ;
-        }
+            new jsItem(r,buttonItem) ;
         endInsertColumns();
         endInsertRows() ;
         emit dataChanged( index(0,0,buttonIndex()) , index(js->buttons,2,buttonIndex()) );
@@ -500,6 +496,9 @@ bool JoystickWrapper::actionIsSet( const JoystickWrapper::AxisActions& action ) 
                 if ( button->action == ButtonLeft || button->action == ButtonRight ) return true ;
             case( AxisRotate ) : 
                 if ( button->action == ButtonRotateLeft || button->action == ButtonRotateRight ) return true ;
+            case( NoAxisAction ) :
+            default :
+                break ;
         }
     }
     
@@ -535,6 +534,9 @@ bool JoystickWrapper::actionIsSet( const JoystickWrapper::ButtonActions& action 
                 if ( axis->action == AxisRotate ) return true ;
             case ( ButtonStop ) :
             case ( ButtonStart ) :
+                break ;
+            case ( NoButtonAction ) :
+            default :
                 break ;
         }
     }

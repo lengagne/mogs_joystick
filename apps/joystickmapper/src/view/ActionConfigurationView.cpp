@@ -52,8 +52,6 @@ void ActionConfigurationView::setModel( mogs::JoystickWrapper * model)
 {
     if ( !model ) return ;
 
-    QStandardItemModel * m = new QStandardItemModel( 5,3 ) ;
-    
     // Axes:
     JoystickActionDelegate * axesDelegate = new JoystickActionDelegate( "AxisActions" , ui->axisTableView ) ;
     ui->axisTableView->setModel(model) ;
