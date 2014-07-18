@@ -43,7 +43,9 @@ cJoystick::~cJoystick ()
     if (joystick_fd > 0)
     {
         active = false;
-        pthread_join (thread, 0);
+        if ( thread > 0 ) 
+            pthread_join (thread, 0);
+        
         close (joystick_fd);
     }
     delete joystick_st;
@@ -57,6 +59,7 @@ cJoystick::~cJoystick ()
 bool cJoystick::init ( const char * joystick_dev , bool verbose )
 {
     active = false;
+    thread = 0 ;
     joystick_fd = 0;
     joystick_ev = new js_event ();
     joystick_st = new Joystick_State ();
@@ -94,7 +97,9 @@ bool cJoystick::init ( const char * joystick_dev , bool verbose )
 void * cJoystick::loop( void * obj )
 {
     while ( static_cast< cJoystick * >(obj)->active )
+    {
         static_cast < cJoystick * >(obj)->readEv ();
+    }
 
     return obj;
 }
@@ -104,21 +109,30 @@ void * cJoystick::loop( void * obj )
  */
 void cJoystick::readEv ()
 {
-    int bytes = read (joystick_fd, joystick_ev, sizeof (*joystick_ev));
-    if (bytes > 0)
+    FD_ZERO( &read_flags ) ;
+    FD_SET( joystick_fd , &read_flags ); 
+    struct timeval wait {0 , 100} ; 
+    
+    int selBytes = select( joystick_fd + 1 , & read_flags , (fd_set*)0 , (fd_set*)0 , &wait ) ;
+    if ( selBytes < 0 ) return ; // Nothing to do here !
+
+    if ( FD_ISSET( joystick_fd , &read_flags ) ) // Incoming !
     {
-        joystick_ev->type &= ~JS_EVENT_INIT;
-        if (joystick_ev->type & JS_EVENT_BUTTON)
+        FD_CLR( joystick_fd , &read_flags ) ; // Clear flags ;
+        int bytes = read (joystick_fd, joystick_ev, sizeof (*joystick_ev));
+        if (bytes > 0)
         {
-            joystick_st->button[joystick_ev->number] =
-                joystick_ev->value;
+            joystick_ev->type &= ~JS_EVENT_INIT;
+            if (joystick_ev->type & JS_EVENT_BUTTON)
+            {
+                joystick_st->button[joystick_ev->number] = joystick_ev->value;
+            }
+            if (joystick_ev->type & JS_EVENT_AXIS)
+            {
+                joystick_st->axis[joystick_ev->number] = joystick_ev->value;
+            }
         }
-        if (joystick_ev->type & JS_EVENT_AXIS)
-        {
-            joystick_st->axis[joystick_ev->number] =
-                joystick_ev->value;
-        }
-    }
+    }    
 }
 
 /*!

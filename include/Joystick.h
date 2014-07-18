@@ -35,6 +35,8 @@ struct Joystick_State
 
 class cJoystick
 {
+    fd_set read_flags ; 
+    
       public:
 	pthread_t thread;
 	bool active;
