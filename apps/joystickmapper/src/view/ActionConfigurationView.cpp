@@ -23,6 +23,7 @@
 #include "delegate/JoystickActionDelegate.h"
 
 #include <QPushButton>
+#include <QStateMachine>
 
 using namespace mogs;
 
@@ -34,6 +35,8 @@ ActionConfigurationView::ActionConfigurationView( QWidget * parent )
     ui = new Ui::ActionConfigurationView;
     ui->setupUi(this);
     ui->buttonBox->setEnabled(false);
+    
+    ui->buttonBox->button(QDialogButtonBox::Save)->setShortcut( QKeySequence::Save );   
 }
 
 /*!
