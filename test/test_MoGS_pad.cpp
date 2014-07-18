@@ -16,14 +16,14 @@
 //
 //      This program was developped in the following labs:
 //      from 2012: IUT de Beziers/ LIRMM, Beziers, France
-//	from 2013 : Université Blaise Pascal / axis : ISPR / theme MACCS
+//      2012-2013:  IUT de Beziers/ LIRMM, Beziers, France
+//	from 2013:  Université Blaise Pascal / axis : ISPR / theme MACCS
 
 #include <sstream>
 #include <fstream>
 
 #include "Joystick.h"
 #include "MoGS_Joystick.h"
-
 
 int main (int argc, char *argv[])
 {
