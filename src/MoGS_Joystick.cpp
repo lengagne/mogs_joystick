@@ -65,6 +65,7 @@ MoGS_Joystick::MoGS_Joystick ()
 	// init the stop and pause button
 	Joystick_->joystick_st->button[config_.stop_button.id] = false;
 	Joystick_->joystick_st->button[config_.pause_button.id] = false;
+        Joystick_->start() ;
 }
 
 MoGS_Joystick::~MoGS_Joystick ()
