@@ -82,19 +82,11 @@ target_link_libraries( MoGS_Joystick
     -lpthread
     ${Boost_LIBRARIES}
     ${MoGS_Tinyxml_LIBRARIES}
+)
 
 ADD_SUBDIRECTORY( ${PROJECT_SOURCE_DIR}/apps )
 ADD_SUBDIRECTORY( ${PROJECT_SOURCE_DIR}/test )
 		
-ADD_EXECUTABLE(	test_MoGS_pad EXCLUDE_FROM_ALL
-		"${CMAKE_CURRENT_SOURCE_DIR}/test/test_MoGS_pad.cpp")
-		
-add_custom_target(	test_mogs_joystick
-			COMMAND make test_pad
-			COMMAND make test_MoGS_pad)
-			
-add_dependencies(	test test_mogs_joystick)
-
 # Perform the proper linking
 SET (CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
