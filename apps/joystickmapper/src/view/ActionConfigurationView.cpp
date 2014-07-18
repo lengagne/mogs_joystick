@@ -23,7 +23,6 @@
 #include "delegate/JoystickActionDelegate.h"
 
 #include <QPushButton>
-#include <QStateMachine>
 
 using namespace mogs;
 
