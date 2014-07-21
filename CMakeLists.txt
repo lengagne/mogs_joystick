@@ -32,11 +32,12 @@ foreach(p LIB INCLUDE)
 	endif()
 endforeach()
 
-FIND_PACKAGE(MoGS_Tinyxml REQUIRED)
-LINK_DIRECTORIES( ${MoGS_Tinyxml_LIBRARY_DIRS} )
 
 FIND_PACKAGE( Boost COMPONENTS filesystem system REQUIRED )
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIRS} )
+if (NOT MoGS_Tinyxml_FOUND)
+	FIND_PACKAGE(MoGS_Tinyxml REQUIRED)
+endif (NOT MoGS_Tinyxml_FOUND)
 
 set(MoGS_Joystick_MODULE_COMPILED "TRUE" CACHE INTERNAL "")
 set(MoGS_Joystick_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include/" CACHE INTERNAL "" )
@@ -49,12 +50,19 @@ add_definitions(${MoGS_Joystick_FLAGS})
 
 configure_file ( "${PROJECT_SOURCE_DIR}/config_Joystick.h.in"
 		 "${PROJECT_SOURCE_DIR}/include/config_Joystick.h" )
+		 
+IF(NOT MoGS_GLOBAL_COMPILED)
+	add_custom_target(test)
+ENDIF(NOT MoGS_GLOBAL_COMPILED)
 
 INCLUDE_DIRECTORIES ( 
 	include
 	${MoGS_Tinyxml_INCLUDE_DIRS}
 )
 
+LINK_DIRECTORIES( ${CMAKE_BINARY_DIR}/lib/${CMAKE_BUILD_TYPE}
+		  ${MoGS_Tinyxml_LIBRARY_DIRS})
+		  
 # Perform the proper linking
 SET (CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
@@ -64,8 +72,7 @@ file(	GLOB_RECURSE
 
 FILE ( GLOB_RECURSE
         header_files_MoGS_Joystick
-	include/*.h
-	)
+	include/*.h)
 
 ADD_LIBRARY(	MoGS_Joystick SHARED 
 		${MoGS_Joystick_SOURCES}

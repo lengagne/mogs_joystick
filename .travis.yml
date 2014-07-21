@@ -8,11 +8,11 @@ before_install:
  - cd auto_install
  - git clone https://github.com/lengagne/mogs_tinyxml.git
  - cd mogs_tinyxml
- - sudo ./install_packages_ubuntu.sh
+ - sudo ./install_packages_ubuntu.sh > log
  - mkdir build; cd build
  - cmake -DCMAKE_BUILD_TYPE=Release .. ; make ; sudo make install 
  - cd ../../..
- - sudo ./install_packages_ubuntu.sh
+ - sudo ./install_packages_ubuntu.sh > log
 
 before_script:
   - mkdir build
